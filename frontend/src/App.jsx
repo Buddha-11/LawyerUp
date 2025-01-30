@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import './App.css'
-function App() {
+import {Route,Routes} from 'react-router-dom'
+//import Home from './pages/Home.jsx'; 
+import Auth from './pages/Auth.jsx'; 
+import './App.css';
 
+function App() {
   return (
-    <>
-      <div>
-        <p className='text-3xl font-bold underline'>Hello</p>
-        </div>
-    </>
-  )
+    <Routes>
+      <Route path="/auth" element={<Auth />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
