@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom"; // Import necessary components
-import LawyerCard from "./components/lawyer/lawyerCard";
+import LawyerCard from "./components/lawyerCard";
 import "./style.css";
 
 const App = () => {
