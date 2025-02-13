@@ -7,6 +7,12 @@ import {
     GoogleAuthProvider, 
     signInWithPopup 
 } from "firebase/auth";
+import { 
+    getStorage, 
+    ref, 
+    uploadBytes, 
+    getDownloadURL 
+} from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -17,9 +23,12 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_APP_ID
 };
 
+// Initialize Firebase services
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
+const storage = getStorage(firebaseApp);
+
 const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
 
@@ -66,8 +75,23 @@ export const FirebaseProvider = ({ children }) => {
         }
     };
 
+    // Upload profile image to Firestore Storage and return download URL
+    const uploadProfileImage = async (userId, file) => {
+        if (!file) return null;
+        
+        try {
+            const storageRef = ref(storage, `profileImages/${userId}`);
+            await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(storageRef);
+            return downloadURL;
+        } catch (error) {
+            console.error("Error uploading profile image:", error);
+            throw error;
+        }
+    };
+
     return (
-        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail }}>
+        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage }}>
             {children}
         </FirebaseContext.Provider>
     );

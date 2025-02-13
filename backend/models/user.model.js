@@ -1,26 +1,25 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-    firebaseId: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: true,
-    },
-    photoPathFirestore: {
-        type: String,
-        required: true,
-        default: "https://firebasestorage.googleapis.com/v0/b/ecobloom-gdsc-challenge.appspot.com/o/user%2Funknown.jpg?alt=media&token=cbde7ca9-e356-4d34-90f7-1204eadff19d",
-    },
-});
+const Schema = mongoose.Schema;
 
-const User = mongoose.model('User', UserSchema);
+const UserSchema = new Schema({
+    firebaseId: { type: String, required: true, unique: true },
+    name: { type: String, default: "User" },
+    age: { type: Number },
+    gender: { type: String },
+    location: { type: String },
+    email: { type: String, required: true, unique: true },
+    photoURL: { type: String, default: "default_image_url" },
+    type: { 
+        type: String, 
+        enum: ["user", "lawyer", "admin"]
+    },
+
+    // Lawyer-Specific Fields
+    yearsOfExperience: { type: Number, default: 0 },
+    qualification: { type: String, default: "" },
+    degreeImageURL: { type: String, default: "" }, // Stores Firestore URL of degree certificate
+}, { timestamps: true });
+
+const User = mongoose.model("User", UserSchema);
 export default User;

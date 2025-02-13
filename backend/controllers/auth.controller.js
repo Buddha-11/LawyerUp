@@ -1,25 +1,53 @@
 import User  from '../models/user.model.js'
-const authenticateUser = async (req, res) => {
+export const registerUser = async (req, res) => {
+    console.log("register hit");
+    
+    const { firebaseId, email ,type} = req.body;
     try {
-        const { firebaseId, name, email, photoURL } = req.body;
-
         let user = await User.findOne({ firebaseId });
-
         if (!user) {
-            user = new User({
-                firebaseId,
-                name,
-                email,
-                photoPathFirestore: photoURL || undefined,
-            });
+            user = new User({ firebaseId, email ,type});
             await user.save();
         }
-
-        res.status(200).json({ message: 'User authenticated', user });
+        res.status(200).json(user);
     } catch (error) {
-        console.error("Auth error:", error);
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ message: "Error registering user", error });
     }
 };
 
-export default authenticateUser ;
+export const updateProfile = async (req, res) => {
+    const { firebaseId, name, age, gender, location, photoURL } = req.body;
+    try {
+        const user = await User.findOneAndUpdate(
+            { firebaseId },
+            { name, age, gender, location, photoURL },
+            { new: true }
+        );
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Error updating profile", error });
+    }
+};
+
+export const updateLawyerProfile = async (req, res) => {
+    try {
+        const { firebaseId } = req.params;
+        const { name, age, gender, location, photoURL, yearsOfExperience, qualification, degreeImageURL } = req.body;
+
+        // Find and update the lawyer profile
+        const updatedLawyer = await User.findOneAndUpdate(
+            { firebaseId, type: "lawyer" }, // Ensure only lawyers can update
+            { name, age, gender, location, photoURL, yearsOfExperience, qualification, degreeImageURL },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedLawyer) {
+            return res.status(404).json({ message: "Lawyer not found or unauthorized" });
+        }
+
+        res.json({ message: "Profile updated successfully", lawyer: updatedLawyer });
+    } catch (error) {
+        console.error("Profile update error:", error);
+        res.status(500).json({ message: "Error updating profile", error });
+    }
+};
