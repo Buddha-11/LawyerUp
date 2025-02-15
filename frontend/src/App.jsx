@@ -1,22 +1,15 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
-import './App.css'
-import Navbar from './components/Navbar'
+import { Routes, Route } from 'react-router-dom'; 
+import './App.css';
 import HomePage from './pages/Home';
-function App() {
 
+function App() {
   return (
-    <>
-    <Router>
-      <div className="App">
-        <Routes>
+    <div className="App">
+      <Routes>
         <Route path="/" element={<HomePage />} />
-    
-        </Routes>
-      </div>
-    </Router>
-    </>
+      </Routes>
+    </div>
   );
-};
+}
 
 export default App;
