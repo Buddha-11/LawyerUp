@@ -1,0 +1,133 @@
+/*CSS*/
+
+.lawyer-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Adjust width as needed */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Top Section */
+  .top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px; /* Space between left and right sections */
+  }
+  
+  .left-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px; /* Space between image and text */
+  }
+  
+  .profile-pic img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid whitesmoke;
+  }
+  
+  .lawyer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Space between text elements */
+  }
+  
+  .lawyer-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 16px;
+  }
+  
+  .lawyer-experience {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+  
+  .lawyer-address {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0px;
+    padding-right: 10px;
+  }
+  
+  .right-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+  }
+  
+  .consultation-fee {
+    font-size: 1rem;
+    color: #333;
+    text-align: right;
+  }
+  
+  .consultation-fee strong {
+    color: #000000;
+    font-weight: 200px;
+  }
+  
+  /* Dashed Divider */
+  .dashed-divider {
+    width: 100%;
+    border: none;
+    border-top: 1px dashed #ccc; /* Dashed line */
+    margin: 16px 0;
+  }
+  
+  /* Bottom Section: Rating and Consult Now Button */
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px; /* Space between rating and button */
+    margin-left: 130px;
+  }
+  
+  .ratings {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .rating {
+    background-color: #2aad4f; /* Green background for rating */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+  
+  .rating-count {
+    color: #666;
+    text-decoration: underline;
+  }
+  
+  .btn-consult {
+    padding: 20px 30px;
+    background: white;
+    color: rgb(81, 185, 255);
+    border: 1px solid rgb(81, 185, 255);
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn-consult:hover {
+    background: rgb(81, 185, 255);
+    color: white;
+  }
