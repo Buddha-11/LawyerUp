@@ -1,15 +1,13 @@
-import { Routes, Route } from 'react-router-dom'; 
+import {Route,Routes} from 'react-router-dom'
+import Auth from './pages/Auth.jsx'; 
 import './App.css';
-import HomePage from './pages/Home';
+import HomePage from './pages/Home.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </div>
-  );
+    <Routes>
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/" element={<HomePage />} />
+    </Routes>)
 }
-
 export default App;
