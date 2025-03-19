@@ -6,6 +6,7 @@ import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import ProfileSetup from '../components/ProfileSetup';
 import LawyerProfileSetup from '../components/LawyerProfileSetup';
+import Particles from '../components/Particle';
 
 function Auth() {
   const { signInWithGoogle, signupEmail, signinEmail } = useFirebase();
@@ -104,44 +105,91 @@ function Auth() {
   // Render the profile setup page if the user is authenticated and sign-up flow is followed
   if (user && signin === "no") {
     return userType === "lawyer" ? (
-      <LawyerProfileSetup user={user} onComplete={handleProfileComplete} />
+      <div className="relative flex flex-col items-center justify-center min-h-screen">
+        <div className="absolute inset-0 z-0">
+          <Particles
+            particleColors={['#000000', '#000000']}
+            particleCount={200}
+            particleSpread={10}
+            speed={0.1}
+            particleBaseSize={100}
+            moveParticlesOnHover={false}
+            alphaParticles={false}
+            disableRotation={false}
+          />
+        </div>
+
+        <div className="relative z-10 w-full">
+          <LawyerProfileSetup user={user} onComplete={handleProfileComplete} />
+        </div>
+      </div>
     ) : (
-      <ProfileSetup user={user} onComplete={handleProfileComplete} />
+      <div className="relative flex flex-col items-center justify-center min-h-screen">
+        <div className="absolute inset-0 z-0">
+          <Particles
+            particleColors={['#000000', '#000000']}
+            particleCount={200}
+            particleSpread={10}
+            speed={0.1}
+            particleBaseSize={100}
+            moveParticlesOnHover={false}
+            alphaParticles={false}
+            disableRotation={false}
+          />
+        </div>
+
+        <div className="relative z-10 w-full">
+          <ProfileSetup user={user} onComplete={handleProfileComplete} />
+        </div>
+      </div>
     );
   }
 
-  // Render the proper step based on authStep state
-  switch (authStep) {
-    case "userType":
-      return (
-        <UserType 
-          onUserTypeSelected={(selectedType) => {
-            setUserType(selectedType);
-            setAuthStep("signup");
-          }}
-          onSignInClick={() => setAuthStep("signin")}
+  return (
+    <div className="relative flex flex-col items-center justify-center min-h-screen">
+      {/* Keep the particles component outside of the conditional rendering */}
+      <div className="absolute inset-0 z-0">
+        <Particles
+          particleColors={['#000000', '#000000']}
+          particleCount={200}
+          particleSpread={10}
+          speed={0.1}
+          particleBaseSize={100}
+          moveParticlesOnHover={false}
+          alphaParticles={false}
+          disableRotation={false}
         />
-      );
-    case "signin":
-      return (
-        <SignIn 
-          onGoogleLogin={handleGoogleLogin}
-          onEmailSignIn={handleSignin}
-          error={error}
-        />
-      );
-    case "signup":
-      return (
-        <SignUp 
-          userType={userType}
-          onGoogleLogin={handleGoogleSignup}
-          onEmailSignUp={handleSignup}
-          error={error}
-        />
-      );
-    default:
-      return null;
-  }
+      </div>
+
+      <div className="relative z-10 w-full">
+        {/* Render the proper step based on authStep state */}
+        {authStep === "userType" && (
+          <UserType 
+            onUserTypeSelected={(selectedType) => {
+              setUserType(selectedType);
+              setAuthStep("signup");
+            }}
+            onSignInClick={() => setAuthStep("signin")}
+          />
+        )}
+        {authStep === "signin" && (
+          <SignIn 
+            onGoogleLogin={handleGoogleLogin}
+            onEmailSignIn={handleSignin}
+            error={error}
+          />
+        )}
+        {authStep === "signup" && (
+          <SignUp 
+            userType={userType}
+            onGoogleLogin={handleGoogleSignup}
+            onEmailSignUp={handleSignup}
+            error={error}
+          />
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Auth;
