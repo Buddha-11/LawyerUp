@@ -1,7 +1,6 @@
 import React from 'react';
-import LawyerIcon from '../images/lawyer.svg';
-import UserIcon from '../images/user.svg';
-import Particles from './Particle';
+import UserIcon from '/user.svg';
+import LawyerIcon from '/lawyer.svg';
 
 function UserType({ onUserTypeSelected, onSignInClick }) {
   return (
