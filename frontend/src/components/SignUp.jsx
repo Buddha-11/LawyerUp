@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Particles from './Particle';
 
 function SignUp({ userType, onGoogleLogin, onEmailSignUp, error }) {
   const [email, setEmail] = useState('');
@@ -11,11 +12,13 @@ function SignUp({ userType, onGoogleLogin, onEmailSignUp, error }) {
       animate={{ opacity: 1, visibility: 'visible' }} 
       exit={{ opacity: 0, visibility: 'hidden' }} 
       transition={{ duration: 0.6, ease: 'easeInOut', delay: 0.2 }}
-      className="flex flex-col items-center justify-center min-h-screen"
+      className="relative flex flex-col items-center justify-center min-h-screen"
     >
-      <div className="flex flex-col items-center justify-center w-full sm:w-2/3 bg-gray-300 py-12 px-4 shadow-lg rounded-lg">
+      
+      
+      <div className="relative z-10 flex flex-col items-center justify-center w-full sm:w-2/3 bg-gray-300 py-12 px-4 shadow-lg rounded-lg">
         <h2 className="text-3xl font-bold mb-6 text-center">Welcome</h2>
-        
+
         {error && <p className="text-red-500 mb-4">{error}</p>}
         
         <input 
