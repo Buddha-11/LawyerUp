@@ -16,18 +16,33 @@ export const registerUser = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-    const { firebaseId, name, age, gender, location, photoURL } = req.body;
+    const { firebaseId, name, age, gender, location, coordinates, photoURL } = req.body;
+  
     try {
-        const user = await User.findOneAndUpdate(
-            { firebaseId },
-            { name, age, gender, location, photoURL },
-            { new: true }
-        );
-        res.status(200).json(user);
+      const user = await User.findOneAndUpdate(
+        { firebaseId },
+        {
+          name,
+          age,
+          gender,
+          location,
+          photoURL,
+          ...(coordinates && {
+            location: {
+              type: "Point",
+              coordinates: [coordinates[1], coordinates[0]] // [longitude, latitude]
+            }
+          }),
+        },
+        { new: true }
+      );
+      res.status(200).json(user);
+      
     } catch (error) {
-        res.status(500).json({ message: "Error updating profile", error });
+      res.status(500).json({ message: "Error updating profile", error });
     }
-};
+  };
+  
 
 export const updateLawyerProfile = async (req, res) => {
     try {
