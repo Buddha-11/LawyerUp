@@ -2,9 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const steps = [
-  { number: "1", title: "Open your account", desc: "Sign up to Finpay and set up your account from the dashboard." },
-  { number: "2", title: "Transfer your money", desc: "Move money from another account into and start earning up." },
-  { number: "3", title: "Watch your balance grow", desc: "Access instantly and remain insulated from market volatility." },
+  { number: "1", title: "Upload Your Documents", desc: "Sign up on LawyerUp and upload your legal documents directly from the dashboard." },
+  { number: "2", title: "Get Instant Analysis", desc: "Our AI breaks down complex legal jargon, summarizes key points, and provides clear explanations." },
+  { number: "3", title: "Get Clear Legal Answers", desc: "Understand your rights, obligations, and key details — all in simple, actionable language." },
 ];
 
 function StepsSection() {
@@ -25,8 +25,7 @@ function StepsSection() {
           className="text-5xl font-normal text-left mb-10"
         >
             <span className="text-xl text-gray-400 mb-8">Steps</span><br ></br><br></br>
-          Maximize your returns with a <br />
-          Reserve account that generates.
+            Simplify Your Legal Process in <br /> 3 Easy Steps
         </motion.h2>
 
         {/* Steps Container */}

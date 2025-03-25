@@ -27,7 +27,7 @@ function LawyerProfileSetup({ user, onComplete }) {
       degreeImageURL = await uploadProfileImage(user.uid, degreeImage); // Assuming same function can handle both
     }
 
-    await fetch(`http://localhost:5000/api/update-lawyer-profile/${user.uid}`, {
+    await fetch(`${import.meta.env.VITE_BE_URL}/api/update-lawyer-profile/${user.uid}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
