@@ -2,9 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { value: "24%", label: "Revenue business" },
-  { value: "180K", label: "In annual revenue" },
-  { value: "10+", label: "Months of runway" },
+  { value: "95%", label: "Faster document analysis" },
+  { value: "1M+", label: "Legal queries answered" },
+  { value: "10x", label: "Simpler legal understanding" },
 ];
 
 function MissionSection() {
@@ -34,7 +34,7 @@ function MissionSection() {
           }}
           className="text-5xl font-semibold mt-2"
         >
-          We’ve helped <br /> innovative companies
+          Bringing Simplicity <br /> to Every Legal Matter
         </motion.h3>
 
         <motion.p
@@ -44,7 +44,7 @@ function MissionSection() {
           }}
           className="text-gray-500 text-lg mt-4"
         >
-          Hundreds of all sizes and across all industries have made a big improvement with us.
+          We’ve helped individuals, freelancers, and businesses of all sizes navigate complex legal matters with ease.
         </motion.p>
 
         {/* Stats */}

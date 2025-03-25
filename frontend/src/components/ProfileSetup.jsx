@@ -19,7 +19,7 @@ function ProfileSetup({ user, onComplete }) {
       photoURL = await uploadProfileImage(user.uid, profileImage);
     }
 
-    await fetch("http://localhost:5000/api/update-profile", {
+    await fetch(`${import.meta.env.VITE_BE_URL}/api/update-profile`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -94,3 +94,4 @@ function ProfileSetup({ user, onComplete }) {
 }
 
 export default ProfileSetup;
+  

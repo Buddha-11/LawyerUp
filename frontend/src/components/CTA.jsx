@@ -30,7 +30,7 @@ function CTASection() {
           }}
           className="text-5xl font-medium mt-3 leading-tight"
         >
-          Ready to level up your <br /> payment process?
+          Ready to simplify your <br />legal journey?
         </motion.h2>
 
         {/* Description */}
@@ -41,8 +41,7 @@ function CTASection() {
           }}
           className="text-gray-300 text-lg mt-5 leading-relaxed"
         >
-          Supports small businesses with simple invoicing, powerful integrations, 
-          and cash flow management tools.
+          Empower yourself with AI-driven legal document analysis, instant explanations, and a smart chatbot—your one-stop solution for legal advice.
         </motion.p>
       </div>
 
@@ -74,3 +73,4 @@ function CTASection() {
 }
 
 export default CTASection;
+
