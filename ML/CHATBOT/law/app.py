@@ -89,6 +89,8 @@ from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 from src.prompt import *
 import os
+from flask_cors import CORS  # Import Flask-CORS
+
 
 # Load environment variables
 load_dotenv()
@@ -105,6 +107,9 @@ os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Enable CORS for the entire Flask app
+CORS(app)
 
 # Load embeddings
 embeddings = download_hugging_face_embeddings()
@@ -160,20 +165,18 @@ def index():
 
 @app.route("/get", methods=["POST"])
 def chat():
-    msg = request.form.get("msg", "").strip()
+    data = request.json
+    msg = data.get("msg", "").strip()
+
     if not msg:
         return "Error: No input received."
 
-    print(f"User Input: {msg}")
-
-    # Get response
+    # Get response from the model
     response = rag_chain({"question": msg})
     bot_answer = response.get("answer", "Sorry, I couldn't generate a response.")
 
-    # Format response
-    formatted_response = bot_answer.replace(". ", ".<br>")
-    return formatted_response
-
+    # Send the response back as JSON
+    return bot_answer
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
 
