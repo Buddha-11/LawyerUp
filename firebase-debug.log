@@ -1,0 +1,424 @@
+[debug] [2025-03-26T18:11:03.173Z] ----------------------------------------------------------------------
+[debug] [2025-03-26T18:11:03.175Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2025-03-26T18:11:03.175Z] CLI Version:   13.35.1
+[debug] [2025-03-26T18:11:03.175Z] Platform:      win32
+[debug] [2025-03-26T18:11:03.175Z] Node Version:  v23.6.1
+[debug] [2025-03-26T18:11:03.175Z] Time:          Wed Mar 26 2025 23:41:03 GMT+0530 (India Standard Time)
+[debug] [2025-03-26T18:11:03.175Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-03-26T18:11:03.293Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-03-26T18:11:03.293Z] > authorizing via signed-in user (invoker.arpit@gmail.com)
+[debug] [2025-03-26T18:11:03.293Z] [iam] checking project tutorial-5151c for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-03-26T18:11:03.294Z] Checked if tokens are valid: false, expires at: 1743012879368
+[debug] [2025-03-26T18:11:03.294Z] Checked if tokens are valid: false, expires at: 1743012879368
+[debug] [2025-03-26T18:11:03.294Z] > refreshing access token with scopes: []
+[debug] [2025-03-26T18:11:03.295Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-03-26T18:11:03.295Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-03-26T18:11:03.988Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-03-26T18:11:03.988Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-03-26T18:11:03.995Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions [none]
+[debug] [2025-03-26T18:11:03.995Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:11:03.995Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-03-26T18:11:05.753Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions 200
+[debug] [2025-03-26T18:11:05.753Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-03-26T18:11:05.753Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:05.753Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:05.753Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-03-26T18:11:05.753Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-03-26T18:11:06.686Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-03-26T18:11:06.687Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'tutorial-5151c'...
+[info] 
+[info] i  deploying functions 
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-03-26T18:11:06.689Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:06.689Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:06.689Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c [none]
+[debug] [2025-03-26T18:11:07.086Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c 200
+[debug] [2025-03-26T18:11:07.086Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c {"projectNumber":"1030063559705","projectId":"tutorial-5151c","lifecycleState":"ACTIVE","name":"Tutorial","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-01-23T15:05:55.146826Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-03-26T18:11:07.087Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:07.087Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:07.087Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:07.087Z] Checked if tokens are valid: true, expires at: 1743016262989
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-03-26T18:11:07.087Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:07.088Z] Checked if tokens are valid: true, expires at: 1743016262989
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-03-26T18:11:07.088Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:07.088Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:07.088Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-03-26T18:11:07.088Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:11:07.088Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-03-26T18:11:07.089Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:11:07.089Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com [none]
+[debug] [2025-03-26T18:11:07.089Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:11:07.090Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com [none]
+[debug] [2025-03-26T18:11:07.090Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:11:09.245Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com 200
+[debug] [2025-03-26T18:11:09.245Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-03-26T18:11:09.251Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com 200
+[debug] [2025-03-26T18:11:09.251Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-03-26T18:11:09.257Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com 200
+[debug] [2025-03-26T18:11:09.257Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-03-26T18:11:09.309Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com 200
+[debug] [2025-03-26T18:11:09.309Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-03-26T18:11:09.309Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:09.309Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:09.309Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tutorial-5151c/adminSdkConfig [none]
+[debug] [2025-03-26T18:11:10.371Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tutorial-5151c/adminSdkConfig 200
+[debug] [2025-03-26T18:11:10.371Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tutorial-5151c/adminSdkConfig {"projectId":"tutorial-5151c","storageBucket":"tutorial-5151c.firebasestorage.app"}
+[debug] [2025-03-26T18:11:10.371Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:10.371Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:11:10.371Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/tutorial-5151c/configs [none]
+[debug] [2025-03-26T18:11:12.014Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/tutorial-5151c/configs 200
+[debug] [2025-03-26T18:11:12.014Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/tutorial-5151c/configs {}
+[debug] [2025-03-26T18:11:12.015Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2025-03-26T18:11:12.878Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^4.0.0",
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0",
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "mongoose": "^5.13.2",
+    "firebase-functions": "^4.0.0"
+  },
+  "private": true
+}
+[debug] [2025-03-26T18:11:12.878Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[info] i  functions: You are using a version of firebase-functions SDK (4.9.0) that does not have support for the newest Firebase Extensions features. Please update firebase-functions SDK to >=5.1.0 to use them correctly 
+[debug] [2025-03-26T18:11:12.880Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-03-26T18:11:12.886Z] Found firebase-functions binary at 'C:\Users\ASUS\Documents\GitHub\LawyerUp\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8131
+
+[error] (node:22612) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-03-26T18:11:13.700Z] Got response from /__/functions.yaml {"endpoints":{"app":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[error] (node:22612) [DEP0170] DeprecationWarning: The URL mongodb://invokerarpit:4Kjr8l8XDFddPCqX@cluster0-shard-00-00.we6av.mongodb.net:27017,cluster0-shard-00-01.we6av.mongodb.net:27017,cluster0-shard-00-02.we6av.mongodb.net:27017/?authSource=admin&replicaSet=atlas-hgmiwb-shard-0&retryWrites=true&w=majority&appName=Cluster0&ssl=true is invalid. Future versions of Node.js will throw an error.
+
+[error] (node:22612) [MONGODB DRIVER] Warning: Top-level use of w, wtimeout, j, and fsync is deprecated. Use writeConcern instead.
+(node:22612) [MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+
+[error] (node:22612) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+
+[info] MongoDB Connected
+
+[debug] [2025-03-26T18:11:23.720Z] Failed to validate key PORT: Error: Key PORT is reserved for internal use.
+[error] Error: Failed to load environment variables from .env.:
+[error] - Error Key PORT is reserved for internal use.
+[debug] [2025-03-26T18:12:05.896Z] ----------------------------------------------------------------------
+[debug] [2025-03-26T18:12:05.898Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2025-03-26T18:12:05.898Z] CLI Version:   13.35.1
+[debug] [2025-03-26T18:12:05.899Z] Platform:      win32
+[debug] [2025-03-26T18:12:05.899Z] Node Version:  v23.6.1
+[debug] [2025-03-26T18:12:05.899Z] Time:          Wed Mar 26 2025 23:42:05 GMT+0530 (India Standard Time)
+[debug] [2025-03-26T18:12:05.899Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-03-26T18:12:06.020Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-03-26T18:12:06.020Z] > authorizing via signed-in user (invoker.arpit@gmail.com)
+[debug] [2025-03-26T18:12:06.021Z] [iam] checking project tutorial-5151c for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-03-26T18:12:06.021Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:06.021Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:06.022Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions [none]
+[debug] [2025-03-26T18:12:06.022Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:12:06.022Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-03-26T18:12:08.138Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions 200
+[debug] [2025-03-26T18:12:08.139Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-03-26T18:12:08.139Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:08.139Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:08.139Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-03-26T18:12:08.139Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-03-26T18:12:10.053Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-03-26T18:12:10.053Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/tutorial-5151c/serviceAccounts/tutorial-5151c@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'tutorial-5151c'...
+[info] 
+[info] i  deploying functions 
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-03-26T18:12:10.055Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.055Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.056Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c [none]
+[debug] [2025-03-26T18:12:10.450Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c 200
+[debug] [2025-03-26T18:12:10.450Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c {"projectNumber":"1030063559705","projectId":"tutorial-5151c","lifecycleState":"ACTIVE","name":"Tutorial","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-01-23T15:05:55.146826Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.451Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:10.451Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-03-26T18:12:10.451Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:12:10.452Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-03-26T18:12:10.452Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:12:10.453Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com [none]
+[debug] [2025-03-26T18:12:10.453Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:12:10.454Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com [none]
+[debug] [2025-03-26T18:12:10.454Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:12:12.455Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com 200
+[debug] [2025-03-26T18:12:12.456Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-03-26T18:12:12.459Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com 200
+[debug] [2025-03-26T18:12:12.459Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-03-26T18:12:12.460Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com 200
+[debug] [2025-03-26T18:12:12.460Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-03-26T18:12:12.462Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com 200
+[debug] [2025-03-26T18:12:12.462Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/tutorial-5151c/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-03-26T18:12:12.462Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:12.462Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:12.462Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tutorial-5151c/adminSdkConfig [none]
+[debug] [2025-03-26T18:12:13.937Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tutorial-5151c/adminSdkConfig 200
+[debug] [2025-03-26T18:12:13.937Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tutorial-5151c/adminSdkConfig {"projectId":"tutorial-5151c","storageBucket":"tutorial-5151c.firebasestorage.app"}
+[debug] [2025-03-26T18:12:13.937Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:13.937Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:13.937Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/tutorial-5151c/configs [none]
+[debug] [2025-03-26T18:12:15.337Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/tutorial-5151c/configs 200
+[debug] [2025-03-26T18:12:15.337Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/tutorial-5151c/configs {}
+[debug] [2025-03-26T18:12:15.339Z] Validating nodejs source
+[warn] !  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] !  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2025-03-26T18:12:16.135Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^4.0.0",
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0",
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "mongoose": "^5.13.2",
+    "firebase-functions": "^4.0.0"
+  },
+  "private": true
+}
+[debug] [2025-03-26T18:12:16.135Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[info] i  functions: You are using a version of firebase-functions SDK (4.9.0) that does not have support for the newest Firebase Extensions features. Please update firebase-functions SDK to >=5.1.0 to use them correctly 
+[debug] [2025-03-26T18:12:16.136Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-03-26T18:12:16.142Z] Found firebase-functions binary at 'C:\Users\ASUS\Documents\GitHub\LawyerUp\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8124
+
+[error] (node:41748) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[debug] [2025-03-26T18:12:16.773Z] Got response from /__/functions.yaml {"endpoints":{"app":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[error] (node:41748) [DEP0170] DeprecationWarning: The URL mongodb://invokerarpit:4Kjr8l8XDFddPCqX@cluster0-shard-00-00.we6av.mongodb.net:27017,cluster0-shard-00-01.we6av.mongodb.net:27017,cluster0-shard-00-02.we6av.mongodb.net:27017/?ssl=true&retryWrites=true&w=majority&appName=Cluster0&authSource=admin&replicaSet=atlas-hgmiwb-shard-0 is invalid. Future versions of Node.js will throw an error.
+(node:41748) [MONGODB DRIVER] Warning: Top-level use of w, wtimeout, j, and fsync is deprecated. Use writeConcern instead.
+(node:41748) [MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+
+[error] (node:41748) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+
+[info] MongoDB Connected
+
+[info] i  functions: Loaded environment variables from .env. 
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged C:\Users\ASUS\Documents\GitHub\LawyerUp\functions (77.37 KB) for uploading 
+[debug] [2025-03-26T18:12:26.838Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:26.839Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:26.839Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/-/functions [none]
+[debug] [2025-03-26T18:12:28.269Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/-/functions 200
+[debug] [2025-03-26T18:12:28.269Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/-/functions {}
+[debug] [2025-03-26T18:12:28.269Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:28.269Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:28.269Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/tutorial-5151c/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-03-26T18:12:29.945Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/tutorial-5151c/locations/-/functions 200
+[debug] [2025-03-26T18:12:29.945Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/tutorial-5151c/locations/-/functions {}
+[debug] [2025-03-26T18:12:29.947Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:29.947Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:29.947Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c [none]
+[debug] [2025-03-26T18:12:31.744Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c 200
+[debug] [2025-03-26T18:12:31.744Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c {"projectNumber":"1030063559705","projectId":"tutorial-5151c","lifecycleState":"ACTIVE","name":"Tutorial","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-01-23T15:05:55.146826Z"}
+[debug] [2025-03-26T18:12:31.744Z] [functions] found 1 new HTTP functions, testing setIamPolicy permission...
+[debug] [2025-03-26T18:12:31.744Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:31.744Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:31.744Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions [none]
+[debug] [2025-03-26T18:12:31.745Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions x-goog-quota-user=projects/tutorial-5151c
+[debug] [2025-03-26T18:12:31.745Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions {"permissions":["cloudfunctions.functions.setIamPolicy"]}
+[debug] [2025-03-26T18:12:32.102Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions 200
+[debug] [2025-03-26T18:12:32.102Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tutorial-5151c:testIamPermissions {"permissions":["cloudfunctions.functions.setIamPolicy"]}
+[debug] [2025-03-26T18:12:32.103Z] [functions] found setIamPolicy permission, proceeding with deploy
+[debug] [2025-03-26T18:12:32.103Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:32.103Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:32.103Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions:generateUploadUrl [none]
+[debug] [2025-03-26T18:12:32.103Z] >>> [apiv2][body] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions:generateUploadUrl {}
+[debug] [2025-03-26T18:12:42.740Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions:generateUploadUrl 200
+[debug] [2025-03-26T18:12:42.740Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions:generateUploadUrl {"uploadUrl":"https://storage.googleapis.com/uploads-1020689133098.us-central1.cloudfunctions.appspot.com/e3597e35-5c3d-4e49-83ae-431a538faf3d.zip?GoogleAccessId=service-1030063559705@gcf-admin-robot.iam.gserviceaccount.com&Expires=1743014562&Signature=RWeOPZMoiHbUmglytWRs3lMzy5vC8ooQcsqa39GPie8th1zXt9aW%2BEK29qyC4OSGWXj7tjwei6%2BQ1G0GHuDT4UbRAuJ1wXL49SZQc8QQHrWb7ApUC8QBlt1u7fXJaTekKXsnRGv%2FyDkm4BdPjJhkPodVt7XnRM5svJIS%2BB90QmCQPOmVsBQaARLIk1K5kpyrXHq1pdDTOyqNbKHi4SAc7sQeLLM%2B9WsuVdfqKYxnvppotnwDDmZ2Yvjpgmrtvuz0doHwo2Fv%2FjjzC8fF%2FshA1jLnnwAnB8Lh%2BmB1i4%2FPRDyVjIWxEhhA1P2dDOJuhcHon328NEISSVXSHpcs8rBxQw%3D%3D"}
+[debug] [2025-03-26T18:12:42.740Z] >>> [apiv2][query] PUT https://storage.googleapis.com/uploads-1020689133098.us-central1.cloudfunctions.appspot.com/e3597e35-5c3d-4e49-83ae-431a538faf3d.zip GoogleAccessId=service-1030063559705%40gcf-admin-robot.iam.gserviceaccount.com&Expires=1743014562&Signature=RWeOPZMoiHbUmglytWRs3lMzy5vC8ooQcsqa39GPie8th1zXt9aW%2BEK29qyC4OSGWXj7tjwei6%2BQ1G0GHuDT4UbRAuJ1wXL49SZQc8QQHrWb7ApUC8QBlt1u7fXJaTekKXsnRGv%2FyDkm4BdPjJhkPodVt7XnRM5svJIS%2BB90QmCQPOmVsBQaARLIk1K5kpyrXHq1pdDTOyqNbKHi4SAc7sQeLLM%2B9WsuVdfqKYxnvppotnwDDmZ2Yvjpgmrtvuz0doHwo2Fv%2FjjzC8fF%2FshA1jLnnwAnB8Lh%2BmB1i4%2FPRDyVjIWxEhhA1P2dDOJuhcHon328NEISSVXSHpcs8rBxQw%3D%3D
+[debug] [2025-03-26T18:12:42.740Z] >>> [apiv2][body] PUT https://storage.googleapis.com/uploads-1020689133098.us-central1.cloudfunctions.appspot.com/e3597e35-5c3d-4e49-83ae-431a538faf3d.zip [stream]
+[debug] [2025-03-26T18:12:45.550Z] <<< [apiv2][status] PUT https://storage.googleapis.com/uploads-1020689133098.us-central1.cloudfunctions.appspot.com/e3597e35-5c3d-4e49-83ae-431a538faf3d.zip 200
+[debug] [2025-03-26T18:12:45.550Z] <<< [apiv2][body] PUT https://storage.googleapis.com/uploads-1020689133098.us-central1.cloudfunctions.appspot.com/e3597e35-5c3d-4e49-83ae-431a538faf3d.zip [omitted]
+[info] +  functions: functions folder uploaded successfully 
+[info] i  functions: creating Node.js 22 (1st Gen) function app(us-central1)... 
+[debug] [2025-03-26T18:12:45.553Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:45.553Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:45.553Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions [none]
+[debug] [2025-03-26T18:12:45.553Z] >>> [apiv2][body] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions {"name":"projects/tutorial-5151c/locations/us-central1/functions/app","sourceUploadUrl":"https://storage.googleapis.com/uploads-1020689133098.us-central1.cloudfunctions.appspot.com/e3597e35-5c3d-4e49-83ae-431a538faf3d.zip?GoogleAccessId=service-1030063559705@gcf-admin-robot.iam.gserviceaccount.com&Expires=1743014562&Signature=RWeOPZMoiHbUmglytWRs3lMzy5vC8ooQcsqa39GPie8th1zXt9aW%2BEK29qyC4OSGWXj7tjwei6%2BQ1G0GHuDT4UbRAuJ1wXL49SZQc8QQHrWb7ApUC8QBlt1u7fXJaTekKXsnRGv%2FyDkm4BdPjJhkPodVt7XnRM5svJIS%2BB90QmCQPOmVsBQaARLIk1K5kpyrXHq1pdDTOyqNbKHi4SAc7sQeLLM%2B9WsuVdfqKYxnvppotnwDDmZ2Yvjpgmrtvuz0doHwo2Fv%2FjjzC8fF%2FshA1jLnnwAnB8Lh%2BmB1i4%2FPRDyVjIWxEhhA1P2dDOJuhcHon328NEISSVXSHpcs8rBxQw%3D%3D","entryPoint":"app","runtime":"nodejs22","dockerRegistry":"ARTIFACT_REGISTRY","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"fbb182ed68503be52854838601d7836f31caff5d"},"httpsTrigger":{"securityLevel":"SECURE_ALWAYS"},"minInstances":null,"maxInstances":null,"ingressSettings":null,"environmentVariables":{"MONGO_URI":"mongodb+srv://invokerarpit:4Kjr8l8XDFddPCqX@cluster0.we6av.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0","FIREBASE_CONFIG":"{\"projectId\":\"tutorial-5151c\",\"storageBucket\":\"tutorial-5151c.firebasestorage.app\"}","GCLOUD_PROJECT":"tutorial-5151c","EVENTARC_CLOUD_EVENT_SOURCE":"projects/tutorial-5151c/locations/us-central1/functions/app"},"serviceAccountEmail":null,"availableMemoryMb":null,"timeout":null,"vpcConnector":null,"vpcConnectorEgressSettings":null,"buildEnvironmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}}
+[debug] [2025-03-26T18:12:47.912Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions 400
+[debug] [2025-03-26T18:12:47.912Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions {"error":{"code":400,"message":"Failed to create 1st Gen function projects/tutorial-5151c/locations/us-central1/functions/app: Default service account '1030063559705-compute@developer.gserviceaccount.com' doesn't exist. Please recreate this account or specify a different account. Please visit https://cloud.google.com/functions/docs/troubleshooting for in-depth troubleshooting documentation.","status":"FAILED_PRECONDITION"}}
+[warn] !  functions: failed to create function projects/tutorial-5151c/locations/us-central1/functions/app 
+[error] Failed to create function projects/tutorial-5151c/locations/us-central1/functions/app
+[debug] [2025-03-26T18:12:47.915Z] Total Function Deployment time: 2361
+[debug] [2025-03-26T18:12:47.915Z] 1 Functions Deployed
+[debug] [2025-03-26T18:12:47.915Z] 1 Functions Errored
+[debug] [2025-03-26T18:12:47.915Z] 0 Function Deployments Aborted
+[debug] [2025-03-26T18:12:47.915Z] Average Function Deployment time: 2360
+[info] 
+[info] Functions deploy had errors with the following functions:
+	app(us-central1)
+[debug] [2025-03-26T18:12:48.422Z] Not printing URL for HTTPS function. Typically this means it didn't match a filter or we failed deployment
+[info] i  functions: cleaning up build files... 
+[debug] [2025-03-26T18:12:48.422Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:48.422Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:48.423Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:48.423Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:48.423Z] >>> [apiv2][query] DELETE https://artifactregistry.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/repositories/gcf-artifacts/packages/app [none]
+[debug] [2025-03-26T18:12:48.423Z] >>> [apiv2][query] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list [none]
+[debug] [2025-03-26T18:12:50.333Z] <<< [apiv2][status] DELETE https://artifactregistry.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/repositories/gcf-artifacts/packages/app 404
+[debug] [2025-03-26T18:12:50.333Z] <<< [apiv2][body] DELETE https://artifactregistry.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/repositories/gcf-artifacts/packages/app {"error":{"code":404,"message":"Package \"projects/tutorial-5151c/locations/us-central1/repositories/gcf-artifacts/packages/app\" was not found.","status":"NOT_FOUND"}}
+[debug] [2025-03-26T18:12:51.577Z] <<< [apiv2][status] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list 404
+[debug] [2025-03-26T18:12:51.578Z] <<< [apiv2][body] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list {"errors":[{"code":"NAME_UNKNOWN","message":"Repository \"us.gcr.io\" not found"}]}
+[debug] [2025-03-26T18:12:51.578Z] Failed docker command with error  Request to https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list had HTTP Error: 404, Not Found {"name":"FirebaseError","children":[],"context":{"body":{"errors":[{"code":"NAME_UNKNOWN","message":"Repository \"us.gcr.io\" not found"}],"error":{"message":"Not Found"}},"response":{"statusCode":404}},"exit":1,"message":"Request to https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list had HTTP Error: 404, Not Found","status":404}
+[debug] [2025-03-26T18:12:51.579Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:51.579Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:51.579Z] >>> [apiv2][query] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list [none]
+[debug] [2025-03-26T18:12:52.105Z] <<< [apiv2][status] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list 404
+[debug] [2025-03-26T18:12:52.105Z] <<< [apiv2][body] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list {"errors":[{"code":"NAME_UNKNOWN","message":"Repository \"us.gcr.io\" not found"}]}
+[debug] [2025-03-26T18:12:52.105Z] Failed docker command with error  Request to https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list had HTTP Error: 404, Not Found {"name":"FirebaseError","children":[],"context":{"body":{"errors":[{"code":"NAME_UNKNOWN","message":"Repository \"us.gcr.io\" not found"}],"error":{"message":"Not Found"}},"response":{"statusCode":404}},"exit":1,"message":"Request to https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list had HTTP Error: 404, Not Found","status":404}
+[debug] [2025-03-26T18:12:52.205Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:52.205Z] Checked if tokens are valid: true, expires at: 1743016262989
+[debug] [2025-03-26T18:12:52.205Z] >>> [apiv2][query] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list [none]
+[debug] [2025-03-26T18:12:52.731Z] <<< [apiv2][status] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list 404
+[debug] [2025-03-26T18:12:52.731Z] <<< [apiv2][body] GET https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list {"errors":[{"code":"NAME_UNKNOWN","message":"Repository \"us.gcr.io\" not found"}]}
+[debug] [2025-03-26T18:12:52.731Z] Failed docker command with error  Request to https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list had HTTP Error: 404, Not Found {"name":"FirebaseError","children":[],"context":{"body":{"errors":[{"code":"NAME_UNKNOWN","message":"Repository \"us.gcr.io\" not found"}],"error":{"message":"Not Found"}},"response":{"statusCode":404}},"exit":1,"message":"Request to https://us.gcr.io/v2/tutorial-5151c/gcf/us-central1/tags/list had HTTP Error: 404, Not Found","status":404}
+[warn] !  functions: Unhandled error cleaning up build images. This could result in a small monthly bill if not corrected. You can attempt to delete these images by redeploying or you can delete them manually at https://console.cloud.google.com/gcr/images/tutorial-5151c/us/gcf 
+[debug] [2025-03-26T18:12:52.737Z] Functions deploy failed.
+[debug] [2025-03-26T18:12:52.737Z] {
+  "endpoint": {
+    "id": "app",
+    "project": "tutorial-5151c",
+    "region": "us-central1",
+    "entryPoint": "app",
+    "platform": "gcfv1",
+    "runtime": "nodejs22",
+    "httpsTrigger": {},
+    "ingressSettings": null,
+    "availableMemoryMb": null,
+    "serviceAccount": null,
+    "timeoutSeconds": null,
+    "maxInstances": null,
+    "minInstances": null,
+    "vpc": null,
+    "environmentVariables": {
+      "MONGO_URI": "mongodb+srv://invokerarpit:4Kjr8l8XDFddPCqX@cluster0.we6av.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+      "FIREBASE_CONFIG": "{\"projectId\":\"tutorial-5151c\",\"storageBucket\":\"tutorial-5151c.firebasestorage.app\"}",
+      "GCLOUD_PROJECT": "tutorial-5151c",
+      "EVENTARC_CLOUD_EVENT_SOURCE": "projects/tutorial-5151c/locations/us-central1/functions/app"
+    },
+    "codebase": "default",
+    "targetedByOnly": false,
+    "hash": "fbb182ed68503be52854838601d7836f31caff5d",
+    "labels": {
+      "deployment-tool": "cli-firebase"
+    }
+  },
+  "op": "create",
+  "original": {
+    "name": "FirebaseError",
+    "children": [],
+    "context": {
+      "function": "projects/tutorial-5151c/locations/us-central1/functions/app"
+    },
+    "exit": 1,
+    "message": "Failed to create function projects/tutorial-5151c/locations/us-central1/functions/app",
+    "original": {
+      "name": "FirebaseError",
+      "children": [],
+      "context": {
+        "body": {
+          "error": {
+            "code": 400,
+            "message": "Failed to create 1st Gen function projects/tutorial-5151c/locations/us-central1/functions/app: Default service account '1030063559705-compute@developer.gserviceaccount.com' doesn't exist. Please recreate this account or specify a different account. Please visit https://cloud.google.com/functions/docs/troubleshooting for in-depth troubleshooting documentation.",
+            "status": "FAILED_PRECONDITION"
+          }
+        },
+        "response": {
+          "statusCode": 400
+        }
+      },
+      "exit": 1,
+      "message": "Request to https://cloudfunctions.googleapis.com/v1/projects/tutorial-5151c/locations/us-central1/functions had HTTP Error: 400, Failed to create 1st Gen function projects/tutorial-5151c/locations/us-central1/functions/app: Default service account '1030063559705-compute@developer.gserviceaccount.com' doesn't exist. Please recreate this account or specify a different account. Please visit https://cloud.google.com/functions/docs/troubleshooting for in-depth troubleshooting documentation.",
+      "status": 400
+    },
+    "status": 400,
+    "code": 400
+  }
+}
+[debug] [2025-03-26T18:12:52.885Z] Error: Failed to create function app in region us-central1
+    at C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:52:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Fabricator.createV1Function (C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:182:32)
+    at async Fabricator.createEndpoint (C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:134:13)
+    at async handle (C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:89:17)
+[error] 
+[error] Error: There was an error deploying functions
