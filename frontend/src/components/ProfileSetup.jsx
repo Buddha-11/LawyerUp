@@ -36,7 +36,7 @@ function ProfileSetup({ user, onComplete }) {
       photoURL = await uploadProfileImage(user.uid, profileImage);
     }
 
-    await fetch("http://localhost:5000/api/update-profile", {
+    await fetch(`${import.meta.env.VITE_BE_URL}/api/update-profile`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -54,28 +54,29 @@ function ProfileSetup({ user, onComplete }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className=" bg-gray-300 py-12 px-6 w-full sm:w-2/3 lg:w-1/2 shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold mb-6 text-center">Complete Your Profile</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen pt-20">
+      <div className="bg-white py-14 px-12 w-full sm:w-2/3 lg:w-1/2 shadow-2xl rounded-3xl border border-gray-200 hover:shadow-3xl transition-shadow duration-300">
+        <h2 className="text-4xl font-semibold mb-2 text-center text-black tracking-wide whitespace-nowrap">Complete Your Profile</h2>
+        <p className="text-center text-gray-500 mb-8">Fill in the details to proceed</p>
 
         <input
           type="text"
           placeholder="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
         <input
           type="number"
           placeholder="Age"
           value={age}
           onChange={(e) => setAge(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
         <select
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         >
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
@@ -88,9 +89,8 @@ function ProfileSetup({ user, onComplete }) {
           placeholder="Location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
-
         {/* Add Button to get current location */}
         <button
           type="button"
@@ -107,17 +107,18 @@ function ProfileSetup({ user, onComplete }) {
           </p>
         )}
 
-        <label className="block text-gray-600 mb-2">Upload Profile Image:</label>
+
+        <label className="block text-black text-sm mb-2">Upload Profile Image:</label>
         <input
           type="file"
           onChange={(e) => setProfileImage(e.target.files[0])}
-          className="w-full p-2 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
 
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-teal-600 text-white py-3 rounded-md hover:bg-teal-700"
+          className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition-all font-semibold shadow-lg hover:shadow-xl"
         >
           {loading ? "Saving..." : "Save Profile"}
         </button>

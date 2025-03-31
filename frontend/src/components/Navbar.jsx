@@ -16,10 +16,10 @@ const Navbar = () => {
 
           {/* Center Links (Hidden on Mobile) */}
           <div className="hidden lg:flex space-x-10 text-lg font-semibold">
-            <a href="#" className="text-gray-700 hover:text-gray-900">Products</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Customers</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Pricing</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Learn</a>
+            <a href="#" className="text-gray-700 hover:text-gray-900">Services</a>
+            <a href="#" className="text-gray-700 hover:text-gray-900">How It Works</a>
+            <a href="#" className="text-gray-700 hover:text-gray-900">Resources</a>
+            <a href="#" className="text-gray-700 hover:text-gray-900">Contact</a>
           </div>
 
           {/* Right Buttons */}
@@ -58,10 +58,10 @@ const Navbar = () => {
         
         </div>
         <nav className="flex flex-col space-y-4 p-6 text-lg">
-          <a href="#" className="text-gray-700 hover:text-gray-900">Products</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">Customers</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">Pricing</a>
-          <a href="#" className="text-gray-700 hover:text-gray-900">Learn</a>
+          <a href="#" className="text-gray-700 hover:text-gray-900">Services</a>
+          <a href="#" className="text-gray-700 hover:text-gray-900">How It Works</a>
+          <a href="#" className="text-gray-700 hover:text-gray-900">Resources</a>
+          <a href="#" className="text-gray-700 hover:text-gray-900">Contact </a>
           <button className="w-full py-2 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100">
             Login
           </button>
