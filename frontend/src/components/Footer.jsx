@@ -39,10 +39,10 @@ const Footer = () => {
         <motion.div variants={fadeInVariants}>
           <h3 className="text-lg font-semibold mb-2">Solutions</h3>
           <ul className="space-y-1 text-gray-600">
-            <li>Small Business</li>
-            <li>Freelancers</li>
-            <li>Customers</li>
-            <li>Taxes</li>
+            <li>Legal Document Analysis</li>
+            <li>Chatbot for Legal Queries</li>
+            <li>Compliance Management</li>
+            <li>Legal Templates</li>
           </ul>
         </motion.div>
 
@@ -58,12 +58,12 @@ const Footer = () => {
 
         {/* Learn Section */}
         <motion.div variants={fadeInVariants}>
-          <h3 className="text-lg font-semibold mb-2">Learn</h3>
+          <h3 className="text-lg font-semibold mb-2">Support</h3>
           <ul className="space-y-1 text-gray-600">
-            <li>Blog</li>
-            <li>Ebooks</li>
-            <li>Guides</li>
-            <li>Templates</li>
+            <li>Help Center</li>
+            <li>Privacy Policy</li>
+            <li>Terms of Service</li>
+            <li>Security</li>
           </ul>
         </motion.div>
       </motion.div>
