@@ -24,10 +24,10 @@ function LawyerProfileSetup({ user, onComplete }) {
     }
 
     if (degreeImage) {
-      degreeImageURL = await uploadProfileImage(user.uid, degreeImage); // Assuming same function can handle both
+      degreeImageURL = await uploadProfileImage(user.uid, degreeImage);
     }
 
-    await fetch(`http://localhost:5000/api/update-lawyer-profile/${user.uid}`, {
+    await fetch(`${import.meta.env.VITE_BE_URL}/api/update-lawyer-profile/${user.uid}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -43,33 +43,33 @@ function LawyerProfileSetup({ user, onComplete }) {
       }),
     });
 
-    onComplete(); // Redirect after submission
+    onComplete();
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="bg-gray-300 py-12 px-6 w-full sm:w-2/3 lg:w-1/2 shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold mb-6 text-center">Complete Lawyer Profile</h2>
+    <div className="flex flex-col items-center justify-start min-h-screen pt-10">
+      <div className="bg-white py-10 px-8 w-full sm:w-2/3 lg:w-1/3 shadow-2xl rounded-3xl border border-gray-200 hover:shadow-3xl transition-shadow duration-300">
+        <h2 className="text-3xl font-semibold mb-2 text-center text-black tracking-wide">Complete Lawyer Profile</h2>
+        <p className="text-center text-gray-500 mb-6">Fill in the details to proceed</p>
 
-        {/* General User Fields */}
         <input
           type="text"
           placeholder="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
         <input
           type="number"
           placeholder="Age"
           value={age}
           onChange={(e) => setAge(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
         <select
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         >
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
@@ -81,44 +81,42 @@ function LawyerProfileSetup({ user, onComplete }) {
           placeholder="Location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
 
-        {/* Lawyer-Specific Fields */}
         <input
           type="number"
           placeholder="Years of Experience"
           value={yearsOfExperience}
           onChange={(e) => setYearsOfExperience(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
         <input
           type="text"
           placeholder="Qualification"
           value={qualification}
           onChange={(e) => setQualification(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
-        
-        {/* File Uploads */}
-        <label className="block text-gray-600 mb-2">Upload Profile Image:</label>
+
+        <label className="block text-black text-sm mb-1 text-left">Upload Profile Image:</label>
         <input
           type="file"
           onChange={(e) => setProfileImage(e.target.files[0])}
-          className="w-full p-2 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-1 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
 
-        <label className="block text-gray-600 mb-2">Upload Degree Certificate:</label>
+        <label className="block text-black text-sm mb-1 text-left">Upload Degree Certificate:</label>
         <input
           type="file"
           onChange={(e) => setDegreeImage(e.target.files[0])}
-          className="w-full p-2 mb-4 border border-gray-500 rounded-md"
+          className="w-full p-1 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
         />
 
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-teal-600 text-white py-3 rounded-md hover:bg-teal-700"
+          className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition-all font-semibold shadow-lg hover:shadow-xl"
         >
           {loading ? "Saving..." : "Save Profile"}
         </button>

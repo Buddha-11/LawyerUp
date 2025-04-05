@@ -123,13 +123,13 @@ def index():
 
 @app.route("/chat/get", methods=["POST"])
 def chat():
-    msg = request.form.get("msg", "").strip()
+    data = request.json
+    msg = data.get("msg", "").strip()
+
     if not msg:
         return jsonify({"error": "No input received."})
 
-    print(f"User Input: {msg}")
-
-    # Get response
+    # Get response from the model
     response = rag_chain({"question": msg})
     bot_answer = response.get("answer", "Sorry, I couldn't generate a response.")
 

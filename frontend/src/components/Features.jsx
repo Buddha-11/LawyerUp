@@ -40,13 +40,13 @@ const FeaturesSection = () => {
         >
           {[
             <p key="tagline" className="text-teal-600 font-semibold text-sm uppercase">
-              Future Payment
+              Legal Made Simple
             </p>,
             <h2 key="heading" className="text-4xl md:text-5xl font-semibold leading-tight mt-2 ">
-              <span className="text-teal-800">Experience </span>that grows with your scale.
+              <span className="text-teal-800">Simplify </span>Legal Complexity.
             </h2>,
             <p key="description" className="text-gray-500 mt-4 text-lg max-w-lg">
-              Design a financial operating system that works for your business and streamlines cash flow management.
+              Harness the power of AI to streamline legal processes and gain instant clarity on complex documents.
             </p>,
           ].map((text, index) => (
             <motion.div key={index} custom={index} variants={textVariants}>
@@ -65,21 +65,21 @@ const FeaturesSection = () => {
           {[
             {
               icon: <FiRepeat className="text-teal-600 text-5xl mb-4" />,
-              title: "Free Transfers",
+              title: "Effortless Document Analysis",
               description:
-                "Create a financial experience and automate repeat purchases by scheduling recurring payments.",
+                "Upload legal documents and let AI simplify complex jargon with clear, concise insights.",
             },
             {
               icon: <HiOutlineBanknotes className="text-teal-600 text-5xl mb-4" />,
-              title: "Multiple Accounts",
+              title: "Smart Legal Chatbot",
               description:
-                "Run operations with cash from your account and generate yield on funds stored in your account.",
+                "Ask questions and get instant, reliable legal answers without the confusion.",
             },
             {
               icon: <FiShield className="text-teal-600 text-5xl mb-4" />,
               title: "Unmatched Security",
               description:
-                "Securely manage your finances with organization-wide MFA, card-locking, and account-level controls.",
+                "Protect your sensitive legal data with industry-leading security and encryption.",
             },
           ].map((feature, index) => (
             <motion.div
