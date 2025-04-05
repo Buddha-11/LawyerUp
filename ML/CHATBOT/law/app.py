@@ -1,85 +1,4 @@
-
-'''from flask import Flask, render_template, request
-from src.helper import download_hugging_face_embeddings
-from langchain_pinecone import PineconeVectorStore
-from langchain_groq import ChatGroq
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate
-from dotenv import load_dotenv
-from src.prompt import *
-import os
-
-# Load environment variables
-load_dotenv()
-
-# Retrieve API keys
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
-
-# Ensure API keys are set
-if not PINECONE_API_KEY:
-    raise ValueError("Missing PINECONE_API_KEY. Please set it in your environment variables.")
-
-os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
-
-# Initialize Flask app
-app = Flask(__name__)
-
-# Load embeddings
-embeddings = download_hugging_face_embeddings()
-index_name = "lawbot"
-
-# Embed each chunk and upsert the embeddings into your Pinecone index
-docsearch = PineconeVectorStore.from_existing_index(
-    index_name=index_name,
-    embedding=embeddings
-)
-
-retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k": 3})
-
-# Initialize LLM model
-llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama3-8b-8192")
-
-# Create chat prompt template
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", system_prompt),
-        ("human", "{input}"),
-    ]
-)
-
-# Create retrieval and question-answer chains
-question_answer_chain = create_stuff_documents_chain(llm, prompt)
-rag_chain = create_retrieval_chain(retriever, question_answer_chain)
-
-# Routes
-@app.route("/")
-def index():
-    return render_template('chat.html')
-
-@app.route("/get", methods=["POST"])
-def chat():
-    msg = request.form.get("msg", "").strip()  # Safely get message input
-    if not msg:
-        return "Error: No input received."
-
-    print(f"User Input: {msg}")
-
-    # Get response from RAG chain
-    response = rag_chain.invoke({"input": msg})
-    bot_answer = response.get("answer", "Sorry, I couldn't generate a response.")
-
-    # Ensure response appears on separate lines by replacing periods with <br> tags
-    formatted_response = bot_answer.replace(". ", ".<br>")
-
-    print("Response:\n", formatted_response)  # Debugging
-    return formatted_response  # Return as HTML response so <br> tags are rendered
-
-# Run Flask app
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=True)'''
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from src.helper import download_hugging_face_embeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain_groq import ChatGroq
@@ -87,8 +6,27 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
-from src.prompt import *
+from flask_cors import CORS
 import os
+
+import re
+
+def format_response(text):
+    # Remove ** from bold text
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+
+    # Convert numbered points into separate lines
+    text = re.sub(r"(\d+\.)", r"<br>\1", text)  
+
+    # Bold headings
+    text = re.sub(r"(\d+\.\s)(.*?):", r"\1<b>\2</b>:", text)  
+
+    # Ensure newlines are converted to <br> tags
+    text = text.replace("\n", "<br>")
+
+    return text.strip()
+
+
 
 # Load environment variables
 load_dotenv()
@@ -105,10 +43,10 @@ os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
 
 # Initialize Flask app
 app = Flask(__name__)
-
+CORS(app)
 # Load embeddings
 embeddings = download_hugging_face_embeddings()
-index_name = "lawbot"
+index_name = "lawbot2"
 
 # Connect to the existing Pinecone index
 docsearch = PineconeVectorStore.from_existing_index(
@@ -122,6 +60,31 @@ retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k":
 llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama3-8b-8192")
 
 # Custom prompt template with memory support
+system_prompt = system_prompt = (
+    "You're LawBot, a friendly AI helping people understand Indian legal cases in simple, modern English. "
+    "Speak clearly, be helpful, and sound like you're chatting with a friend—not a courtroom judge. "
+    "Use examples when needed. Avoid legal jargon unless asked. Keep it chill, but informative."
+   
+    
+)
+
+# system_prompt = system_prompt = (
+#     "You're LawBot, a friendly AI that helps people understand Indian legal cases in simple, modern English. "
+#     "Speak clearly, be helpful, and sound like you're chatting with a friend—not a courtroom judge. "
+#     "Use real-life examples when needed. Avoid legal jargon unless asked. Keep it chill but informative. "
+
+#     "\n\nWhen there are steps involved, follow this format:\n"
+#     "Step 1: Give the heading like this (no bold or symbols)\n"
+#     "• Use bullets with a plain dot symbol (like this)\n"
+#     "• Keep the text left-aligned and well spaced\n"
+#     "• Do not use any Markdown formatting — no **, __, *, #, or HTML tags like <br>\n"
+
+#     "\nKeep everything as plain text. The goal is to make the message easy to read without any styling symbols. "
+#     "Structure your answers cleanly using headings and bullet points in plain English."
+# )
+
+
+
 template = f"""{system_prompt}
 
 **Chat History**:
@@ -154,15 +117,15 @@ rag_chain = ConversationalRetrievalChain.from_llm(
 )
 
 # Routes
-@app.route("/")
+@app.route("/chat")
 def index():
     return render_template('chat.html')
 
-@app.route("/get", methods=["POST"])
+@app.route("/chat/get", methods=["POST"])
 def chat():
     msg = request.form.get("msg", "").strip()
     if not msg:
-        return "Error: No input received."
+        return jsonify({"error": "No input received."})
 
     print(f"User Input: {msg}")
 
@@ -171,9 +134,19 @@ def chat():
     bot_answer = response.get("answer", "Sorry, I couldn't generate a response.")
 
     # Format response
-    formatted_response = bot_answer.replace(". ", ".<br>")
-    return formatted_response
+    # formatted_response = bot_answer.replace(". ", ".<br>")
+    # formatted_response = format_response(bot_answer)
+    formatted_response = bot_answer.replace("\n", "<br>")
+
+
+
+    return jsonify({"response": formatted_response})
+
+@app.route("/chat_history", methods=["GET"])
+def chat_history():
+    # Retrieve the conversation history
+    chat_history = memory.load_memory_variables({})["chat_history"]
+    return jsonify({"history": chat_history})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
-
