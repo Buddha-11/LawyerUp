@@ -97,7 +97,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 👥 Team Chill Guys
 
 - 👨‍💻 Team Lead: Arpit Anand  
-- 👥 Members: [Add other names here]
+- 👥 Members:  
+  1. Snehal Gupta  
+  2. Atharva Narkhede  
+  3. Swarup Narkhede
+
 
 ---
 
