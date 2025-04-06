@@ -3,6 +3,7 @@ import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import MultiSelect from "./ui/multiselect";
 import LawyerCard from "./LawyerCard";
+import Navbar from "./Navbar";
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_MAP_API_KEY;
 
 const mapContainerStyle = {
@@ -326,6 +327,7 @@ function SearchLawyers() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 p-4 md:p-6">Find Lawyers Near You</h1>
         

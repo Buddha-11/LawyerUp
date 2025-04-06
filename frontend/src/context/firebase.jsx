@@ -7,7 +7,8 @@ import {
     signInWithEmailAndPassword,
     GoogleAuthProvider, 
     signInWithPopup ,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut,
 } from "firebase/auth";
 import { 
     getStorage, 
@@ -89,6 +90,16 @@ export const FirebaseProvider = ({ children }) => {
         }
     };
 
+    const signOutUser = async () => {
+        try {
+          await signOut(firebaseAuth);
+          localStorage.removeItem("authToken");
+          setCurrentUser(null);
+        } catch (error) {
+          console.error("Error during sign out:", error);
+        }
+      };
+
     // Upload profile image to Firestore Storage and return download URL
     const uploadProfileImage = async (userId, file) => {
         if (!file) return null;
@@ -105,7 +116,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage , currentUser }}>
+        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage , currentUser , signOutUser}}>
             {children}
         </FirebaseContext.Provider>
     );
