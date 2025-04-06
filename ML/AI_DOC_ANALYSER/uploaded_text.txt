@@ -1,21 +1,562 @@
-LIST OF DOCUMENTS FO R VERIFICATION FOR I SSUING LEI  
-ALL COMPANIES REGIST ERED WITH MINISTRY O F CORPORATE AFFAIRS  
-Documents for Identity Verification  
-Sr. 
-no. Particulars  Optional/Mandatory  Checklist 
-(please ✔
-documents 
-ready to submit 
-to LEIL  
-1 Letter of Authority as per format specified 
-by the LEIL  Mandatory   
-2 Audited Financial Statements  of the legal 
-entity for the last financial year or link to 
-its website showing its financials.  Mandatory   
-3 If you have holding company, please 
-provide the following:  
-Audited Consolidated Financial Statements 
-of the direct and/or ultimate parent OR  
-Auditor’s Certificate (Please check “Legal 
-Docs Download” Tab for the template  after 
-logging in LEIL website ) Conditional Mandatory
+Free consultancy agreement: cover  
+1. This template legal document was produced and published by Docular 
+Limited.  
+2. We control the copyright in this template, and you may only use this template 
+in accordance with the licensing provisions in our terms and conditions. Those 
+licensing provisions include an obligation to retain the attribution / credit 
+incorporated into the  template.  
+3. You will need to edit this template before use. Guidance notes to help you do 
+so are set out at the end of the template. During the editing process, you 
+should delete those guidance notes and this cover sheet. Square brackets in 
+the body of t he document indicate areas that require editorial attention. 
+"ORs" in the body of the document indicate alternative provisions. By the end 
+of the editing process, there should be no square brackets left in the body of 
+the document, and only one alternative  from each set of alternatives should 
+remain. Elements may be specified as optional in the accompanying notes, 
+but that does not mean that they are in all cases removable. Nor are they 
+always retainable. Depending upon the circumstances, the inclusion or 
+removal of an optional element may be: (i) required by law; or (ii) necessary 
+to ensure that the document is internally consistent.  
+4. If you have any doubts about the editing or use of this template, you should 
+seek professional legal advice.  
+5. Do you nee d legal help with this document? If so, please contact us: 
+https://docular.net/pages/contact  
+  Consultancy agreement  
+DATE  
+[Date]  
+PARTIES  
+1. [[INDIVIDUAL NAME]  of [address] ] OR [ [COMPANY NAME] , a company 
+incorporated in [jurisdiction]  (registration number [number] ) having its 
+registered office at [address] ] ("the Consultant "); and  
+2. [[INDIVIDUAL NAME]  of [address] ] OR [ [COMPANY NAME] , a company 
+incorporated in [jurisdiction]  (registration number [registration number] ) 
+having its registered office at [address] ] ("the Client "). 
+AGREEMENT  
+1. Definitions  
+1.1 In this Agreement[, except to the extent expressly provided otherwise]:  
+"Agreement " means this agreement including any Schedules, and any 
+amendments to this Ag reement from time to time;  
+"Charges " means:  
+(a) [the charges and other payable amounts specified in Part 5 of Schedule 
+1 (Services particulars) and elsewhere in this Agreement];  
+(b) [charges calculated by multiplying [the standard time -based charging 
+rates of the Consultant (as notified by the Consultant to the Client 
+before the date of this Agreement)] by the time spent by the personnel 
+of the Consultant performing [the Services] (rounded [down by the 
+Consultant to the nearest quarter hour])]; and  
+(c) [such other charges and payable amounts as may be agreed in writing 
+by the parties from time to time];  
+[additional list items]  
+"Client Materials " means [all works and materials supplied by or on behalf 
+of the Client to the Consultant for incorporation into the  Deliverables or for 
+some other use in connection with the Services];  
+"Deliverables " means [those [deliverables]  specified in Part 2 of Schedule 1 
+(Services particulars) that the Consultant has agreed to deliver to the Client 
+under this Agreement] OR [ [define deliverables] ][, and such other 
+deliverables as the parties may agree in writing from time to time];  
+"Effective Date " means [the date of execution of this Agreement];  
+"Intellectual Property Rights " means [all intellectual property rights 
+wherever in the world, whether registrable or unregistrable, registered or unregistered, including any application or right of application for such rights 
+(and these "intellectual property rights" include copyright and rel ated rights, 
+database rights, confidential information, trade secrets, know -how, business 
+names, trade names, trade marks, service marks, passing off rights, unfair 
+competition rights, patents, petty patents, utility models, semi -conductor 
+topography right s and rights in designs)];  
+"Schedule " means any schedule attached to the main body of this 
+Agreement;  
+"Services " means the consultancy services specified in Part 1 of Schedule 1 
+(Services particulars);  
+"Term " means [the term of this Agreement , commencing in accordance with 
+Clause 3.1 and ending in accordance with Clause 3.2]; and  
+"Third Party Materials " means the works and/or materials comprised in the 
+Deliverables (excluding the Client Materials), the Intellectual Property Rights 
+in which are  owned by a third party[, and which are specified in Part 2 of 
+Schedule 1 (Services particulars) or which the parties agree in writing shall be 
+incorporated into the Deliverables].  
+2. Credit  
+2.1 This document was created using a template from Docular 
+(https://docular.net ). 
+You must retain the above credit. Use of this document without the credit is an 
+infringement of copyright. However, you can purchase from us an equivalent 
+document that does not include the credit.  
+3. Term 
+3.1 This Agreement shall come into force upon the Effective Date.  
+3.2 This Agreement shall continue in force [indefinitely] OR [until [date] , at the 
+beginning of which this Agreement shall terminate automatically] OR [until 
+[event] , upon which this Agree ment shall terminate automatically], subject to 
+termination in accordance with Clause 11 or any other provision of this 
+Agreement.  
+4. Services  
+4.1 The Consultant shall provide the Services to the Client in accordance with this 
+Agreement.  
+4.2 The Consultant  shall provide the Services [with reasonable skill and care] OR 
+[in accordance with the standards of skill and care reasonably expected from 
+a leading service provider in the Consultant's industry] OR [ [specify 
+standard(s)] ]. 
+5. Deliverables  
+5.1 The Consul tant shall deliver the Deliverables to the Client.  5.2 The Client must promptly, following receipt of a written request from the 
+Consultant to do so, provide written feedback to the Consultant concerning 
+the Consultant's proposals, plans, designs and/or pr eparatory materials 
+relating to the Deliverables and made available to the Client with that written 
+request.  
+5.3 The Consultant shall [ensure] OR [use its best endeavours to ensure] OR [use 
+reasonable endeavours to ensure] that the Deliverables are deliver ed to the 
+Client in accordance with the timetable set out in Part 3 of Schedule 1 
+(Services particulars)[ or agreed by the parties in writing].  
+5.4 The Consultant warrants to the Client that:  
+(a) [the Deliverables will conform with the requirements of Part  2 of 
+Schedule 1 (Services particulars)[ as at the date of delivery of the 
+Deliverables]];  
+(b) [the Deliverables will be free from [material defects]]; and  
+(c) [[the Deliverables] OR [the Deliverables when used by the Client in 
+accordance with this Agreeme nt] will not infringe the Intellectual 
+Property Rights[ or other legal rights] of any person[, and will not 
+breach [the provisions of any law, statute or regulation],] in [any 
+jurisdiction and under any applicable law]].  
+[additional list items]  
+6. Licence  
+6.1 The Consultant hereby grants to the Client [a non -exclusive, worldwide, 
+perpetual and irrevocable] licence to [copy, store, distribute, publish, adapt, 
+edit and otherwise use] the Deliverables[ (excluding [the Third Party 
+Materials and the Client Mater ials])][ for the following purposes: [identify 
+purposes] ]. 
+7. Charges  
+7.1 The Client shall pay the Charges to the Consultant in accordance with this 
+Agreement.  
+7.2 All amounts stated in or in relation to this Agreement are, unless the context 
+requires othe rwise, stated [inclusive of any applicable value added taxes] OR 
+[exclusive of any applicable value added taxes, which will be added to those 
+amounts and payable by the Client to the Consultant].  
+8. Payments  
+8.1 The Consultant shall issue invoices for the Charges to the Client [from time to 
+time during the Term] OR [on or after the invoicing dates set out in Part 5 of 
+Schedule 1 (Services particulars)] OR [at any time after the relevant Services 
+have been delivered to the Client] OR [in advance of the deliv ery of the 
+relevant Services to the Client].  8.2 The Client must pay the Charges to the Consultant within the period of [30 
+days] following [the issue of an invoice in accordance with this Clause 8] OR 
+[the receipt of an invoice issued in accordance with this Clause 8].  
+8.3 The Client must pay the Charges by [debit card, credit card, direct debit or 
+bank transfer] (using such payment details as are notified by the Consultant 
+to the Client from time to ti me). 
+8.4 If the Client does not pay any amount properly due to the Consultant under 
+this Agreement, the Consultant may:  
+(a) charge the Client interest on the overdue amount at the rate of [8% per 
+annum above the Bank of England base rate from time to time]  (which 
+interest will accrue daily until the date of actual payment and be 
+compounded at the end of each calendar month); or  
+(b) claim interest and statutory compensation from the Client pursuant to 
+the Late Payment of Commercial Debts (Interest) Act 1998.  
+9. Warranties  
+9.1 The Consultant warrants to the Client that:  
+(a) [the Consultant has the legal right and authority to enter into this 
+Agreement and to perform its obligations under this Agreement];  
+(b) [the Consultant will comply with all applicable lega l and regulatory 
+requirements applying to the exercise of the Consultant's rights and the 
+fulfilment of the Consultant's obligations under this Agreement]; and  
+(c) [the Consultant has or has access to all necessary know -how, expertise 
+and experience to per form its obligations under this Agreement].  
+[additional list items]  
+9.2 The Client warrants to the Consultant that it has the legal right and authority 
+to enter into this Agreement and to perform its obligations under this 
+Agreement.  
+9.3 All of the parties ' warranties and representations in respect of the subject 
+matter of this Agreement are expressly set out in this Agreement. To the 
+maximum extent permitted by applicable law, no other warranties or 
+representations concerning the subject matter of this Agr eement will be 
+implied into this Agreement or any related contract.  
+10. Limitations and exclusions of liability  
+10.1 Nothing in this Agreement will:  
+(a) limit or exclude any liability for death or personal injury resulting from 
+negligence;  
+(b) limit or exc lude any liability for fraud or fraudulent misrepresentation;  (c) limit any liabilities in any way that is not permitted under applicable 
+law; or  
+(d) exclude any liabilities that may not be excluded under applicable law.  
+10.2 The limitations and exclusions  of liability set out in this Clause 10 and 
+elsewhere in this Agreement:  
+(a) are subject to Clause 10.1; and  
+(b) govern all liabilities arising under this Agreement or relating to the 
+subject matter of this Agreement, including liabilities arising in cont ract, 
+in tort (including negligence) and for breach of statutory duty, except to 
+the extent expressly provided otherwise in this Agreement.  
+10.3 [Neither party shall be liable to the other party] OR [The Consultant shall not 
+be liable to the Client] OR [Th e Client shall not be liable to the Consultant] in 
+respect of any loss of profits or anticipated savings.  
+10.4 [Neither party shall be liable to the other party] OR [The Consultant shall not 
+be liable to the Client] OR [The Client shall not be liable to th e Consultant] in 
+respect of any loss of revenue or income.  
+10.5 [Neither party shall be liable to the other party] OR [The Consultant shall not 
+be liable to the Client] OR [The Client shall not be liable to the Consultant] in 
+respect of any loss of use or production.  
+10.6 [Neither party shall be liable to the other party] OR [The Consultant shall not 
+be liable to the Client] OR [The Client shall not be liable to the Consultant] in 
+respect of any loss of business, contracts or opportunities.  
+10.7 [Neither pa rty shall be liable to the other party] OR [The Consultant shall not 
+be liable to the Client] OR [The Client shall not be liable to the Consultant] in 
+respect of any loss or corruption of any data, database or software.  
+10.8 [Neither party shall be liable to the other party] OR [The Consultant shall not 
+be liable to the Client] OR [The Client shall not be liable to the Consultant] in 
+respect of any special, indirect or consequential loss or damage.  
+11. Termination  
+11.1 Either party may terminate this Agreement by giving to the other party [at 
+least 30 days'] written notice of termination.  
+11.2 Either party may terminate this Agreement immediately by giving written 
+notice of termination to the other party if the other party commits a material 
+breac h of this Agreement.  
+11.3 Subject to applicable law, either party may terminate this Agreement 
+immediately by giving written notice of termination to the other party if:  
+(a) the other party:  
+(i) is dissolved;  (ii) ceases to conduct all (or substantially al l) of its business;  
+(iii) is or becomes unable to pay its debts as they fall due;  
+(iv) is or becomes insolvent or is declared insolvent; or  
+(v) convenes a meeting or makes or proposes to make any 
+arrangement or composition with its creditors;  
+(b) an admini strator, administrative receiver, liquidator, receiver, trustee, 
+manager or similar is appointed over any of the assets of the other 
+party;  
+(c) an order is made for the winding up of the other party, or the other 
+party passes a resolution for its winding u p[ (other than for the purpose 
+of a solvent company reorganisation where the resulting entity will 
+assume all the obligations of the other party under this Agreement)]; or  
+(d) [if that other party is an individual:  
+(i) that other party becomes incapable o f managing his or her own 
+affairs as a result of illness or incapacity; or  
+(ii) that other party is the subject of a bankruptcy petition or order,  
+ and if that other party dies then this Agreement shall automatically 
+terminate].  
+12. Effects of termination  
+12.1 Upon the termination of this Agreement, all of the provisions of this 
+Agreement shall cease to have effect, save that the following provisions of 
+this Agreement shall survive and continue to have effect (in accordance with 
+their express terms or other wise indefinitely): [Clauses 1, 6, 8.2, 8.4, 10, 12, 
+13.2 and 15].  
+12.2 Except to the extent expressly provided otherwise in this Agreement, the 
+termination of this Agreement shall not affect the accrued rights of either 
+party.  
+13. Status of Consultant  
+13.1 The Consultant is not an employee of the Client, but an independent 
+contractor.  
+13.2 The termination of this Agreement will not constitute unfair dismissal; nor will 
+the Consultant be entitled to any compensation payments, redundancy 
+payments or similar payments upon the termination of this Agreement.  
+14. Subcontracting  
+14.1 The Consultant must not subcontract any of its obligations under this 
+Agreement without the prior written consent of the Client[, providing that the 
+Client must not unreasonably withh old or delay the giving of such consent].  OR 
+14.1 Subject to any express restrictions elsewhere in this Agreement, the 
+Consultant may subcontract any of its obligations under this Agreement[, 
+providing that the Consultant must give to the Client, promptly following the 
+appointment of a subcontractor, a written notice specifying the subcontracted 
+obligations and identifying the subcontractor in question].  
+14.2 The Consultant shall remain responsible to the Client  for the performance of 
+any subcontracted obligations.  
+15. General  
+15.1 No breach of any provision of this Agreement shall be waived except with the 
+express written consent of the party not in breach.  
+15.2 If any provision of this Agreement  is determined by any court or other 
+competent authority to be unlawful and/or unenforceable, the other 
+provisions of this Agreement will continue in effect. If any unlawful and/or 
+unenforceable provision would be lawful or enforceable if part of it were 
+deleted, that part will be deemed to be deleted, and the rest of the provision 
+will continue in effect (unless that would contradict the clear intention of the 
+parties, in which case the entirety of the relevant provision will be deemed to 
+be deleted).  
+15.3 This Agreement may not be varied except by a written document signed by or 
+on behalf of each of the parties.  
+15.4 Neither party may without the prior written consent of the other party assign, 
+transfer, charge, license or otherwise deal in or dispose of a ny contractual 
+rights or obligations under this Agreement.  
+15.5 This Agreement is made for the benefit of the parties and is not intended to 
+benefit any third party or be enforceable by any third party. The rights of the 
+parties to terminate, rescind, or a gree any amendment, waiver, variation or 
+settlement under or relating to this Agreement are not subject to the consent 
+of any third party.  
+15.6 Subject to Clause 10.1, this Agreement shall constitute the entire agreement 
+between the parties in relation to the subject matter of this Agreement, and 
+shall supersede all previous agreements, arrangements and understandings 
+between the parties in respect of that subject matter.  
+15.7 This Agreement shall be governed by and construed in accordance with 
+[English law ]. 
+15.8 The courts of [England] shall have exclusive jurisdiction to adjudicate any 
+dispute arising under or in connection with this Agreement.  
+EXECUTION  
+The parties have indicated their acceptance of this Agreement by executing it 
+below.  SIGNED BY  [[indiv idual name]  on [...............], the Consultant] OR [ [individual 
+name]  on [...............], duly authorised for and on behalf of the Consultant]:  
+........................................  
+SIGNED BY  [[individual name]  on [...............], the Client] OR [ [individual name]  
+on [...............], duly authorised for and on behalf of the Client]:  
+........................................  
+  SCHEDULE 1 (SERVICES  PARTICULARS)  
+1. Specification of Services  
+[Specify Services]  
+2. Specification of Deliverables  
+[Specify  Deliverables]  
+3. Timetable  
+[Insert timetable]  
+4. Client Materials  
+[Specify Client Materials]  
+5. Financial provisions  
+[Insert financial provisions]  
+  Free consultancy agreement: drafting notes  
+This is a free consultancy agreement. It includes straightforward provisions 
+regarding the provision of consultancy services and the supply of deliverables 
+resulting from the provision of those services.  
+The template incorporates a licence to use the deliv erables, but does not include 
+any assignment of rights in the deliverables. Accordingly, the consultant retains 
+ownership.  
+You are welcome to use the document without purchasing a licence, providing that 
+you retain the Docular credit in the document. The d ocument is identical to the 
+consultancy agreement (basic) document, save for the credit.  
+DATE  
+ Insert the date of execution of the document.  
+PARTIES  
+Subsection 1  
+ Is the Consultant an individual or a company?  
+ What is the full name of the individual (includin g middle names)?  
+ What is the postal address of the Consultant?  
+ What is the full company name of the Consultant?  
+ In which jurisdiction is the Consultant incorporated?  
+ What is the registration number of the Consultant?  
+ What is the registered office address of the Consultant?  
+Subsection 2  
+ Is the Client an individual or a company?  
+ What is the full name of the individual (including middle names)?  
+ What is the postal address of the Client?  
+ What is the full company name of the  Client?  
+ In which jurisdiction is the Client incorporated?  
+ What is the registration number of the Client?  
+ What is the registered office address of the Client?  
+AGREEMENT  Clause 1: Definitions  
+Clause 1.1  
+Definition of Charges  
+ What charges are payable under this document?  
+ How should the time -based charging rates be described or specified?  
+ Will all the services be subject to time -based charging, or only some of the 
+services?  
+ How are time -based charging units to be rounded?  
+Defini tion of Deliverables  
+ What type of thing are the deliverables (e.g. written reports, software 
+programs, graphical works)?  
+Definition of Effective Date  
+ When will the contract come into force?  
+Definition of Term  
+ Define "Term", the period during which the cont ract will subsist.  
+Definition of Third Party Materials  
+ Must all third party materials incorporated into the deliverables be 
+specifically identified in the specification of the deliverables or included 
+subject to the parties' agreement?  
+Clause 2: Credit  
+Clause: Free documents licensing warning  
+Optional element. Although you need to retain the credit, you should remove the 
+inline copyright warning from this document before use.  
+Clause 3: Term  
+Clause 3.2  
+ Is the term of the contract indefinite, or will it come to an end upon some 
+agreed date, or upon the occurrence of a defined event?  
+ Upon what date will the contract terminate?  
+ Upon the occurrence of what event will the contract terminate?  
+Clause 4: Services  
+Clause 4.2  Optional element. Must the services meet an y specified standard(s)?  
+ What standard(s) must the services meet?  
+Clause 5: Deliverables  
+Optional element.  
+Clause 5.2  
+Optional element.  
+Clause 5.3  
+Optional element.  
+ Is the obligation to supply deliverables in accordance with the agreed 
+timetable: (i) absolute; or (ii) an obligation to use best endeavours; or (iii) 
+an obligation to use reasonable endeavours?  
+Clause 5.4  
+Optional element.  
+ What warranties will the Consult ant give to the Client in relation to the 
+deliverables?  
+ Should the warranty of conformity only apply at the date of delivery of the 
+deliverables?  
+ What sort of defects does the Consultant warrant the deliverables will be 
+free from?  
+ Do the warranties relatin g to legality apply to the deliverables generally, or 
+just to uses permitted by this document?  
+ Will this warranty extend to legal rights other than intellectual property 
+rights?  
+ Should a warranty of legality be included?  
+ What (if any) jurisdictional limita tions and applicable law limitations should 
+apply to these warranties?  
+Clause 6: Licence  
+Optional element.  
+Clause 6.1  
+ What type of licence will the Consultant grant to the Client?  
+ What exactly may the Client do with the deliverables?   Do any rights in the d eliverables need to be carved out from the licence 
+(e.g. rights in third party materials)?  
+ Will the licence be limited by reference to the purposes for which the 
+deliverables may be used?  
+ The rights in which elements of the deliverables should be carved ou t from 
+the licence?  
+ For what purposes may the deliverables be used?  
+Clause 7: Charges  
+Clause 7.2  
+Optional element.  
+ Are payment amounts stated inclusive or exclusive of VAT?  
+Clause 8: Payments  
+Clause 8.1  
+ When should invoices be issued?  
+Clause 8.2  
+ What is the period for payment of invoices?  
+ When does the period for payment of an invoice begin to run?  
+Clause 8.3  
+Optional element.  
+ Using what methods should payments be made?  
+Clause 8.4  
+Optional element.  
+ What contractual interest rate should apply to la te payments?  
+ Late Payment of Commercial Debts (Interest) Act 1998 - 
+https://www.legislation.gov.uk/ukpga/1998/20  
+Clause 9: Warranties  
+Optional element.  
+Clause 9.1  
+Optional element.  
+ What general warranties will the Consultant give to the Client?  Clause 9.2  
+Optional element.  
+Clause 10: Limitations and exclusions of liability  
+Contractual limitations and exclusions of liability are regulated and controlled by 
+law, and the courts may rule that particular limitations and exclusions of liability in 
+contracts are unenforceable.  
+The courts are particularly likely to intervene where a  party is seeking to rely on a 
+limitation or exclusion of liability in its standard terms and conditions, but will also 
+sometimes intervene where a term has been individually negotiated. The courts 
+may be more likely to rule that provisions excluding liabi lity, as opposed to those 
+merely limiting liability, are unenforceable. If there is a risk that any particular 
+limitation or exclusion of liability will be found to be unenforceable by the courts, 
+that provision should be drafted as an independent term, an d be numbered 
+separately from the other provisions. It may improve the chances of a limitation or 
+exclusion of liability being found to be enforceable if the party seeking to rely upon 
+it specifically drew it to the attention of the other party before the contract was 
+entered into.  
+Exclusions and limitations of liability in UK contracts are primarily regulated by the 
+Unfair Contract Terms Act 1977 ("UCTA"). Contracts regulated by UCTA cannot 
+exclude or restrict a party's liability for death or personal inju ry resulting from 
+negligence (Section 2(1), UCTA). Except insofar as the relevant term satisfies the 
+requirements of reasonableness, such contracts cannot exclude or restrict liability: 
+(i) for negligence (which includes a breach of an express or implied c ontractual 
+obligation to take reasonable care or exercise reasonable skill) (Section 2(2), 
+UCTA); or (ii) for misrepresentation (Section 3, Misrepresentation Act 1967).  
+In addition, if a contract is regulated by UCTA, and one of the parties is dealing on 
+the other's written standard terms of business, then except insofar as the relevant 
+contractual term satisfies the requirements of reasonableness the other party 
+cannot: (i) exclude or restrict its liability in respect of a breach of contract; or (ii) 
+claim  to be entitled to render a contractual performance substantially different from 
+that which was reasonably expected of it; or (iii) claim to be entitled, in respect of 
+the whole or any part of its contractual obligation, to render no contractual 
+performanc e at all (see Section 3, UCTA).  
+UCTA includes various other restrictions, particularly in the case of contracts for the 
+sale of goods and contracts under which possession or ownership of goods passes.  
+Somewhat different rules apply to limitations of liabil ity in contracts with 
+consumers, and these provisions should not be used in relation to such contracts.  
+These guidance notes provide a very incomplete and basic overview of a complex 
+subject. Accordingly, you should take legal advice if you may wish to rel y upon a 
+limitation or exclusion of liability.  
+ Unfair Contract Terms Act 1977 - 
+https://www.legislation.gov.uk/ukpga/1977/50  Clause 10.1  
+Do not delete this provision (except upon legal advice). Without this provision, the 
+specific limitations and exclusion s of liability in the document are more likely to be 
+unenforceable.  
+Clause 10.3  
+Optional element.  
+ Which of the parties will be the beneficiary of this limitation of liability?  
+Clause 10.4  
+Optional element.  
+ Which of the parties will be the beneficiary of this limitation of liability?  
+Clause 10.5  
+Optional element.  
+ Which of the parties will be the beneficiary of this limitation of liability?  
+Clause 10.6  
+Optional element.  
+ Which of the parties will be the benefic iary of this limitation of liability?  
+Clause 10.7  
+Optional element.  
+ Which of the parties will be the beneficiary of this limitation of liability?  
+Clause 10.8  
+Optional element.  
+ Which of the parties will be the beneficiary of this limitation of liability?  
+Clause 11: Termination  
+Clause 11.1  
+ What notice period will apply to termination without cause by either party?  
+Clause 11.3  
+Depending upon the status of the parties, the circumstances of the termination and 
+the applicable law, some of the rights to terminate set out here may be 
+unenforceable.  
+ Will the winding up of a party as part of a solvent company reorganisation 
+give rise to a right of termination for the other party?  Clause 13: Status of Consultant  
+Optional element.  
+Clause 13.2  
+Optional element.  
+Clause 14: Subcontracting  
+Optional element.  
+Clause 14.1  
+ Will the Client only be permitted to withhold consent to subcontracting 
+where it is reasonable to do so?  
+Clause 14.1  
+ Will the Consultant be obliged to notify the Client of any subcontracting 
+arrangements?  
+Clause 15: General  
+Clause 15.1  
+Optional element.  
+Clause 15.2  
+Optional element.  
+Clause 15.3  
+Optional element.  
+This is intended to prevent, for example, one party wrongfu lly claiming that a term 
+of the contract was changed in a telephone call.  
+Clause 15.4  
+Optional element.  
+Clause 15.5  
+Optional element.  
+This provision is designed to exclude any rights a third party may have under the 
+Contracts (Rights of Third Parties) Act 1999.  
+ Contracts (Rights of Third Parties) Act 1999 - 
+https://www.legislation.gov.uk/ukpga/1999/31  
+Clause 15.6  
+Optional element.  Clause 15.7  
+This template has been drafted to work in the English law context. If you plan to 
+change the governing law, you shou ld have the document reviewed by someone 
+with expertise in the law of the relevant jurisdiction.  
+ Which law will govern the document?  
+Clause 15.8  
+Optional element.  
+As a practical matter, it makes sense for the courts with expertise in the relevant 
+law to ha ve the right to adjudicate disputes. Where one of the parties is outside 
+England (or at least the UK), you may want to grant the courts of their home 
+jurisdiction the right to adjudicate disputes, as this could ease enforcement in some 
+circumstances.  
+ The courts of which jurisdiction will have the exclusive right to adjudicate 
+disputes relating to the document (subject to applicable law)?  
+EXECUTION  
+Subsection: Execution of contract by First Party (individual or company)  
+ Will the contract be signed by a contracting individual, or an individual on 
+behalf of a contracting company?  
+ What is the full name of the Consultant signatory?  
+ On what date is the Consultant signing the contract?  
+ Add the full name of the person who will sign the document on behalf of the  
+Consultant.  
+ On what date is the contract being signed on behalf of the Consultant?  
+Subsection: Execution of contract by Second Party (individual or company)  
+ Will the contract be signed by a contracting individual, or an individual on 
+behalf of a contracti ng company?  
+ What is the full name of the Client signatory?  
+ On what date is the Client signing the contract?  
+ Add the full name of the person who will sign the document on behalf of the 
+Client.  
+ On what date is the contract being signed on behalf of the Clien t? 
+SCHEDULE 1 (SERVICES  PARTICULARS)  
+Part 1: Specification of Services   Insert the specification for the services.  
+Part 2: Specification of Deliverables  
+Optional element.  
+ Insert the specification for the deliverables.  
+Part 3: Timetable  
+Optional element.  
+ Insert the timetable for the performance of the parties' obligations.  
+Part 4: Client Materials  
+Optional element.  
+ Specify the client materials to be supplied by the Client to the Consultant.  
+Part 5: Financial provisions  
+ Insert financial provisions.

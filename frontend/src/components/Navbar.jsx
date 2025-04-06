@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useFirebase } from "../context/firebase";
+import ProfileMenu from "./ProfileMenu";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -46,7 +47,7 @@ const Navbar = () => {
           <div className="hidden lg:flex space-x-4 items-center">
             {currentUser ? (
               <>
-                <span className="text-gray-700 font-medium">
+                {/* <span className="text-gray-700 font-medium">
                   Hey, {currentUser.displayName || currentUser.email}
                 </span>
                 <button
@@ -54,7 +55,10 @@ const Navbar = () => {
                   className="px-5 py-2 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100"
                 >
                   Logout
-                </button>
+                </button> */}
+                  <div className="flex items-center gap-4">
+          <ProfileMenu />
+          </div>
               </>
             ) : (
               <>
@@ -109,7 +113,7 @@ const Navbar = () => {
           </a>
           {currentUser ? (
             <>
-              <span className="text-gray-700 font-medium">
+              {/* <span className="text-gray-700 font-medium">
                 Hi, {currentUser.displayName || currentUser.email}
               </span>
               <button
@@ -117,7 +121,11 @@ const Navbar = () => {
                 onClick={handleLogout}
               >
                 Logout
-              </button>
+              </button> */}
+
+          <div className="flex items-center gap-4">
+          <ProfileMenu />
+          </div>
             </>
           ) : (
             <>

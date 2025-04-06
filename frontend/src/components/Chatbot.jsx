@@ -3,6 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { firebaseAuth, db } from "../context/firebase"; // adjust this path as needed
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import ProfileMenu from "./ProfileMenu";
 
 const Chatbot = () => {
   const [chats, setChats] = useState([]);
@@ -148,6 +149,10 @@ const Chatbot = () => {
         <div className="p-4 border-b border-white/20 text-center text-lg font-bold">
           Chatbot
         </div>
+        {/* <div className="p-4 border-b border-white/20 flex items-center justify-between">
+  <div className="text-lg font-bold">Chatbot</div>
+  <ProfileMenu />
+</div> */}
 
         {/* New Chat Button */}
         <div className="p-4 border-b border-white/20">
@@ -156,7 +161,7 @@ const Chatbot = () => {
             className="w-full flex items-center gap-2 p-3 bg-transparent hover:bg-[#2A2B32] 
                        rounded-md border border-white/20 transition-colors"
           >
-            ➕ New Chat
+            ➕    New Chat
           </button>
         </div>
 
@@ -181,11 +186,21 @@ const Chatbot = () => {
       {/* MAIN CHAT AREA */}
       <div className="flex flex-col flex-1">
         {/* Chat Title */}
-        <header className="p-4 bg-[#202123] border-b border-white/20">
+        {/* <header className="p-4 bg-[#202123] border-b border-white/20">
           <h1 className="text-lg font-semibold">
             {activeChat ? activeChat.title : "No Chat Selected"}
           </h1>
-        </header>
+        </header> */}
+       <header className="relative p-4 bg-[#202123] border-b border-white/20 flex justify-center items-center">
+  <h1 className="text-lg font-semibold">
+    {activeChat ? activeChat.title : "No Chat Selected"}
+  </h1>
+  <div className="absolute right-4">
+    <ProfileMenu />
+  </div>
+</header>
+
+
 
         {/* Messages */}
         <main className="flex-1 overflow-y-auto p-6">
