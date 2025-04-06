@@ -51,7 +51,7 @@ const ProfileMenu = () => {
       {/* Avatar button */}
       <button
         onClick={() => setOpen(!open)}
-        className="w-12 h-12 rounded-full overflow-hidden border-3 border-green-500 shadow-md"
+        className="w-12 h-12 rounded-full overflow-hidden border-3 border-teal-100 shadow-md"
       >
         {userData?.photoURL ? (
           <img
@@ -66,10 +66,10 @@ const ProfileMenu = () => {
 
       {/* Dropdown menu */}
       {open && (
-        <div className="absolute right-0 mt-2 w-64 bg-[#F3EBDC] shadow-xl rounded-xl z-50 border border-green-300">
+        <div className="absolute right-0 mt-2 w-64 bg-slate-100 shadow-xl rounded-xl z-50 border border-green-300">
           <div className="p-4 border-b border-green-200">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-green-500">
+              <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-teal-600">
                 {userData?.photoURL ? (
                   <img
                     src={userData.photoURL}
@@ -81,16 +81,16 @@ const ProfileMenu = () => {
                 )}
               </div>
               <div>
-                <p className="text-lg font-semibold text-green-700">
+                <p className="text-lg font-semibold text-teal-600">
                   {userData?.name || "Loading..."}
                 </p>
-                <p className="text-md text-green-600 mr-2">{userEmail || "..."}</p>
+                <p className="text-md text-teal-600 mr-2">{userEmail || "..."}</p>
               </div>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 flex items-center gap-2 text-green-700 hover:bg-green-100 transition-all  border border-green-500 "
+            className="w-full text-left px-4 py-2 flex items-center gap-2 text-teal-800 hover:bg-green-100 transition-all  border border-green-500 "
           >
             <FiLogOut /> Logout
           </button>
