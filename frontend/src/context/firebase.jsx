@@ -45,9 +45,11 @@ export const FirebaseProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+            console.log("📌 Firebase Auth state changed:", user);
             setCurrentUser(user);
             setLoading(false); // ✅ Done loading
         });
+
 
         return () => unsubscribe();
     }, []);
