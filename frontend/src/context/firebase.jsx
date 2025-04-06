@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { 
     getAuth, 
@@ -16,7 +17,7 @@ import {
     uploadBytes, 
     getDownloadURL 
 } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
+// import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -29,12 +30,12 @@ const firebaseConfig = {
 
 // Initialize Firebase services
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseAuth = getAuth(firebaseApp);
-export default firebaseAuth;
+export const firebaseAuth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
 const storage = getStorage(firebaseApp);
-const db = getFirestore(firebaseApp);
-export { db };
+export const db = getFirestore(firebaseApp);
+
+
 const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
 

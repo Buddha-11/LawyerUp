@@ -52,7 +52,7 @@ function Auth() {
   const handleSignin = async (email, password) => {
     try {
       console.log(signin);
-      
+      setSignin("done");
       const result = await signinEmail(email, password);
       setUser(result.user);
       setSignin("pending"); // Delay redirection

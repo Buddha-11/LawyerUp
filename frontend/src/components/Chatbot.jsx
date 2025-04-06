@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { firebaseAuth, db } from "../context/firebase"; // adjust this path as needed
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const Chatbot = () => {
   const [chats, setChats] = useState([]);
@@ -8,18 +10,48 @@ const Chatbot = () => {
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
+  const [userUID, setUserUID] = useState(null);
 
   useEffect(() => {
-    const savedChats = JSON.parse(localStorage.getItem("chats")) || [];
-    setChats(savedChats);
-    if (savedChats.length > 0) {
-      setActiveChatId(savedChats[0].id);
-    }
+    const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUserUID(user.uid);
+        const docRef = doc(db, "chatbots", user.uid);
+        const docSnap = await getDoc(docRef);
+        const savedChats = docSnap.exists() ? docSnap.data().chats || [] : [];
+        setChats(savedChats);
+        if (savedChats.length > 0) {
+          setActiveChatId(savedChats[0].id);
+        }
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
+  // useEffect(() => {
+  //   if (userUID) {
+  //     const userRef = doc(db, "chatbots", userUID);
+  //     updateDoc(userRef, { chats }).catch(() =>
+  //       setDoc(userRef, { chats })
+  //     );
+  //   }
+  // }, [chats, userUID]);
+
+
   useEffect(() => {
-    localStorage.setItem("chats", JSON.stringify(chats));
-  }, [chats]);
+    if (userUID) {
+      const userRef = doc(db, "chatbots", userUID);
+  
+      getDoc(userRef).then((docSnap) => {
+        if (docSnap.exists()) {
+          updateDoc(userRef, { chats });
+        } else {
+          setDoc(userRef, { chats }, { merge: true });
+        }
+      });
+    }
+  }, [chats, userUID]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -73,7 +105,8 @@ const Chatbot = () => {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8080/chat/get",
-        new URLSearchParams({ msg: inputForAPI })
+        { msg: inputForAPI },
+        { headers: { "Content-Type": "application/json" } }
       );
       const botMsg = { sender: "bot", text: response.data.response };
 
@@ -156,42 +189,34 @@ const Chatbot = () => {
 
         {/* Messages */}
         <main className="flex-1 overflow-y-auto p-6">
-          {/* {activeChat?.messages.map((msg, idx) => (
-            <div key={idx} className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-4`}>
-              <div className={`max-w-[80%] rounded-md px-4 py-3 ${msg.sender === "user" ? "bg-[#0B5FFF] text-white" : "bg-[#444654] text-[#ececf1]"}`}>
-                {msg.text}
+          {activeChat?.messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-4`}
+            >
+              <div
+                className={`max-w-[80%] rounded-md px-4 py-3 ${
+                  msg.sender === "user"
+                    ? "bg-[#0B5FFF] text-white"
+                    : "bg-[#444654] text-[#ececf1]"
+                }`}
+              >
+                {msg.sender === "bot" ? (
+                  <div
+                    style={{
+                      textAlign: "left",
+                      lineHeight: "1.5",
+                      marginBottom: "8px",
+                      whiteSpace: "pre-line",
+                    }}
+                    dangerouslySetInnerHTML={{ __html: msg.text }}
+                  />
+                ) : (
+                  msg.text
+                )}
               </div>
             </div>
-          ))} */}
-          {activeChat?.messages.map((msg, idx) => (
-  <div
-    key={idx}
-    className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-4`}
-  >
-    <div
-      className={`max-w-[80%] rounded-md px-4 py-3 ${
-        msg.sender === "user"
-          ? "bg-[#0B5FFF] text-white"
-          : "bg-[#444654] text-[#ececf1]"
-      }`}
-    >
-      {msg.sender === "bot" ? (
-        
-        <div
-  style={{
-    textAlign: "left",         // Align text to left
-    lineHeight: "1.5",         // Proper line height for readability
-    marginBottom: "8px",       // Reduce unnecessary gaps
-    whiteSpace: "pre-line",    // Keep intended line breaks but remove extra spacing
-  }}
-  dangerouslySetInnerHTML={{ __html: msg.text }}
-/>
-      ) : (
-        msg.text
-      )}
-    </div>
-  </div>
-))}
+          ))}
 
           {loading && (
             <div className="w-full flex justify-start mb-4">

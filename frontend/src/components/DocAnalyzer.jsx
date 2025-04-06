@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { db } from "../context/firebase"; // adjust this path if needed
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const DocAnalyzer = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -37,6 +40,34 @@ const DocAnalyzer = () => {
         setError(null);
     };
 
+    const saveToFirestore = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+            setError("⚠️ User not logged in. Cannot save.");
+            return;
+        }
+
+        const data = {
+            fileName,
+            language,
+            explanation,
+            question,
+            answer,
+            timestamp: serverTimestamp()
+        };
+
+        try {
+            const docId = `${fileName}_${Date.now()}`;
+            await setDoc(doc(db, "lawyers", user.uid, "documents", docId), data);
+            console.log("✅ Data saved to Firestore!");
+        } catch (err) {
+            console.error("❌ Error saving to Firestore:", err);
+            setError("Error saving to database.");
+        }
+    };
+
     const handleUpload = async () => {
         if (!selectedFile) {
             setError("⚠️ Please select a file first!");
@@ -54,6 +85,7 @@ const DocAnalyzer = () => {
             const response = await axios.get(`http://127.0.0.1:8000/explain?language=${language}`);
             setExplanation(response.data.explanation);
             localStorage.setItem("explanation", response.data.explanation);
+            await saveToFirestore();
         } catch (error) {
             console.error("Error uploading file:", error);
             setError("❌ Failed to process document.");
@@ -73,12 +105,15 @@ const DocAnalyzer = () => {
 
         try {
             const response = await axios.post("http://127.0.0.1:8000/ask", { question });
-            setAnswer(response.data.answer || "No response received.");
-            localStorage.setItem("answer", response.data.answer || "No response received.");
+            const ans = response.data.answer || "No response received.";
+            setAnswer(ans);
+            localStorage.setItem("answer", ans);
+            await saveToFirestore();
         } catch (error) {
             console.error("Error fetching answer:", error);
             setAnswer("❌ Error fetching answer.");
         }
+
         setProcessingQuestion(false);
     };
 
@@ -86,11 +121,8 @@ const DocAnalyzer = () => {
         <div className="flex flex-col md:flex-row h-screen bg-gray-900 text-white">
             {/* Sidebar */}
             <div className="sm:w-full md:w-1/3 lg:w-1/4 bg-gray-800 p-6 fixed md:relative h-full flex flex-col justify-between">
-                {/* Top Part */}
                 <div>
                     <h2 className="text-2xl font-bold mb-6">Legal Doc AI</h2>
-
-                    {/* Language Selection */}
                     <label className="text-lg">Choose Language:</label>
                     <select
                         value={language}
@@ -102,7 +134,6 @@ const DocAnalyzer = () => {
                         <option value="Marathi">Marathi</option>
                     </select>
 
-                    {/* File Upload */}
                     <div className="mt-6">
                         <label className="text-lg">Upload PDF:</label>
                         <input
@@ -130,11 +161,9 @@ const DocAnalyzer = () => {
                         </button>
                     </div>
 
-                    {/* Error Display */}
                     {error && <p className="text-red-400 mt-4">{error}</p>}
                 </div>
 
-                {/* Bottom Chatbot Link */}
                 <div className="mt-8">
                     <Link
                         to="/chat"
@@ -149,7 +178,6 @@ const DocAnalyzer = () => {
             <div className="sm:w-full md:w-2/3 lg:w-3/4 ml-auto p-6 h-screen overflow-y-auto">
                 <h2 className="text-3xl font-bold mb-6">Document Interface</h2>
 
-                {/* Tab Switcher */}
                 <div className="flex space-x-4 mb-6">
                     <button
                         onClick={() => setShowQuestionSection(false)}
@@ -169,7 +197,6 @@ const DocAnalyzer = () => {
                     </button>
                 </div>
 
-                {/* Doc Analyzer View */}
                 {!showQuestionSection && explanation && (
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h3 className="text-xl font-semibold">Document Explanation</h3>
@@ -177,7 +204,6 @@ const DocAnalyzer = () => {
                     </div>
                 )}
 
-                {/* Question Section */}
                 {showQuestionSection && (
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <h3 className="text-xl font-semibold mb-3">Ask a Question</h3>
