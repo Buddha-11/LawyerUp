@@ -1,4 +1,4 @@
-'''import streamlit as st
+from flask import Flask, request, jsonify
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
@@ -9,119 +9,18 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
+from flask_cors import CORS
 
-load_dotenv()
-os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
-
-
-
-
-
-def get_pdf_text(pdf_docs):
-    text=""
-    for pdf in pdf_docs:
-        pdf_reader= PdfReader(pdf)
-        for page in pdf_reader.pages:
-            text+= page.extract_text()
-    return  text
-
-
-
-def get_text_chunks(text):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
-    chunks = text_splitter.split_text(text)
-    return chunks
-
-
-def get_vector_store(text_chunks):
-    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
-    vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
-    vector_store.save_local("faiss_index")
-
-
-def get_conversational_chain():
-
-    prompt_template = """
-    Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
-    provided context just say, "answer is not available in the context", don't provide the wrong answer\n\n
-    Context:\n {context}?\n
-    Question: \n{question}\n
-
-    Answer:
-    """
-
-    model = ChatGoogleGenerativeAI(model="gemini-1.5-flash",
-                             temperature=0.3)
-
-    prompt = PromptTemplate(template = prompt_template, input_variables = ["context", "question"])
-    chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
-
-    return chain
-
-
-
-def user_input(user_question):
-    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
-    
-    new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
-
-    docs = new_db.similarity_search(user_question)
-
-    chain = get_conversational_chain()
-
-    
-    response = chain(
-        {"input_documents":docs, "question": user_question}
-        , return_only_outputs=True)
-
-    print(response)
-    st.write("Reply: ", response["output_text"])
-
-
-
-
-def main():
-    st.set_page_config("Chat PDF")
-    st.header("Chat with PDF using Gemini💁")
-
-    user_question = st.text_input("Ask a Question from the PDF Files")
-
-    if user_question:
-        user_input(user_question)
-
-    with st.sidebar:
-        st.title("Menu:")
-        pdf_docs = st.file_uploader("Upload your PDF Files and Click on the Submit & Process Button", accept_multiple_files=True)
-        if st.button("Submit & Process"):
-            with st.spinner("Processing..."):
-                raw_text = get_pdf_text(pdf_docs)
-                text_chunks = get_text_chunks(raw_text)
-                get_vector_store(text_chunks)
-                st.success("Done")
-
-
-
-if __name__ == "__main__":
-    main()'''
-
-import streamlit as st
-from PyPDF2 import PdfReader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-import os
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-import google.generativeai as genai
-from langchain.vectorstores import FAISS
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.chains.question_answering import load_qa_chain
-from langchain.prompts import PromptTemplate
-from dotenv import load_dotenv
+# Initialize Flask app
+app = Flask(__name__)
+CORS(app)
 
 # Load environment variables
 load_dotenv()
-os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+VECTOR_STORE_PATH = "faiss_index"
+TEXT_FILE_PATH = "uploaded_text.txt"
 
 # Function to extract text from PDF
 def get_pdf_text(pdf_docs):
@@ -129,30 +28,37 @@ def get_pdf_text(pdf_docs):
     for pdf in pdf_docs:
         pdf_reader = PdfReader(pdf)
         for page in pdf_reader.pages:
-            text += page.extract_text()
-    return text
+            text += page.extract_text() or ""
+    return text.strip()
 
 # Function to split text into chunks
 def get_text_chunks(text):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
-    chunks = text_splitter.split_text(text)
-    return chunks
+    return text_splitter.split_text(text)
 
 # Function to create vector store
 def get_vector_store(text_chunks):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
-    vector_store.save_local("faiss_index")
+    vector_store.save_local(VECTOR_STORE_PATH)
 
-# Function to generate a simplified explanation of the document
+# Function to generate explanation of document
 def generate_explanation(text, language):
     prompt = f"""
-    You are a legal expert and document interpreter. Your task is to:
-    1. Analyze the provided legal document.
-    2. Explain it in simple {language} using everyday language.
-    3. Break down complex legal terms into plain language.
-    4. Highlight key obligations, rights, and deadlines.
-    5. Provide a summary checklist for the user.
+        "You are a legal expert and document interpreter. Your task is to:\n"
+    "1. Analyze the provided legal document.\n"
+    "2. Explain it in simple {language} using everyday language.\n"
+    "3. Break down complex legal terms into plain language.\n"
+    "4. Clearly mention key obligations, rights, and deadlines.\n"
+    "5. Provide a summary checklist for the user.\n"
+    "6. Each point must appear on its own line and be prefixed by a dash (-), like this:\n"
+    "- Point 1\n"
+    "- Point 2\n"
+    "- Point 3\n"
+    "7. Use \\n for every new line to enforce line breaks where needed.\n"
+    "8. Do NOT use markdown formatting like ** or * at all.\n"
+    "9. Ensure proper spacing and readability throughout.\n"
+
 
     Document Content:
     {text}
@@ -161,84 +67,101 @@ def generate_explanation(text, language):
     """
     model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content(prompt)
+    
     return response.text
 
 # Function to create conversational chain
 def get_conversational_chain():
     prompt_template = """
-    You are a multilingual legal assistant. Follow these rules:
-    1. Always respond in the same language as the question.
-    2. If the question is in Marathi, respond in Marathi.
-    3. If the question is in Hindi, respond in Hindi.
-    4. If the question is in English, respond in English.
-
-    5. If the answer is not in the context, still act as legal assistant"
-    6. Always provide accurate and legally sound responses.
+    "You are a multilingual legal assistant. Follow these rules carefully:\n\n"
+    "1. Always respond in the same language as the question.\n"
+    "2. If the question is in Marathi, respond in Marathi.\n"
+    "3. If the question is in Hindi, respond in Hindi.\n"
+    "4. If the question is in English, respond in English.\n"
+    "5. If the answer is not available in the context, still respond helpfully as a legal assistant.\n"
+    "6. Always provide accurate, legally sound, and easy-to-understand responses.\n\n"
+    "When providing your response:\n"
+    "- Use clean line breaks between paragraphs.\n"
+    "- Use bullet points (•) for listing steps or points.\n"
+    "- Do not use bold formatting like ** or __.\n"
+    "- Keep the language natural, respectful, and professional.\n"
+    "- Structure your response for readability with proper spacing.\n"
 
     Context:\n {context}?\n
     Question: \n{question}\n
 
     Answer:
     """
-
     model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3)
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
-    return chain
+    return load_qa_chain(model, chain_type="stuff", prompt=prompt)
 
-# Function to handle user questions
-def user_input(user_question, language):
+# Function to answer user questions based on processed documents
+def answer_question(user_question):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
+
+    # Check if FAISS index exists
+    if not os.path.exists(VECTOR_STORE_PATH):
+        return "No document found. Please upload a document first."
+
+    new_db = FAISS.load_local(VECTOR_STORE_PATH, embeddings, allow_dangerous_deserialization=True)
     docs = new_db.similarity_search(user_question)
     chain = get_conversational_chain()
+    
     response = chain(
-        {"input_documents": docs, "question": user_question, "language": language},
+        {"input_documents": docs, "question": user_question},
         return_only_outputs=True
     )
-    st.write("Reply: ", response["output_text"])
+    return response["output_text"]
 
-# Main function
-def main():
-    st.set_page_config("Legal Document Assistant")
-    st.header("Chat with Legal Documents using Gemini 💁")
+# API endpoint to upload and process PDFs
+@app.route("/upload", methods=["POST"])
+def upload_pdf():
+    if "pdfs" not in request.files:
+        return jsonify({"error": "No PDF file uploaded"}), 400
 
-    # Language selection
-    language = st.sidebar.selectbox(
-        "Choose Explanation Language",
-        ["English", "Hindi", "Marathi", "Urdu", "Sanskrit"],
-        index=0
-    )
+    pdf_files = request.files.getlist("pdfs")
+    text = get_pdf_text(pdf_files)
+    
+    if not text:
+        return jsonify({"error": "No text found in the uploaded PDFs"}), 400
 
-    # File uploader
-    pdf_docs = st.sidebar.file_uploader(
-        "Upload your PDF Files and Click on the Submit & Process Button",
-        accept_multiple_files=True
-    )
+    text_chunks = get_text_chunks(text)
+    get_vector_store(text_chunks)
 
-    if st.sidebar.button("Submit & Process"):
-        with st.spinner("Processing..."):
-            # Extract text from PDF
-            raw_text = get_pdf_text(pdf_docs)
-            if not raw_text:
-                st.error("No text found in the uploaded PDF.")
-                return
+    # Save extracted text for explanation use
+    with open(TEXT_FILE_PATH, "w", encoding="utf-8") as f:
+        f.write(text)
 
-            # Generate explanation
-            explanation = generate_explanation(raw_text, language)
-            st.subheader("Document Explanation")
-            st.write(explanation)
+    return jsonify({"message": "PDFs processed successfully!"})
 
-            # Split text into chunks and create vector store
-            text_chunks = get_text_chunks(raw_text)
-            get_vector_store(text_chunks)
-            st.success("Document processed successfully!")
+# API endpoint to generate document explanation
+@app.route("/explain", methods=["GET"])
+def explain():
+    language = request.args.get("language", "English")
 
-    # Chat interface
-    user_question = st.text_input("Ask a legal question about the document:")
-    if user_question:
-        user_input(user_question, language)
+    # Load stored text
+    if not os.path.exists(TEXT_FILE_PATH):
+        return jsonify({"error": "No document found. Please upload a document first."}), 404
 
-# Run the app
+    with open(TEXT_FILE_PATH, "r", encoding="utf-8") as f:
+        text = f.read()
+
+    explanation = generate_explanation(text, language)
+    return jsonify({"explanation": explanation})
+
+# API endpoint to ask legal questions
+@app.route("/ask", methods=["POST"])
+def ask_question():
+    data = request.get_json()
+    user_question = data.get("question")
+
+    if not user_question:
+        return jsonify({"error": "No question provided"}), 400
+
+    answer = answer_question(user_question)
+    return jsonify({"answer": answer})
+
+# Run the Flask app
 if __name__ == "__main__":
-    main()
+    app.run(host="0.0.0.0", port=8000, debug=True)
