@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-
+import LawyerCard from './lawyerCard';
 function SignIn({ onGoogleLogin, onEmailSignIn, error }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

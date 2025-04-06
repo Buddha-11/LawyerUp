@@ -5,7 +5,7 @@ import './App.css';
 import HomePage from './pages/Home.jsx';
 import DocAnalyzer from './components/DocAnalyzer.jsx';
 import Chatbot from './components/Chatbot.jsx';
-
+import LawyerProfileSetup from './components/LawyerProfileSetup.jsx';
 function App() {
   return (
     <Routes>
@@ -13,6 +13,9 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/doc" element={<DocAnalyzer />} />
       <Route path="/chat" element={<Chatbot />} />
+      <Route path="/search-lawyers" element={<SearchLawyers />} />
+
+      <Route path="/lawyer-profile-update" element={<LawyerProfileSetup />} />
     </Routes>)
-}
+} 
 export default App;

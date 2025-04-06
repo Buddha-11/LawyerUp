@@ -1,11 +1,13 @@
 import { createContext, useContext } from "react";
 import { initializeApp } from "firebase/app";
+import { useState, useEffect } from "react";
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
     GoogleAuthProvider, 
-    signInWithPopup 
+    signInWithPopup ,
+    onAuthStateChanged
 } from "firebase/auth";
 import { 
     getStorage, 
@@ -13,6 +15,7 @@ import {
     uploadBytes, 
     getDownloadURL 
 } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -29,11 +32,21 @@ const firebaseAuth = getAuth(firebaseApp);
 export default firebaseAuth;
 const googleProvider = new GoogleAuthProvider();
 const storage = getStorage(firebaseApp);
-
+const db = getFirestore(firebaseApp);
+export { db };
 const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
 
 export const FirebaseProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null);
+
+        useEffect(() => {
+            const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+                setCurrentUser(user);
+            });
+
+            return () => unsubscribe();
+        }, []);
     
     const saveToken = (user) => {
         user.getIdToken().then((token) => {
@@ -92,7 +105,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage }}>
+        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage , currentUser }}>
             {children}
         </FirebaseContext.Provider>
     );
