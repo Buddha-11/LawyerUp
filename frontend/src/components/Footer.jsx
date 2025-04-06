@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { FaTwitter, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { FaTwitter, FaLinkedin, FaFacebook , FaInstagram } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 const Footer = () => {
   const ref = useRef(null);
@@ -20,7 +20,7 @@ const Footer = () => {
   }
   const handleSearch = () => {
     navigate("/search-lawyers"); 
-  } 
+  }
   return (
     <footer ref={ref} className="bg-[#F5F8FA] text-[#003366] py-12 px-8">
       <motion.div
@@ -34,9 +34,17 @@ const Footer = () => {
           className="absolute top-0 right-0 flex items-center space-x-4 text-[#003366] text-xl mt-2"
         >
           {/* <span className="text-lg font-semibold">Follow us on</span> */}
-          <FaTwitter className="cursor-pointer hover:text-[#1DA1F2]" />
-          <FaLinkedin className="cursor-pointer hover:text-[#0077B5]" />
-          <FaFacebook className="cursor-pointer hover:text-[#1877F2]" />
+          <div className="flex gap-4">
+            <a href="https://x.com/LawyerUp_X" target="_blank" rel="noopener noreferrer">
+              <FaTwitter className="cursor-pointer hover:text-[#1DA1F2]" />
+            </a>
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin className="cursor-pointer hover:text-[#0077B5]" />
+            </a>
+            <a href="https://www.instagram.com/lawyerup_01/" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className="cursor-pointer hover:text-[#E1306C]" />
+            </a>
+          </div>
         </motion.div>
 
         {/* Logo Section */}
@@ -62,7 +70,14 @@ const Footer = () => {
           <ul className="space-y-1 text-gray-600">
             <li>About Us</li>
             <li>Career</li>
-            <li>Contact</li>
+            <li>
+              <a
+                href="mailto:contactus.lawyerup@gmail.com"
+                className="hover:underline "
+              >
+                Contact Us
+              </a>
+            </li>
           </ul>
         </motion.div>
 
