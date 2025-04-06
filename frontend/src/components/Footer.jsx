@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FaTwitter, FaLinkedin, FaFacebook } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 const Footer = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.2 });
@@ -10,7 +10,17 @@ const Footer = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
   };
+  const navigate = useNavigate(); 
 
+  const handledoc = () => {
+    navigate("/doc"); 
+  };
+  const handleChat = () => {
+    navigate("/chat"); 
+  }
+  const handleSearch = () => {
+    navigate("/search-lawyers"); 
+  } 
   return (
     <footer ref={ref} className="bg-[#F5F8FA] text-[#003366] py-12 px-8">
       <motion.div
@@ -39,9 +49,9 @@ const Footer = () => {
         <motion.div variants={fadeInVariants}>
           <h3 className="text-lg font-semibold mb-2">Solutions</h3>
           <ul className="space-y-1 text-gray-600">
-            <li>Legal Document Analysis</li>
-            <li>Chatbot for Legal Queries</li>
-            <li>Compliance Management</li>
+            <li onClick={handledoc}>Legal Document Analysis</li>
+            <li onClick={handleChat}>Chatbot for Legal Queries</li>
+            <li onClick={handleSearch}>Lawyer Match Making</li>
             <li>Legal Templates</li>
           </ul>
         </motion.div>

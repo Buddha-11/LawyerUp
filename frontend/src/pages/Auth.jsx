@@ -55,14 +55,18 @@ function Auth() {
       setSignin("done");
       const result = await signinEmail(email, password);
       setUser(result.user);
-      setSignin("pending"); // Delay redirection
+      setSignin("done"); // Delay redirection
     } catch (error) {
       console.error("Signin error:", error);
       setError(error.message);
     }
   };
-
+  const renderSignup = () => {
+    setAuthStep("signup");
+  }
   useEffect(() => {
+    console.log(authStep);
+    
     if(signin ==="done")
         navigate("/");
     
@@ -72,7 +76,7 @@ function Auth() {
       }
       navigate("/");
     }
-  }, [signin, user, navigate, userType]);
+  }, [signin, user, navigate, userType,authStep]);
 
   if (user && signin === "pending") {
     return userType === "lawyer" ? (
@@ -84,14 +88,17 @@ function Auth() {
   
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-slate-50">
       <div className="absolute inset-0 z-0">
-        <Particles particleColors={["#000000", "#000000"]} particleCount={200} />
+        <Particles 
+          particleColors={["#14b8a6", "#0d9488", "#0f766e", "#115e59", "#134e4a"]} 
+          particleCount={250} 
+        />
       </div>
       <div className="relative z-10 w-full">
         {authStep === "userType" && <UserType onUserTypeSelected={(type) => { setUserType(type); setAuthStep("signup"); }} onSignInClick={() => setAuthStep("signin")} />}
-        {authStep === "signin" && <SignIn onGoogleLogin={handleGoogleSigin} onEmailSignIn={handleSignin} error={error} />}
-        {authStep === "signup" && <SignUp userType={userType} onGoogleLogin={handleGoogleLogin} onEmailSignUp={handleSignup} error={error} />}
+        {authStep === "signin" && <SignIn onGoogleLogin={handleGoogleSigin} onEmailSignIn={handleSignin} error={error} onSignUpClick={() => setAuthStep("userType")}/>}
+        {authStep === "signup" && <SignUp userType={userType} onGoogleLogin={handleGoogleLogin} onEmailSignUp={handleSignup} error={error} onSignInClick={() => setAuthStep("signin")}/>}
       </div>
     </div>
   );

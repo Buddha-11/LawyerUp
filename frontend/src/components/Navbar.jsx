@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Menu, X } from "lucide-react";
 import { useFirebase } from "../context/firebase";
 import ProfileMenu from "./ProfileMenu";
@@ -14,7 +15,10 @@ const Navbar = () => {
       console.error("Error during logout:", error);
     }
   };
-
+  const navigate = useNavigate();
+  const authhandler = () => {
+    navigate("/auth");
+  }
   return (
     <>
       {/* Navbar */}
@@ -42,6 +46,10 @@ const Navbar = () => {
               AI Doc Analyser
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-600 group-hover:w-full transition-all duration-300"></span>
             </a>
+            <a href="dict" className="text-gray-700 hover:text-gray-900 relative group">
+              Legal Dictionary
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-600 group-hover:w-full transition-all duration-300"></span>
+            </a>
           </div>
           {/* Right Side */}
           <div className="hidden lg:flex space-x-4 items-center">
@@ -62,10 +70,10 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <button className="px-5 py-2 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100">
+                <button className="px-5 py-2 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100" onClick={authhandler}>
                   Login
                 </button>
-                <button className="px-5 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                <button className="px-5 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700" onClick={authhandler}>
                   Sign Up
                 </button>
               </>

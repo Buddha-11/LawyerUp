@@ -47,15 +47,12 @@ function LawyerProfileSetup({ user, onComplete }) {
   useEffect(() => {
     // Automatically fetch the user's current location
     getUserLocation();
-
-    // Initialize Google Places Autocomplete when script is loaded
     if (window.google) {
       initializeAutocomplete();
     }
   }, []);
 
   useEffect(() => {
-    // Re-initialize autocomplete if search input ref exists and Google is loaded
     if (searchInputRef.current && window.google) {
       initializeAutocomplete();
     }
@@ -67,7 +64,6 @@ function LawyerProfileSetup({ user, onComplete }) {
         searchInputRef.current,
         { types: ["geocode"] }
       );
-      
       autocompleteRef.current.addListener("place_changed", () => {
         const place = autocompleteRef.current.getPlace();
         if (place.geometry) {
@@ -96,7 +92,6 @@ function LawyerProfileSetup({ user, onComplete }) {
         },
         (error) => {
           console.error("Error getting location:", error);
-          // Fallback to default location if geolocation fails
           updateLocation(defaultCenter.lat, defaultCenter.lng);
         }
       );
@@ -107,7 +102,7 @@ function LawyerProfileSetup({ user, onComplete }) {
   };
 
   const updateLocation = (latitude, longitude) => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       latitude,
       longitude,
@@ -122,7 +117,7 @@ function LawyerProfileSetup({ user, onComplete }) {
       );
       const data = await response.json();
       if (data.results && data.results.length > 0) {
-        setFormData(prevData => ({
+        setFormData((prevData) => ({
           ...prevData,
           location: data.results[0].formatted_address,
         }));
@@ -143,10 +138,24 @@ function LawyerProfileSetup({ user, onComplete }) {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    // For file inputs, capture the file
+    if (e.target.type === "file") {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.files[0],
+      });
+    } else if (e.target.name === "type") {
+      // For multi-select, use the selected value
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleSubmit = async () => {
@@ -178,7 +187,6 @@ function LawyerProfileSetup({ user, onComplete }) {
           yearsOfExperience: formData.yearsOfExperience,
           qualification: formData.qualification,
           type: formData.type,
-          // rating: formData.rating,
           photoURL,
           degreeImageURL,
         },
@@ -188,15 +196,15 @@ function LawyerProfileSetup({ user, onComplete }) {
       onComplete();
     } catch (error) {
       console.error("Error updating lawyer profile:", error);
+      alert("Error updating profile. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
-    <div className="flex flex-col items-center min-h-screen pt-10">
-      <div className="bg-white p-8 w-full sm:w-2/3 lg:w-1/2 shadow-2xl rounded-3xl border border-gray-200">
+    <div className="flex flex-col items-center min-h-screen pt-10 bg-gray-50 p-4">
+      <div className="bg-white p-8 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5 shadow-md rounded-xl border border-gray-200">
         <h2 className="text-3xl font-semibold text-center mb-2">Complete Lawyer Profile</h2>
         <p className="text-center text-gray-500 mb-6">Fill in the details to proceed</p>
 
@@ -206,7 +214,7 @@ function LawyerProfileSetup({ user, onComplete }) {
           placeholder="Full Name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+          className="w-full p-2 mb-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
         />
 
         <div className="flex gap-4 mb-3">
@@ -216,14 +224,14 @@ function LawyerProfileSetup({ user, onComplete }) {
             placeholder="Age"
             value={formData.age}
             onChange={handleChange}
-            className="w-1/2 p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-1/2 p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           />
 
           <select
             name="gender"
             value={formData.gender}
             onChange={handleChange}
-            className="w-1/2 p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-1/2 p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
@@ -239,7 +247,7 @@ function LawyerProfileSetup({ user, onComplete }) {
             placeholder="Contact Number"
             value={formData.contact}
             onChange={handleChange}
-            className="w-1/2 p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-1/2 p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           />
 
           <input
@@ -248,19 +256,19 @@ function LawyerProfileSetup({ user, onComplete }) {
             placeholder="Consultation Fees"
             value={formData.consultationFees}
             onChange={handleChange}
-            className="w-1/2 p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-1/2 p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           />
         </div>
 
         <div className="mb-3">
-          <label className="block text-black text-sm mb-1">Search Location:</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Search Location:</label>
           <input
             type="text"
             ref={searchInputRef}
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search for your location"
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-full p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           />
         </div>
 
@@ -287,6 +295,7 @@ function LawyerProfileSetup({ user, onComplete }) {
             Use Current Location
           </button>
         </div>
+
         <div className="flex gap-4 mb-3">
           <input
             type="number"
@@ -294,7 +303,7 @@ function LawyerProfileSetup({ user, onComplete }) {
             placeholder="Years of Experience"
             value={formData.yearsOfExperience}
             onChange={handleChange}
-            className="w-1/2 p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-1/2 p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           />
 
           <input
@@ -303,68 +312,29 @@ function LawyerProfileSetup({ user, onComplete }) {
             placeholder="Qualification"
             value={formData.qualification}
             onChange={handleChange}
-            className="w-1/2 p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+            className="w-1/2 p-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
           />
         </div>
-        
 
-        {/* <label className="block text-sm font-medium text-gray-700 mb-2">Practice Type(s):</label>
-        <div className="relative">
-          <select
-            name="practiceTypes"
-            multiple
-            value={formData.practiceTypes}
-            onChange={(e) => {
-              const selected = Array.from(e.target.selectedOptions, (opt) => opt.value);
-              setFormData({ ...formData, practiceTypes: selected });
-            }}
-            className="w-full p-2 mb-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm bg-white appearance-none"
-            size="2"
-          >
-            <option value="Civil">Civil</option>
-            <option value="Criminal">Criminal</option>
-            <option value="Corporate">Corporate</option>
-            <option value="Family">Family</option>
-            <option value="Property">Property</option>
-            <option value="Labor">Labor</option>
-          </select>
-          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-            <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </div>
-        </div> */}
         <MultiSelect
-          name="type" // Change from "practiceTypes" to "type" to match your database field
+          name="type"
           label="Practice Type(s):"
           options={practiceOptions}
-          value={formData.type} // Change from formData.practiceTypes to formData.type
+          value={formData.type}
           onChange={handleChange}
         />
-        {/* <div className="mb-3">
-          <label className="block text-black text-sm mb-1">Rating (Based on user reviews):</label>
-          <input
-            type="number"
-            name="rating"
-            value={formData.rating}
-            readOnly
-            min={0}
-            max={5}
-            className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100 shadow-sm"
-          />
-        </div> */}
 
         {[
           { label: "Upload Profile Image", name: "profileImage" },
           { label: "Upload Degree Certificate", name: "degreeImage" },
         ].map(({ label, name }) => (
           <div key={name} className="mb-3">
-            <label className="block text-black text-sm mb-1">{label}:</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{label}:</label>
             <input
               type="file"
               name={name}
               onChange={handleChange}
-              className="w-full p-1 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 shadow-sm"
+              className="w-full p-1 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 shadow-sm"
             />
           </div>
         ))}
@@ -372,7 +342,7 @@ function LawyerProfileSetup({ user, onComplete }) {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition-all font-semibold shadow-lg"
+          className="w-full mt-6 bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700 transition-all font-medium shadow"
         >
           {loading ? "Saving..." : "Save Profile"}
         </button>

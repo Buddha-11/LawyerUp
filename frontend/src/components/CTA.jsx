@@ -1,7 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 function CTASection() {
+  const navigate = useNavigate(); 
+
+  const handleGetStarted = () => {
+    navigate("/auth"); 
+  };
   return (
     <motion.div
       initial="hidden"
@@ -53,6 +58,7 @@ function CTASection() {
             visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.6 } },
           }}
           className="bg-[#008080] text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#006666] transition"
+          onClick={handleGetStarted}
         >
           Get Started Now
         </motion.button>

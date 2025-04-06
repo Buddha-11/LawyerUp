@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useFirebase } from "../context/firebase";
-import { serverTimestamp, doc, setDoc,getFirestore } from "firebase/firestore";
+import { serverTimestamp, doc, setDoc, getFirestore } from "firebase/firestore";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_MAP_API_KEY;
 
@@ -15,8 +15,8 @@ const defaultCenter = {
 };
 
 function ProfileSetup({ user, onComplete }) {
-  const { uploadProfileImage, } = useFirebase();
-  const db=getFirestore();
+  const { uploadProfileImage } = useFirebase();
+  const db = getFirestore();
   
   const [formData, setFormData] = useState({
     name: user.displayName || "",
@@ -38,7 +38,6 @@ function ProfileSetup({ user, onComplete }) {
 
   useEffect(() => {
     getUserLocation();
-
     if (window.google) {
       initializeAutocomplete();
     }
@@ -188,112 +187,180 @@ function ProfileSetup({ user, onComplete }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen pt-20">
-      <div className="bg-white py-14 px-12 w-full sm:w-2/3 lg:w-1/2 shadow-2xl rounded-3xl border border-gray-200 hover:shadow-3xl transition-shadow duration-300">
-        <h2 className="text-4xl font-semibold mb-2 text-center text-black tracking-wide whitespace-nowrap">Complete Your Profile</h2>
-        <p className="text-center text-gray-500 mb-8">Fill in the details to proceed</p>
-
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-4 mb-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
-        />
-
-        <div className="flex gap-4 mb-4">
-          <input
-            type="number"
-            name="age"
-            placeholder="Age"
-            value={formData.age}
-            onChange={handleChange}
-            className="w-1/2 p-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
-          />
-
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="w-1/2 p-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+      <div className="bg-white py-6 px-6 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5 shadow-md rounded-xl border border-gray-200">
+        {/* Header */}
         <div className="mb-4">
-          <label className="block text-black text-sm mb-1">Search Location:</label>
-          <input
-            type="text"
-            ref={searchInputRef}
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search for your location"
-            className="w-full p-4 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
-          />
+          <h2 className="text-2xl font-bold text-gray-800">Complete Your Profile</h2>
+          <p className="text-sm text-gray-500">We need a few details to get started</p>
         </div>
-
-        <LoadScript
-          googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-          libraries={["places"]}
-          onLoad={() => {
-            if (searchInputRef.current && !autocompleteRef.current && window.google) {
-              autocompleteRef.current = new window.google.maps.places.Autocomplete(
-                searchInputRef.current,
-                { types: ["geocode"] }
-              );
-              autocompleteRef.current.addListener("place_changed", () => {
-                const place = autocompleteRef.current.getPlace();
-                if (place.geometry) {
-                  handlePlaceSelect(place);
+        
+        {/* Form */}
+        <div className="space-y-4">
+          {/* Full Name Field */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="John Doe"
+              className="w-full p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+            />
+          </div>
+  
+          {/* Age and Gender Fields */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Age</label>
+              <input
+                type="number"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="25"
+                className="w-full p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Gender</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="w-full p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+              >
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+  
+          {/* Location Section */}
+          <div>
+            <div className="flex justify-between items-center">
+              <label className="block text-xs font-medium text-gray-700">Location</label>
+              <button
+                onClick={getUserLocation}
+                className="text-xs text-teal-600 hover:text-teal-800 flex items-center"
+              >
+                <svg className="w-3 h-3 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+                Use Current
+              </button>
+            </div>
+            <div className="relative mt-1 mb-1">
+              <input
+                type="text"
+                ref={searchInputRef}
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Search for your location"
+                className="w-full p-2 text-sm bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none pl-10"
+              />
+              <svg className="w-4 h-4 text-gray-400 absolute left-2 top-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <p className="text-xs text-gray-500 mt-1 flex items-center">
+              <svg className="w-3 h-3 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              </svg>
+              {formData.location || "Fetching your location..."}
+            </p>
+          </div>
+  
+          {/* Google Map */}
+          <div className="rounded-md overflow-hidden h-36 border border-gray-200">
+            <LoadScript
+              googleMapsApiKey={GOOGLE_MAPS_API_KEY}
+              libraries={["places"]}
+              onLoad={() => {
+                if (searchInputRef.current && !autocompleteRef.current && window.google) {
+                  autocompleteRef.current = new window.google.maps.places.Autocomplete(
+                    searchInputRef.current,
+                    { types: ["geocode"] }
+                  );
+                  autocompleteRef.current.addListener("place_changed", () => {
+                    const place = autocompleteRef.current.getPlace();
+                    if (place.geometry) {
+                      handlePlaceSelect(place);
+                    }
+                  });
                 }
-              });
-            }
-          }}
-        >
-          <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            center={{ lat: formData.latitude, lng: formData.longitude }}
-            zoom={10}
-            onClick={handleMapClick}
-          >
-            <Marker position={{ lat: formData.latitude, lng: formData.longitude }} />
-          </GoogleMap>
-        </LoadScript>
-
-
-        <div className="flex justify-between items-center mt-2 mb-4">
-          <p className="text-sm text-gray-600">
-            Selected Location: {formData.location || "Fetching your location..."}
-          </p>
-          <button
-            onClick={getUserLocation}
-            className="text-sm text-teal-600 hover:text-teal-800 font-medium"
-          >
-            Use Current Location
-          </button>
+              }}
+            >
+              <GoogleMap
+                mapContainerStyle={{ width: "100%", height: "100%" }}
+                center={{ lat: formData.latitude, lng: formData.longitude }}
+                zoom={10}
+                onClick={handleMapClick}
+              >
+                <Marker position={{ lat: formData.latitude, lng: formData.longitude }} />
+              </GoogleMap>
+            </LoadScript>
+          </div>
+  
+          {/* Profile Image Upload */}
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Profile Image</label>
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden flex-shrink-0">
+                {formData.profileImage ? (
+                  <img 
+                    src={URL.createObjectURL(formData.profileImage)} 
+                    alt="Profile preview" 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <svg className="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                )}
+              </div>
+              <div className="flex-1">
+                <input
+                  type="file"
+                  name="profileImage"
+                  id="profileImage"
+                  onChange={handleChange}
+                  className="hidden"
+                />
+                <label 
+                  htmlFor="profileImage"
+                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-xs font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 cursor-pointer"
+                >
+                  <svg className="w-3 h-3 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Choose Image
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="mb-4">
-          <label className="block text-black text-sm mb-2">Upload Profile Image:</label>
-          <input
-            type="file"
-            name="profileImage"
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-4 focus:ring-teal-600 focus:outline-none shadow-sm"
-          />
-        </div>
-
+  
+        {/* Submit Button */}
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition-all font-semibold shadow-lg hover:shadow-xl"
+          className="w-full mt-6 bg-teal-600 text-white py-2 px-4 rounded-md hover:bg-teal-700 transition-all text-sm font-medium flex items-center justify-center"
         >
-          {loading ? "Saving..." : "Save Profile"}
+          {loading ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Saving...
+            </>
+          ) : (
+            "Save Profile"
+          )}
         </button>
       </div>
     </div>

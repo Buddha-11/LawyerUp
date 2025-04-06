@@ -161,9 +161,9 @@ const Particles = ({
 
   alphaParticles = false,
 
-  particleBaseSize = 100,
+  particleBaseSize = 200,
 
-  sizeRandomness = 1,
+  sizeRandomness = 1.5,
 
   cameraDistance = 20,
 
