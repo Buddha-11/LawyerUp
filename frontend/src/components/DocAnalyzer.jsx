@@ -60,7 +60,7 @@ const DocAnalyzer = () => {
 
         try {
             const docId = `${fileName}_${Date.now()}`;
-            await setDoc(doc(db, "lawyers", user.uid, "documents", docId), data);
+            await setDoc(doc(db, "users", user.uid, "documents", docId), data);
             console.log("✅ Data saved to Firestore!");
         } catch (err) {
             console.error("❌ Error saving to Firestore:", err);
