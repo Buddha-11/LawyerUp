@@ -74,7 +74,6 @@ npm run dev
 
 ## 📦 Requirements
 
-- Node.js v18+
 - Firebase Project (Firestore, Storage, Auth enabled)
 - API Key for Gemini (Gemini Pro / Gemini 1.5)
 - Pinecone vector database API Key
