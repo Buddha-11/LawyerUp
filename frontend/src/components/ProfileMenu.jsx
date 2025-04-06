@@ -88,9 +88,19 @@ const ProfileMenu = () => {
               </div>
             </div>
           </div>
+
+          {/* 👤 Profile Button */}
+          <button
+            onClick={() => navigate("/user")}
+            className="w-full text-left px-4 py-2 flex items-center gap-2 text-teal-800 hover:bg-green-100 transition-all border-t border-green-200"
+          >
+            <FaUserCircle /> Profile
+          </button>
+
+          {/* 🔌 Logout Button */}
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 flex items-center gap-2 text-teal-800 hover:bg-green-100 transition-all  border border-green-500 "
+            className="w-full text-left px-4 py-2 flex items-center gap-2 text-teal-800 hover:bg-green-100 transition-all border-t border-green-200"
           >
             <FiLogOut /> Logout
           </button>

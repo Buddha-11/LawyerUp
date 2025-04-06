@@ -8,6 +8,7 @@ import Chatbot from "./components/Chatbot.jsx";
 import LawyerProfileSetup from "./components/LawyerProfileSetup.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx"; // Adjust path as needed
 import Dictionary from "./components/Dictionary.jsx";
+import UserProfile from "./components/UserProfile.jsx";
 function App() {
   return (
     <Routes>
@@ -29,6 +30,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Chatbot />
+          </ProtectedRoute>
+        }
+      />
+       <Route
+        path="/user"
+        element={
+          <ProtectedRoute>
+            <UserProfile />
           </ProtectedRoute>
         }
       />
