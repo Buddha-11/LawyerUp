@@ -41,14 +41,16 @@ export const useFirebase = () => useContext(FirebaseContext);
 
 export const FirebaseProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true); // 🔥 Add this
 
-        useEffect(() => {
-            const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-                setCurrentUser(user);
-            });
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+            setCurrentUser(user);
+            setLoading(false); // ✅ Done loading
+        });
 
-            return () => unsubscribe();
-        }, []);
+        return () => unsubscribe();
+    }, []);
     
     const saveToken = (user) => {
         user.getIdToken().then((token) => {
@@ -117,7 +119,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage , currentUser , signOutUser}}>
+        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage , currentUser , signOutUser,loading}}>
             {children}
         </FirebaseContext.Provider>
     );

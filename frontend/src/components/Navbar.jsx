@@ -55,15 +55,13 @@ const Navbar = () => {
           <div className="hidden lg:flex space-x-4 items-center">
             {currentUser ? (
               <>
-                {/* <span className="text-gray-700 font-medium">
-                  Hey, {currentUser.displayName || currentUser.email}
-                </span>
+                {
                 <button
                   onClick={handleLogout}
-                  className="px-5 py-2 border border-gray-500 rounded-lg text-gray-700 hover:bg-gray-100"
+                  className="px-5 py-2 border  rounded-lg text-white bg-teal-600 hover:bg-teal-700"
                 >
                   Logout
-                </button> */}
+                </button> }
                   <div className="flex items-center gap-4">
           <ProfileMenu />
           </div>

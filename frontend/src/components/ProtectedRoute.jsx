@@ -3,14 +3,22 @@ import { Navigate } from "react-router-dom";
 import { useFirebase } from "../context/firebase";
 
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useFirebase();
+  const { currentUser, loading } = useFirebase();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!currentUser) {
-    // Not logged in, redirect to /auth
     return <Navigate to="/auth" replace />;
   }
-  // Logged in, render children
+
   return children;
 };
+
 
 export default ProtectedRoute;
