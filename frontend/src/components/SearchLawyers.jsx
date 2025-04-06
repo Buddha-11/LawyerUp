@@ -612,16 +612,16 @@ function SearchLawyers() {
                   </h2>
                   
                   {filteredLawyers.length === 0 ? (
-  <div className="p-8 text-center">
-    {/* ... SVG and messages ... */}
-  </div>
-) : (
-  <div className="divide-y divide-gray-100">
-    {filteredLawyers.map((lawyer) => (
-      <LawyerCard key={lawyer.id} lawyer={lawyer} />
-    ))}
-  </div>
-)}
+                    <div className="p-8 text-center">
+                      {/* ... SVG and messages ... */}
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-gray-100">
+                      {filteredLawyers.map((lawyer) => (
+                        <LawyerCard key={lawyer.id} lawyer={lawyer} />
+                      ))}
+                    </div>
+                  )}
                   
                   {filteredLawyers.length > 5 && (
                     <div className="p-4 border-t border-gray-200 bg-gray-50 flex justify-center">
