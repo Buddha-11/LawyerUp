@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
 }
@@ -44,7 +43,3 @@
   color: #888;
 }
 
-
-body {
-  @apply bg-slate-100; /* Closest built-in Tailwind color */
-}

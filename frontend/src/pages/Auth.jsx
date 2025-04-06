@@ -23,6 +23,16 @@ function Auth() {
       setUser(result.user);
       setSignin("pending"); // Delay redirection
     } catch (error) {
+      console.error("Google sign-up error:", error);
+      setError(error.message);
+    }
+  };
+  const handleGoogleSigin = async () => {
+    try {
+      const result = await signInWithGoogle();
+      setUser(result.user);
+      setSignin("done"); // Delay redirection
+    } catch (error) {
       console.error("Google sign-in error:", error);
       setError(error.message);
     }
@@ -39,8 +49,23 @@ function Auth() {
     }
   };
   
+  const handleSignin = async (email, password) => {
+    try {
+      console.log(signin);
+      
+      const result = await signinEmail(email, password);
+      setUser(result.user);
+      setSignin("pending"); // Delay redirection
+    } catch (error) {
+      console.error("Signin error:", error);
+      setError(error.message);
+    }
+  };
 
   useEffect(() => {
+    if(signin ==="done")
+        navigate("/");
+    
     if (user && signin === "yes") {
       if (userType === "lawyer" && !user.profileCompleted) {
         return;
@@ -65,7 +90,7 @@ function Auth() {
       </div>
       <div className="relative z-10 w-full">
         {authStep === "userType" && <UserType onUserTypeSelected={(type) => { setUserType(type); setAuthStep("signup"); }} onSignInClick={() => setAuthStep("signin")} />}
-        {authStep === "signin" && <SignIn onGoogleLogin={handleGoogleLogin} onEmailSignIn={handleSignin} error={error} />}
+        {authStep === "signin" && <SignIn onGoogleLogin={handleGoogleSigin} onEmailSignIn={handleSignin} error={error} />}
         {authStep === "signup" && <SignUp userType={userType} onGoogleLogin={handleGoogleLogin} onEmailSignUp={handleSignup} error={error} />}
       </div>
     </div>
