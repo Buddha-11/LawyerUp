@@ -4,7 +4,7 @@
 **LawyerUp** is a one-stop legal solution designed to simplify the legal process for individuals, professionals, and communities. Our web-based platform integrates AI to provide personalized legal support, document understanding, lawyer discovery, and more.
 
 ## 🚀 Live Preview  
-> [🔗 Click here to view MVP (Insert your deployed link here)](https://tutorial-5151c.web.app/)
+> [🔗 Click here to view MVP ](https://tutorial-5151c.web.app/)
 
 ---
 
