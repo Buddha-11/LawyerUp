@@ -329,7 +329,10 @@ function SearchLawyers() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 p-4 md:p-6">Find Lawyers Near You</h1>
+        <div className="px-4 md:px-6 pt-5 pb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Find Lawyers Near You</h1>
+          <p className="text-sm text-gray-500 mt-1">Discover verified lawyers in your area</p>
+        </div>
         
         <div className="p-4 md:p-6">
           <div className="bg-white rounded-lg shadow-md p-4 mb-6">

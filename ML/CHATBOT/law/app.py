@@ -57,7 +57,7 @@ docsearch = PineconeVectorStore.from_existing_index(
 retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
 # Initialize LLM model
-llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama3-8b-8192")
+llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama-3.1-8b-instant")
 
 # Custom prompt template with memory support
 system_prompt = system_prompt = (
@@ -149,4 +149,5 @@ def chat_history():
     return jsonify({"history": chat_history})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    port = int(os.environ.get("PORT", 5002))
+    app.run(host="0.0.0.0", port=port, debug=True)

@@ -1,11 +1,28 @@
-sentence-transformers == 2.2.2
-langchain
+# Core app packages
 flask
-pypdf
+Flask-Cors
 python-dotenv
-pinecone[grpc]
+
+# Langchain and supported integrations
+langchain==0.1.20
+langchain-community==0.0.38
+langchain-core
+langchain-groq
 langchain-pinecone
-langchain-community
 langchain_experimental
--e .
 langchain_groq
+
+# Pinecone
+pinecone-client[grpc]
+
+# Embeddings using sentence-transformers (via Langchain)
+sentence-transformers==2.2.2
+transformers
+torch
+huggingface_hub==0.22.2  # Compatible with sentence-transformers 2.2.2
+
+# PDF support
+pypdf
+
+# Local package
+-e .

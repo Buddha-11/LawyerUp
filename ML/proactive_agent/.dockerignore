@@ -1,0 +1,53 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Virtual environment - never include this (HUGE and breaks container builds)
+venv/
+env/
+.venv/
+
+# Test files
+test_*.py
+*_test.py
+TESTING_GUIDE.md
+SampleContract.pdf
+
+# Development files
+.env
+*.env.local
+*.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Any existing local model cache (we use the Docker stage 1 downloads)
+models/
+.cache/
+
+# Service account key - NEVER include in image!
+# Inject via Cloud Run Secret Manager instead
+serviceAccountKey.json
+
+# Docs
+*.md
+FILE_STRUCTURE.md

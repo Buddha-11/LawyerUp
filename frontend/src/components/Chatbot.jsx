@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import { firebaseAuth, db } from "../context/firebase"; // adjust this path as needed
+import { firebaseAuth, db } from "../context/firebase";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import ProfileMenu from "./ProfileMenu";
+
+import Navbar from "./Navbar";
+import { Plus, Trash2, Send, MessageSquare, Menu, X } from "lucide-react";
 
 const Chatbot = () => {
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const chatEndRef = useRef(null);
   const [userUID, setUserUID] = useState(null);
 
@@ -26,24 +29,12 @@ const Chatbot = () => {
         }
       }
     });
-
     return () => unsubscribe();
   }, []);
-
-  // useEffect(() => {
-  //   if (userUID) {
-  //     const userRef = doc(db, "chatbots", userUID);
-  //     updateDoc(userRef, { chats }).catch(() =>
-  //       setDoc(userRef, { chats })
-  //     );
-  //   }
-  // }, [chats, userUID]);
-
 
   useEffect(() => {
     if (userUID) {
       const userRef = doc(db, "chatbots", userUID);
-  
       getDoc(userRef).then((docSnap) => {
         if (docSnap.exists()) {
           updateDoc(userRef, { chats });
@@ -64,17 +55,18 @@ const Chatbot = () => {
     const newChat = { id: uuidv4(), title: "New Chat", messages: [] };
     setChats((prev) => [newChat, ...prev]);
     setActiveChatId(newChat.id);
+    setSidebarOpen(false);
   };
 
   const deleteChat = (id) => {
     setChats((prevChats) => prevChats.filter((chat) => chat.id !== id));
     if (activeChatId === id) {
-      setActiveChatId(chats.length > 1 ? chats[1].id : null);
+      setActiveChatId(chats.length > 1 ? chats.find(c => c.id !== id)?.id : null);
     }
   };
 
   const generateChatTitle = (message) => {
-    return message.length > 15 ? message.substring(0, 15) + "..." : message;
+    return message.length > 28 ? message.substring(0, 28) + "…" : message;
   };
 
   const sendMessage = async () => {
@@ -105,12 +97,11 @@ const Chatbot = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8080/chat/get",
+        "https://lawyerup-chatbot-1030063559705.asia-south1.run.app/chat/get",
         { msg: inputForAPI },
         { headers: { "Content-Type": "application/json" } }
       );
       const botMsg = { sender: "bot", text: response.data.response };
-
       setChats((prevChats) =>
         prevChats.map((chat) =>
           chat.id === activeChatId
@@ -120,8 +111,7 @@ const Chatbot = () => {
       );
     } catch (err) {
       console.error(err);
-      const errorMsg = { sender: "bot", text: "Oops! Something went wrong." };
-
+      const errorMsg = { sender: "bot", text: "Oops! Something went wrong. Please try again." };
       setChats((prevChats) =>
         prevChats.map((chat) =>
           chat.id === activeChatId
@@ -130,7 +120,6 @@ const Chatbot = () => {
         )
       );
     }
-
     setLoading(false);
   };
 
@@ -142,162 +131,214 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#343541] text-white">
-      {/* SIDEBAR */}
-      <aside className="w-64 bg-[#F0F8F8] border-r-3 border-teal-600 flex flex-col">
-        {/* Chatbot Title */}
-        <div className="p-4 border-b bg-teal-600 border-teal-600 text-center text-lg font-bold text-white">
-          Chatbot
-        </div>
+    <div className="flex flex-col h-screen bg-[#F0F8F8]">
+      <Navbar />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Mobile sidebar overlay */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-        {/* New Chat Button */}
-        <div className="p-4 border-b border-teal-600">
-          <button
-            onClick={handleNewChat}
-            className="w-full flex items-center justify-center gap-2 p-3
-                       bg-teal-600 hover:bg-teal-700 rounded-md
-                       text-white font-medium transition-all duration-200
-                       shadow-sm hover:shadow-md"
-          >
-            <span className="text-white text-xl font-bold mr-2 mb-1">+</span> New Chat
-          </button>
-        </div>
-
-        {/* Chat List */}
-        <div className="flex-1 overflow-y-auto">
-          {chats.map((chat) => (
-            <div
-              key={chat.id}
-              className={`flex items-center justify-between px-4 py-3 border-b border-teal-100
-                         group transition-all duration-300 ease-in-out
-                         ${activeChatId === chat.id 
-                           ? "bg-[#E0F2F1] border-l-4 border-l-teal-600 pl-3" 
-                           : "hover:bg-[#F5FCFC] pl-4"}`}
-            >
+        {/* SIDEBAR */}
+        <aside
+          className={`
+            fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-100 shadow-xl z-40
+            transform transition-transform duration-300
+            lg:static lg:translate-x-0 lg:shadow-none lg:z-auto
+            ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          `}
+          style={{ paddingTop: sidebarOpen ? "0" : undefined }}
+        >
+          <div className="flex flex-col h-full">
+            <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+              <span className="font-semibold text-gray-800 text-sm">AI Legal Assistant</span>
               <button
-                onClick={() => setActiveChatId(chat.id)}
-                className={`flex-1 text-left text-gray-800 transition-all duration-200
-                           ${activeChatId === chat.id 
-                             ? "font-semibold transform scale-102" 
-                             : "font-normal"}`}
+                className="lg:hidden p-1 text-gray-500 hover:text-gray-700"
+                onClick={() => setSidebarOpen(false)}
               >
-                {chat.title}
-              </button>
-              <button
-                onClick={() => deleteChat(chat.id)}
-                className="ml-2 text-gray-700 hover:text-red-500 transition-colors duration-200"
-              >
-                🗑️
+                <X size={18} />
               </button>
             </div>
-          ))}
-        </div>
-      </aside>
 
-      {/* MAIN CHAT AREA */}
-      <div className="flex flex-col flex-1 bg-[#F0F8F8]">
-        {/* Chat Title */}
-        <header className="relative p-4 bg-teal-600 text-white flex justify-center items-center shadow-md">
-          <h1 className="text-lg font-semibold">
-            {activeChat ? activeChat.title : "No Chat Selected"}
-          </h1>
-          <div className="absolute right-4">
-            <ProfileMenu />
-          </div>
-        </header>
-
-        {/* Messages */}
-        <main className="flex-1 overflow-y-auto p-6 bg-[#F0F8F8]">
-          {activeChat?.messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-4`}
-            >
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
-                  msg.sender === "user"
-                    ? "bg-teal-600 text-white rounded-tr-none"
-                    : "bg-white text-gray-800 rounded-tl-none border border-teal-100"
-                }`}
+            {/* New Chat Button */}
+            <div className="p-3 border-b border-gray-100">
+              <button
+                onClick={handleNewChat}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4
+                           bg-teal-600 hover:bg-teal-700 rounded-lg
+                           text-white text-sm font-medium transition-all duration-200 shadow-sm"
               >
-                {msg.sender === "bot" ? (
-                  <div
-                    style={{
-                      textAlign: "left",
-                      lineHeight: "1.5",
-                      marginBottom: "8px",
-                      whiteSpace: "pre-line",
-                    }}
-                    dangerouslySetInnerHTML={{ __html: msg.text }}
-                  />
-                ) : (
-                  msg.text
-                )}
-                <div 
-                  className={`text-xs mt-1 text-right ${
-                    msg.sender === "user" ? "text-teal-100" : "text-gray-400"
-                  }`}
+                <Plus size={16} />
+                New Chat
+              </button>
+            </div>
+
+            {/* Chat List */}
+            <div className="flex-1 overflow-y-auto py-2">
+              {chats.length === 0 && (
+                <div className="px-4 py-8 text-center text-sm text-gray-400">
+                  <MessageSquare size={32} className="mx-auto mb-2 opacity-50" />
+                  No chats yet. Start a new one!
+                </div>
+              )}
+              {chats.map((chat) => (
+                <div
+                  key={chat.id}
+                  className={`flex items-center justify-between px-3 py-2.5 mx-2 rounded-lg mb-1
+                               group transition-all duration-200 cursor-pointer
+                               ${activeChatId === chat.id
+                                 ? "bg-teal-50 border border-teal-200"
+                                 : "hover:bg-gray-50"}`}
+                  onClick={() => { setActiveChatId(chat.id); setSidebarOpen(false); }}
                 >
-                  {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  <span
+                    className={`flex-1 text-sm truncate ${
+                      activeChatId === chat.id
+                        ? "text-teal-700 font-medium"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {chat.title}
+                  </span>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); deleteChat(chat.id); }}
+                    className="ml-2 p-1 text-gray-300 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </aside>
 
-          {/* Loading dots */}
-          {loading && (
-            <div className="w-full flex justify-start mb-4">
-              <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-white text-gray-800 rounded-tl-none border border-teal-100 shadow-sm">
-                <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce" style={{animationDelay: "0.2s"}}></div>
-                  <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce" style={{animationDelay: "0.4s"}}></div>
-                </div>
-              </div>
+        {/* MAIN CHAT AREA */}
+        <div className="flex flex-col flex-1 min-w-0 bg-[#F0F8F8]">
+          {/* Chat Header */}
+          <header className="flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-100 shadow-sm">
+            <button
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu size={20} />
+            </button>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-sm font-semibold text-gray-800 truncate">
+                {activeChat ? activeChat.title : "Select or start a chat"}
+              </h1>
             </div>
+          </header>
+
+          {/* Messages */}
+          <main className="flex-1 overflow-y-auto p-4 md:p-6">
+            {!activeChat ? (
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <div className="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center mb-4">
+                  <MessageSquare size={28} className="text-teal-600" />
+                </div>
+                <h2 className="text-xl font-semibold text-gray-700 mb-2">Start a Conversation</h2>
+                <p className="text-gray-500 text-sm max-w-xs">
+                  Ask any legal question and get AI-powered answers instantly.
+                </p>
+                <button
+                  onClick={handleNewChat}
+                  className="mt-6 bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-sm"
+                >
+                  Start New Chat
+                </button>
+              </div>
+            ) : (
+              <div className="max-w-3xl mx-auto">
+                {activeChat.messages.length === 0 && !loading && (
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center mb-3">
+                      <MessageSquare size={24} className="text-teal-500" />
+                    </div>
+                    <p className="text-gray-500 text-sm">Type a legal question to get started.</p>
+                  </div>
+                )}
+                {activeChat.messages.map((msg, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex mb-4 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                  >
+                    {msg.sender === "bot" && (
+                      <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                        <span className="text-white text-xs font-bold">AI</span>
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[75%] sm:max-w-[70%] rounded-2xl px-4 py-3 shadow-sm ${
+                        msg.sender === "user"
+                          ? "bg-teal-600 text-white rounded-tr-sm"
+                          : "bg-white text-gray-800 rounded-tl-sm border border-gray-100"
+                      }`}
+                    >
+                      {msg.sender === "bot" ? (
+                        <div
+                          className="text-sm leading-relaxed"
+                          style={{ whiteSpace: "pre-line" }}
+                          dangerouslySetInnerHTML={{ __html: msg.text }}
+                        />
+                      ) : (
+                        <p className="text-sm leading-relaxed">{msg.text}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Loading dots */}
+                {loading && (
+                  <div className="flex justify-start mb-4">
+                    <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center mr-2 flex-shrink-0">
+                      <span className="text-white text-xs font-bold">AI</span>
+                    </div>
+                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 border border-gray-100 shadow-sm">
+                      <div className="flex items-center space-x-1.5">
+                        <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" />
+                        <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                        <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={chatEndRef} />
+              </div>
+            )}
+          </main>
+
+          {/* Input Field */}
+          {activeChat && (
+            <footer className="p-3 md:p-4 bg-white border-t border-gray-100">
+              <div className="max-w-3xl mx-auto flex gap-3">
+                <textarea
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Ask a legal question..."
+                  rows={1}
+                  className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none text-sm text-gray-800 placeholder-gray-400 transition-all"
+                  style={{ maxHeight: "120px" }}
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={loading || !userInput.trim()}
+                  className="flex items-center justify-center w-11 h-11 bg-teal-600
+                          hover:bg-teal-700 disabled:opacity-40 disabled:cursor-not-allowed
+                          rounded-xl text-white transition-all shadow-sm self-end"
+                >
+                  <Send size={18} />
+                </button>
+              </div>
+              <p className="text-center text-xs text-gray-400 mt-2">
+                AI Legal Assistant · Responses are for informational purposes only
+              </p>
+            </footer>
           )}
-          <div ref={chatEndRef}></div>
-        </main>
-
-        {/* Input Field */}
-{activeChat && (
-  <footer className="p-4 bg-[#F0F8F8] border-t border-teal-200 flex space-x-3">
-    <div className="flex-1 relative">
-      <textarea
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-        onKeyDown={handleKeyPress}
-        placeholder="Type your message..."
-        rows={1}
-        className="w-full p-3 pl-4 pr-10 bg-white border border-teal-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none shadow-sm text-gray-800 placeholder-gray-400"
-      />
-      {/* <button
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-teal-500 hover:text-teal-700 transition-colors"
-      >
-        😊
-      </button> */}
-    </div>
-    <button
-      onClick={sendMessage}
-      disabled={loading}
-      className="flex items-center justify-center p-3 bg-teal-600 
-              hover:bg-teal-700 rounded-full text-white
-              disabled:opacity-50 transition-colors shadow-md"
-    >
-      {loading ? (
-        <div className="flex items-center space-x-1">
-          <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></div>
-          <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{animationDelay: "0.2s"}}></div>
-          <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{animationDelay: "0.4s"}}></div>
         </div>
-      ) : (
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" />
-        </svg>
-      )}
-    </button>
-  </footer>
-)}
       </div>
     </div>
   );

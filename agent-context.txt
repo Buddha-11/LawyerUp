@@ -1,0 +1,261 @@
+================================================================================
+👩‍⚖️ LAWYERUP - AGENT CONTEXT & ARCHITECTURE PLAYBOOK
+================================================================================
+
+This document provides a comprehensive technical overview of the LawyerUp repository. 
+It describes the application architecture, system components, core workflows, 
+data models, and service boundaries to guide future agent development.
+
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW
+--------------------------------------------------------------------------------
+LawyerUp is an AI-powered legal assistant web platform designed to simplify the 
+legal process for individuals and professionals. Key features include:
+1. 💬 AI Chatbot Legal Assistant (LawBot) - Interactive Q&A for legal queries.
+2. 📄 Document Analyzer - Summary, translation, and custom Q&A on uploaded PDFs.
+3. 🧑‍💼 Smart Lawyer Search - Geolocation-based lawyer search with visual maps.
+4. 🗂 Legal Resources Dictionary - Multi-level curated legal directory.
+5. 👤 Personalized Dashboard - Central space to view profile data, recent chats, 
+   and uploaded document analyses.
+
+--------------------------------------------------------------------------------
+2. SYSTEM ARCHITECTURE
+--------------------------------------------------------------------------------
+LawyerUp utilizes a microservice architecture split into three main parts:
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                FRONTEND (React)                              │
+│  - Built with Vite, React Router, Tailwind CSS, Axios                        │
+│  - Firebase SDK: Auth, Firestore Database, Firebase Storage                  │
+│  - Map Integration: @react-google-maps/api, Google Places Autocomplete       │
+└──────────────┬───────────────────────────────┬───────────────────────────────┘
+               │ (PDF uploads, /explain, /ask) │ (Chat messages /chat/get)
+               ▼                               ▼
+┌──────────────────────────────┐ ┌─────────────────────────────────────────────┐
+│    AI DOCUMENT ANALYSER      │ │             LAWBOT CHATBOT                  │
+│   (Flask Microservice)       │ │          (Flask Microservice)               │
+│  - LangChain + PyPDF2        │ │  - LangChain + Pinecone RAG                 │
+│  - Gemini API (1.5-flash)    │ │  - Llama-3 (Groq API: llama3-8b-8192)       │
+│  - FAISS Vector Store        │ │  - sentence-transformers/all-MiniLM-L6-v2   │
+│  - Local vector cache        │ │  - Conversational memory storage            │
+└──────────────────────────────┘ └─────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+3. DIRECTORY LAYOUT & KEY FILES
+--------------------------------------------------------------------------------
+- /
+  ├── README.md                      # General user guide and local setup steps
+  ├── firebase.json                  # Firebase hosting configuration rules
+  ├── storage.rules                  # Firebase Storage authorization rules
+  │
+  ├── ML/                            # AI/ML services
+  │   ├── AI_DOC_ANALYSER/           # RAG-based Legal Document Analyzer service
+  │   │   ├── app.py                 # Flask server (Upload, Explain, QA endpoints)
+  │   │   ├── faiss_index/           # Created dynamically; local FAISS vector store
+  │   │   ├── uploaded_text.txt      # Temp store of the parsed PDF's text
+  │   │   └── Dockerfile             # Docker instructions for GCP Cloud Run
+  │   │
+  │   └── CHATBOT/law/               # Context-aware LawBot Conversational service
+  │       ├── app.py                 # Flask server (Pinecone + Groq QA flow)
+  │       ├── store_index.py         # Pipeline script to index raw PDFs to Pinecone
+  │       ├── Data/                  # Knowledge source folder containing PDF files
+  │       ├── src/
+  │       │   └── helper.py          # Data loader & HuggingFace embedding setup
+  │       └── Dockerfile             # Docker instructions for GCP Cloud Run
+  │
+  └── frontend/                      # React SPA
+      ├── vite.config.js             # Vite development configurations
+      ├── package.json               # Frontend libraries & dependency listing
+      └── src/
+          ├── main.jsx               # React DOM rendering entrypoint
+          ├── App.jsx                # Router setup & URL path declarations
+          ├── App.css / style.css    # Global colors & stylesheet custom rules
+          │
+          ├── context/
+          │   └── firebase.jsx       # Firebase Provider (Auth, Firestore, Storage)
+          │
+          ├── pages/
+          │   ├── Auth.jsx           # Sign in/up page housing user & lawyer setup
+          │   └── Home.jsx           # Landing/Home layout containing UI sections
+          │
+          └── components/
+              ├── Chatbot.jsx        # LawBot interface; saves logs to Firestore
+              ├── DocAnalyzer.jsx    # Upload, select language, explain, document QA
+              ├── SearchLawyers.jsx  # Smart Lawyer Search map with visual bounds
+              ├── LawyerCard.jsx     # Item display for lawyer search results
+              ├── Dictionary.jsx     # Curated tabbed dictionary legal index
+              ├── UserProfile.jsx    # Displays profile and last 2 chats / docs
+              └── ProfileMenu.jsx    # Header drop-down profile navigation
+
+--------------------------------------------------------------------------------
+4. DETAILED SERVICE WORKFLOWS
+--------------------------------------------------------------------------------
+
+A. AI DOCUMENT ANALYSIS WORKFLOW
+────────────────────────────────────────────────────────────────────────────────
+1. PDF Upload & Ingestion:
+   - User drops a PDF into `DocAnalyzer.jsx` and clicks "Submit & Process".
+   - The file is sent via multipart/form-data to the backend's `/upload` endpoint.
+   - The backend uses `PyPDF2.PdfReader` to extract the full document string.
+   - The text is split into chunks of 10k characters (1,000 overlap) via 
+     LangChain's `RecursiveCharacterTextSplitter`.
+   - Embeddings are computed via Google Generative AI (`models/embedding-001`) 
+     and indexed into a local `FAISS` database (`/faiss_index`).
+   - The complete document text is saved in `/uploaded_text.txt`.
+
+2. Structured Multi-lingual Explanation:
+   - Frontend triggers a GET request to `/explain?language={SelectedLanguage}`.
+   - The backend reads `/uploaded_text.txt` and forwards a prompt to 
+     Gemini (`gemini-1.5-flash`) to generate a plain-text breakdown outlining:
+       - Everyday simple language translation (English, Hindi, or Marathi)
+       - Breakdown of complex legal jargon terms
+       - Core obligations, rights, and critical deadlines
+       - Summary step-by-step checklist (prefixed by a dash `-` and no markdown)
+   - The explanation is returned, saved in React state, and rendered.
+
+3. Firestore State Persistence:
+   - The frontend intercepts the returned explanation and commits the entire 
+     document state to Firestore:
+     `users/{userUID}/documents/{docName_timestamp}`
+     Properties saved: `fileName`, `language`, `explanation`, `question`, `answer`, 
+     and `timestamp`.
+
+4. Document Q&A (In-Context RAG):
+   - The user switches tabs to "Ask a Question" and submits a query.
+   - The frontend POSTs the request to the `/ask` endpoint on the backend.
+   - The backend loads the local FAISS index, retrieves the top similar chunks, 
+     and runs a LangChain QA chain (`load_qa_chain` with `stuff` type) on 
+     `gemini-1.5-flash` with a strict prompt ensuring that:
+       - Answers are accurate, legible, and match the query's input language.
+       - The generated output utilizes bullet points (•) and no bold formatting.
+   - The resulting answer is committed to Firestore and updated on the dashboard.
+
+
+B. CONVERSATIONAL LAWBOT WORKFLOW (PINECO & GROQ RAG)
+────────────────────────────────────────────────────────────────────────────────
+1. Pinecone Indexing Pipeline (`store_index.py`):
+   - Legal documents inside `/Data` are parsed using `DirectoryLoader` + `PyPDFLoader`.
+   - Split into small, high-density chunks of 500 characters (20 overlap).
+   - Embedded using `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions).
+   - Upserted into a Pinecone vector database using index name `lawbot2`.
+
+2. RAG QA Loop (`app.py`):
+   - User inputs a query inside the React `Chatbot.jsx` UI.
+   - React sends a POST request with payload `{"msg": userInput}` to the backend `/chat/get`.
+   - The backend queries HuggingFace embeddings on the user query, searches Pinecone 
+     for the top 3 matching chunks, and feeds them into a 
+     `ConversationalRetrievalChain` using Groq's `llama3-8b-8192` model.
+   - Utilizes `ConversationBufferMemory` to maintain sliding chat history.
+   - Converts standard text newlines to `<br>` formatting for web safety, then 
+     returns it to the client.
+
+3. Frontend Logging to Firestore:
+   - To avoid losing chat history, `Chatbot.jsx` listens to changes in local chat lists.
+   - It performs an automatic sync of the full chats array to Firestore under:
+     `chatbots/{userUID}`
+   - When a user signs in, the component queries this document and loads historical chats.
+
+
+C. SMART LAWYER SEARCH & BOUNDING BOX GEOLOCATION
+────────────────────────────────────────────────────────────────────────────────
+1. Location Acquisition:
+   - On load, `SearchLawyers.jsx` requests the user's current location via the 
+     HTML5 Geolocation API (`navigator.geolocation.getCurrentPosition`).
+   - Alternatively, a user can enter a custom address, resolved instantly via the 
+     Google Places Autocomplete SDK (`window.google.maps.places.Autocomplete`).
+
+2. Approximate Firestore Querying:
+   - Since Firestore does not natively support complex geospatial radial queries 
+     without specialized third-party libraries, LawyerUp utilizes an approximate 
+     bounding-box coordinate filter.
+   - The target radius in kilometers is converted to a bounding box latitude delta:
+     `latDelta = radiusKm / 111.32`
+     `lngDelta = radiusKm / (111.32 * cos(lat * PI / 180))`
+   - A query is executed on the `lawyers` collection:
+     `where("latitude", ">=", targetLat - latDelta)`
+     `where("latitude", "<=", targetLat + latDelta)`
+
+3. Client-Side Precise Radial Filtering:
+   - Firestore returns all lawyers inside the square coordinate boundary.
+   - To filter out items located in corner areas outside the perfect radius, 
+     the client performs a second-pass calculation using the Haversine formula:
+     `calculateDistance(lat1, lon1, lat2, lon2)`
+   - Only lawyers located within `distance <= radiusKm` are loaded into state.
+
+4. Rendering and Sorting:
+   - Results are placed as pins on the `GoogleMap` container, complete with a 
+     visual search radius circle overlay.
+   - Users can filter listings by gender, practice areas, experience, and fee range.
+   - Listings can be sorted dynamically by:
+     - Geodesic distance (ascending/descending)
+     - Consultation fees (ascending/descending)
+     - Years of experience (ascending/descending)
+
+--------------------------------------------------------------------------------
+5. PERSISTENT STORAGE DATA SCHEMA
+--------------------------------------------------------------------------------
+
+A. `/users/{uid}` (User Profile Information)
+   ├── name: string (User Full Name)
+   ├── email: string (Registered Email)
+   ├── phone: string (Contact Number)
+   ├── location: string (City/Area)
+   ├── photoURL: string (Firebase Storage URL of user picture)
+   └── userType: string ("Client" | "Lawyer")
+
+B. `/lawyers/{uid}` (Detailed Lawyer Profiles)
+   ├── id: string (Unique Identifier)
+   ├── name: string (Lawyer Full Name)
+   ├── email: string (Registered Email)
+   ├── phone: string (Contact Number)
+   ├── gender: string ("Male" | "Female" | "Other")
+   ├── type: array of strings (e.g., ["Civil", "Criminal"])
+   ├── yearsOfExperience: string/number
+   ├── consultationFees: string/number
+   ├── latitude: number (Exact location coordinates)
+   ├── longitude: number (Exact location coordinates)
+   ├── location: string (Human-readable address)
+   └── photoURL: string (Firebase Storage URL of profile picture)
+
+C. `/users/{uid}/documents/{docId}` (Document Analyzer History)
+   ├── fileName: string (Uploaded document filename)
+   ├── language: string (Chosen summary translation language)
+   ├── explanation: string (AI generated checklist analysis text)
+   ├── question: string (Last asked query relative to document)
+   ├── answer: string (AI answer generated for query)
+   └── timestamp: serverTimestamp()
+
+D. `/chatbots/{uid}` (Persistent Conversational History)
+   └── chats: array of Chat Objects
+       └── [
+             {
+               id: uuid,
+               title: string (e.g., "IPC Section 302..."),
+               messages: [
+                 { sender: "user" | "bot", text: string },
+                 ...
+               ]
+             },
+             ...
+           ]
+
+--------------------------------------------------------------------------------
+6. OPERATIONAL INFORMATION & ENVIRONMENT VARIABLES
+--------------------------------------------------------------------------------
+Frontend `.env` variables:
+- `VITE_API_KEY`: Firebase web API key.
+- `VITE_AUTH_DOMAIN`: Firebase auth URL.
+- `VITE_PROJECT_ID`: Firebase project ID.
+- `VITE_STORAGE_BUCKET`: Firebase storage bucket.
+- `VITE_MSG_SEND_ID`: Firebase messaging sender configuration ID.
+- `VITE_APP_ID`: Firebase web application ID.
+- `VITE_MAP_API_KEY`: Google Maps JavaScript API key.
+
+AI Document Analyser `.env` variables:
+- `GOOGLE_API_KEY`: Gemini API key.
+
+LawBot `.env` variables:
+- `PINECONE_API_KEY`: Pinecone API access credentials.
+- `GROQ_API_KEY`: Groq Cloud access key.
+
+================================================================================

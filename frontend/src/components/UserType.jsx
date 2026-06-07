@@ -1,11 +1,11 @@
 import React from 'react';
 import UserIcon from '/user.svg';
 import LawyerIcon from '/lawyer.svg';
+import { UserCircle2 } from 'lucide-react';
 
-function UserType({ onUserTypeSelected, onSignInClick }) {
+function UserType({ onUserTypeSelected, onSignInClick, onGuestLogin }) {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen">
-      {/* Removed the bg-slate-50 from this div to allow particles to show through */}
       <div className="relative z-10 flex flex-col items-center justify-center w-full sm:w-2/3 max-w-4xl py-16 px-8 rounded-2xl shadow-xl bg-white border border-gray-100 hover:shadow-2xl transition-all duration-500 opacity-90">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 tracking-wide">Welcome! Join us as</h2>
        
@@ -44,8 +44,26 @@ function UserType({ onUserTypeSelected, onSignInClick }) {
             </button>
           </div>
         </div>
+
+        {/* Guest access — prominently placed so interviewers notice it */}
+        {onGuestLogin && (
+          <div className="mt-10 w-full max-w-md">
+            <div className="relative flex items-center justify-center mb-4">
+              <hr className="w-full border-gray-200" />
+              <span className="absolute bg-white px-3 text-xs text-gray-400 uppercase tracking-wider">or</span>
+            </div>
+            <button
+              onClick={onGuestLogin}
+              className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl border-2 border-dashed border-teal-300 text-teal-700 hover:bg-teal-50 hover:border-teal-400 transition-all font-medium text-sm"
+            >
+              <UserCircle2 size={18} />
+              Continue as Guest — no account needed
+            </button>
+            <p className="text-center text-xs text-gray-400 mt-2">Guest sessions are temporary and don't save data permanently.</p>
+          </div>
+        )}
        
-        <p className="mt-12 text-center text-gray-600">
+        <p className="mt-8 text-center text-gray-600">
           Already have an account?{' '}
           <span
             onClick={onSignInClick}

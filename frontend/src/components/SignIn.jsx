@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { UserCircle2 } from 'lucide-react';
 
-function SignIn({ onGoogleLogin, onEmailSignIn, error, onSignUpClick }) {
+function SignIn({ onGoogleLogin, onEmailSignIn, onGuestLogin, error, onSignUpClick }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,10 +14,26 @@ function SignIn({ onGoogleLogin, onEmailSignIn, error, onSignUpClick }) {
       transition={{ duration: 0.6, ease: 'easeInOut', delay: 0.2 }}
       className="flex flex-col items-center justify-center min-h-screen w-full"
     >
-      {/* Removed the bg-slate-50 background to allow particles to show through */}
       <div className="bg-white py-12 px-8 w-full sm:w-2/3 max-w-xl shadow-xl rounded-2xl border opacity-90 border-gray-100 hover:shadow-2xl transition-all duration-500">
         <h2 className="text-3xl font-bold mb-2 text-center text-gray-800 tracking-wide">Welcome Back</h2>
         <p className="text-center text-gray-500 mb-8">Sign in to continue to your account</p>
+
+        {/* Guest CTA — shown prominently at the top */}
+        {onGuestLogin && (
+          <div className="mb-6 p-4 bg-teal-50 border border-teal-200 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-teal-800">Just browsing?</p>
+              <p className="text-xs text-teal-600">Explore all features without an account.</p>
+            </div>
+            <button
+              onClick={onGuestLogin}
+              className="flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold rounded-lg transition-all shadow-sm whitespace-nowrap"
+            >
+              <UserCircle2 size={16} />
+              Continue as Guest
+            </button>
+          </div>
+        )}
         
         {error && (
           <div className="mb-6 p-3 bg-red-50 border border-red-100 rounded-lg">

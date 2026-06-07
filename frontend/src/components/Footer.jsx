@@ -1,106 +1,114 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { FaTwitter, FaLinkedin, FaFacebook , FaInstagram } from "react-icons/fa";
+import { FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
 const Footer = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.2 });
+  const isInView = useInView(ref, { once: false, amount: 0.1 });
+  const navigate = useNavigate();
 
-  const fadeInVariants = {
+  const footerVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
   };
-  const navigate = useNavigate(); 
 
-  const handledoc = () => {
-    navigate("/doc"); 
-  };
-  const handleChat = () => {
-    navigate("/chat"); 
-  }
-  const handleSearch = () => {
-    navigate("/search-lawyers"); 
-  }
   return (
-    <footer ref={ref} className="bg-[#F5F8FA] text-[#003366] py-12 px-8">
+    <footer ref={ref} className="bg-[#F5F8FA] border-t border-gray-200 py-10 px-4 sm:px-6">
       <motion.div
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-left relative"
+        variants={footerVariants}
+        className="max-w-5xl mx-auto"
       >
-        {/* Social Media Icons - Top Right */}
-        <motion.div
-          variants={fadeInVariants}
-          className="absolute top-0 right-0 flex items-center space-x-4 text-[#003366] text-xl mt-2"
-        >
-          {/* <span className="text-lg font-semibold">Follow us on</span> */}
-          <div className="flex gap-4">
-            <a href="https://x.com/LawyerUp_X" target="_blank" rel="noopener noreferrer">
-              <FaTwitter className="cursor-pointer hover:text-[#1DA1F2]" />
-            </a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="cursor-pointer hover:text-[#0077B5]" />
-            </a>
-            <a href="https://www.instagram.com/lawyerup_01/" target="_blank" rel="noopener noreferrer">
-              <FaInstagram className="cursor-pointer hover:text-[#E1306C]" />
-            </a>
-          </div>
-        </motion.div>
-
-        {/* Logo Section */}
-        <motion.div variants={fadeInVariants}>
-          {/* <h2 className="text-2xl font-bold">Finpay</h2> */}
-          <img src="/logo.png" className="h-30 w-auto" alt="Logo" />
-        </motion.div>
-
-        {/* Solutions Section */}
-        <motion.div variants={fadeInVariants}>
-          <h3 className="text-lg font-semibold mb-2">Solutions</h3>
-          <ul className="space-y-1 text-gray-600">
-            <li onClick={handledoc}>Legal Document Analysis</li>
-            <li onClick={handleChat}>Chatbot for Legal Queries</li>
-            <li onClick={handleSearch}>Lawyer Match Making</li>
-            <li>Legal Templates</li>
-          </ul>
-        </motion.div>
-
-        {/* Company Section */}
-        <motion.div variants={fadeInVariants}>
-          <h3 className="text-lg font-semibold mb-2">Company</h3>
-          <ul className="space-y-1 text-gray-600">
-            <li>About Us</li>
-            <li>Career</li>
-            <li>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+          {/* Logo & Social */}
+          <div className="col-span-2 sm:col-span-1">
+            <img src="/logo.png" className="h-12 w-auto mb-4" alt="LawyerUp Logo" />
+            <p className="text-gray-500 text-sm leading-relaxed mb-4">
+              AI-powered legal assistance for everyone.
+            </p>
+            <div className="flex gap-3">
               <a
-                href="mailto:contactus.lawyerup@gmail.com"
-                className="hover:underline "
+                href="https://x.com/LawyerUp_X"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg bg-gray-200 hover:bg-teal-100 hover:text-teal-600 flex items-center justify-center text-gray-500 transition-all text-sm"
               >
-                Contact Us
+                <FaTwitter />
               </a>
-            </li>
-          </ul>
-        </motion.div>
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg bg-gray-200 hover:bg-teal-100 hover:text-teal-600 flex items-center justify-center text-gray-500 transition-all text-sm"
+              >
+                <FaLinkedin />
+              </a>
+              <a
+                href="https://www.instagram.com/lawyerup_01/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg bg-gray-200 hover:bg-teal-100 hover:text-teal-600 flex items-center justify-center text-gray-500 transition-all text-sm"
+              >
+                <FaInstagram />
+              </a>
+            </div>
+          </div>
 
-        {/* Learn Section */}
-        <motion.div variants={fadeInVariants}>
-          <h3 className="text-lg font-semibold mb-2">Support</h3>
-          <ul className="space-y-1 text-gray-600">
-            <li>Help Center</li>
-            <li>Privacy Policy</li>
-            <li>Terms of Service</li>
-            <li>Security</li>
-          </ul>
-        </motion.div>
-      </motion.div>
+          {/* Solutions */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-800 mb-3">Solutions</h3>
+            <ul className="space-y-2">
+              {[
+                { label: "Legal Document Analysis", path: "/doc" },
+                { label: "AI Legal Chatbot", path: "/chat" },
+                { label: "Find Lawyers", path: "/search-lawyers" },
+                { label: "Legal Library", path: "/dict" },
+              ].map((item) => (
+                <li key={item.path}>
+                  <button
+                    onClick={() => navigate(item.path)}
+                    className="text-sm text-gray-500 hover:text-teal-600 transition-colors text-left"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      {/* Copyright Section - Centered */}
-      <motion.div
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        variants={fadeInVariants}
-        className="mt-8 text-center"
-      >
-        <p className="text-gray-500 text-sm">© LawyerUp 2025. All Rights Reserved.</p>
+          {/* Company */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-800 mb-3">Company</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><span className="hover:text-teal-600 cursor-pointer transition-colors">About Us</span></li>
+              <li><span className="hover:text-teal-600 cursor-pointer transition-colors">Careers</span></li>
+              <li>
+                <a
+                  href="mailto:contactus.lawyerup@gmail.com"
+                  className="hover:text-teal-600 transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-800 mb-3">Support</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><span className="hover:text-teal-600 cursor-pointer transition-colors">Help Center</span></li>
+              <li><span className="hover:text-teal-600 cursor-pointer transition-colors">Privacy Policy</span></li>
+              <li><span className="hover:text-teal-600 cursor-pointer transition-colors">Terms of Service</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-200 pt-6 text-center">
+          <p className="text-gray-400 text-xs">© LawyerUp 2025. All Rights Reserved.</p>
+        </div>
       </motion.div>
     </footer>
   );

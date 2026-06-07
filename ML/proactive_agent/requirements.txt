@@ -1,0 +1,37 @@
+# Flask and Web Server
+Flask==3.0.0
+flask-cors==4.0.0
+gunicorn==21.2.0
+
+# Firebase
+firebase-admin==6.3.0
+
+# Google APIs
+duckduckgo-search==8.1.1
+google-generativeai==0.3.2
+
+# Pinecone
+pinecone-client==3.0.0
+
+# NLP and Transformers for Legal NER
+transformers==4.36.0
+torch==2.1.2
+sentencepiece==0.1.99
+sentence-transformers
+numpy<2
+
+# PDF Processing
+PyPDF2==3.0.1
+
+# Text Processing
+langchain
+langchain-text-splitters
+
+# Environment and Configuration
+python-dotenv==1.0.0
+
+# Logging and Monitoring
+python-json-logger==2.0.7
+
+# Utilities
+requests==2.31.0

@@ -1,82 +1,50 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+
 function CTASection() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleGetStarted = () => {
-    navigate("/auth"); 
-  };
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
-      className="bg-[#02243A] text-white flex items-center justify-between py-20 px-14  w-full max-w-7xl mx-auto mt-25"
-    >
-      {/* Left Side - Text Content */}
-      <div className="max-w-2xl text-left">
-        {/* Small Heading */}
-        <motion.p
-          variants={{
-            hidden: { opacity: 0, y: 10 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-          }}
-          className="text-sm uppercase tracking-wide text-gray-300"
-        >
-          Try it now
-        </motion.p>
+    <div className="px-4 sm:px-6 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        viewport={{ once: false, amount: 0.2 }}
+        className="bg-[#02243A] text-white rounded-2xl overflow-hidden max-w-5xl mx-auto"
+      >
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 px-8 sm:px-12 py-12 md:py-14">
+          {/* Left Side */}
+          <div className="max-w-xl text-center md:text-left">
+            <p className="text-gray-400 text-xs uppercase tracking-widest mb-3">Try it now</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-snug">
+              Ready to simplify your<br className="hidden sm:block" /> legal journey?
+            </h2>
+            <p className="text-gray-400 text-sm md:text-base mt-4 leading-relaxed">
+              Empower yourself with AI-driven legal document analysis, instant explanations, and a smart chatbot — your one-stop solution.
+            </p>
+          </div>
 
-        {/* Main Heading */}
-        <motion.h2
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.2 } },
-          }}
-          className="text-5xl font-medium mt-3 leading-tight"
-        >
-          Ready to simplify your <br />legal journey?
-        </motion.h2>
-
-        {/* Description */}
-        <motion.p
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.4 } },
-          }}
-          className="text-gray-300 text-lg mt-5 leading-relaxed"
-        >
-          Empower yourself with AI-driven legal document analysis, instant explanations, and a smart chatbot—your one-stop solution for legal advice.
-        </motion.p>
-      </div>
-
-      {/* Right Side - Buttons */}
-      <div className="flex flex-col md:flex-row gap-5">
-        <motion.button
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.6 } },
-          }}
-          className="bg-[#008080] text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#006666] transition"
-          onClick={handleGetStarted}
-        >
-          Get Started Now
-        </motion.button>
-        <motion.button
-  variants={{
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.8 } },
-  }}
-  className="border border-white text-white px-8 py-4 rounded-lg text-lg font-semibold 
-             hover:bg-white hover:text-[#003366] transition flex items-center gap-2"
->
-  Learn More <span className="text-inherit bg-[#02243A]">↗</span>
-</motion.button>
-
-      </div>
-    </motion.div>
+          {/* Right Side - Buttons */}
+          <div className="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-auto flex-shrink-0">
+            <button
+              onClick={() => navigate("/auth")}
+              className="bg-teal-500 hover:bg-teal-400 text-white px-8 py-3.5 rounded-xl text-sm font-semibold transition-all shadow-sm"
+            >
+              Get Started Now
+            </button>
+            <button
+              onClick={() => navigate("/")}
+              className="border border-white/30 text-white px-8 py-3.5 rounded-xl text-sm font-semibold hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+            >
+              Learn More <span>↗</span>
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
 export default CTASection;
-

@@ -1,7 +1,9 @@
+Flask
+flask-cors
 streamlit
-langchain
+langchain==0.1.20
 PyPDF2
-langchain-community
+langchain-community==0.0.38
 faiss-cpu
 langchain_google_genai
 google-generativeai

@@ -9,6 +9,7 @@ import LawyerProfileSetup from "./components/LawyerProfileSetup.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx"; // Adjust path as needed
 import Dictionary from "./components/Dictionary.jsx";
 import UserProfile from "./components/UserProfile.jsx";
+import UploadCaseFile from "./components/UploadCaseFile.jsx";
 function App() {
   return (
     <Routes>
@@ -22,6 +23,14 @@ function App() {
         element={
           <ProtectedRoute>
             <DocAnalyzer />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/upload"
+        element={
+          <ProtectedRoute>
+            <UploadCaseFile />
           </ProtectedRoute>
         }
       />

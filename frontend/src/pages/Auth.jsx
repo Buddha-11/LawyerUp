@@ -9,7 +9,7 @@ import LawyerProfileSetup from '../components/LawyerProfileSetup';
 import Particles from '../components/Particle';
 
 function Auth() {
-  const { signInWithGoogle, signupEmail, signinEmail } = useFirebase();
+  const { signInWithGoogle, signupEmail, signinEmail, signInAsGuest } = useFirebase();
   const [authStep, setAuthStep] = useState("userType");
   const [userType, setUserType] = useState("user");
   const [error, setError] = useState(null);
@@ -61,6 +61,16 @@ function Auth() {
       setError(error.message);
     }
   };
+
+  const handleGuestLogin = async () => {
+    try {
+      await signInAsGuest();
+      navigate("/");
+    } catch (error) {
+      console.error("Guest login error:", error);
+      setError("Could not start guest session. Please try again.");
+    }
+  };
   const renderSignup = () => {
     setAuthStep("signup");
   }
@@ -96,8 +106,8 @@ function Auth() {
         />
       </div>
       <div className="relative z-10 w-full">
-        {authStep === "userType" && <UserType onUserTypeSelected={(type) => { setUserType(type); setAuthStep("signup"); }} onSignInClick={() => setAuthStep("signin")} />}
-        {authStep === "signin" && <SignIn onGoogleLogin={handleGoogleSigin} onEmailSignIn={handleSignin} error={error} onSignUpClick={() => setAuthStep("userType")}/>}
+        {authStep === "userType" && <UserType onUserTypeSelected={(type) => { setUserType(type); setAuthStep("signup"); }} onSignInClick={() => setAuthStep("signin")} onGuestLogin={handleGuestLogin} />}
+        {authStep === "signin" && <SignIn onGoogleLogin={handleGoogleSigin} onEmailSignIn={handleSignin} onGuestLogin={handleGuestLogin} error={error} onSignUpClick={() => setAuthStep("userType")}/>}
         {authStep === "signup" && <SignUp userType={userType} onGoogleLogin={handleGoogleLogin} onEmailSignUp={handleSignup} error={error} onSignInClick={() => setAuthStep("signin")}/>}
       </div>
     </div>

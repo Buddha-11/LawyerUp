@@ -1,5 +1,33 @@
-
 node_modules
 frontend/node_modules
 backend/node_modules
 frontend/.env
+*venv
+
+# Environments
+.env
+.env.*
+*.env
+
+# Large files
+*.faiss
+*.pkl
+*.bin
+*.h5
+*.pth
+*.pt
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# Secrets / Sensitive
+*serviceAccountKey.json
+credentials.json
+client_secret.json
+
+# Other
+.DS_Store

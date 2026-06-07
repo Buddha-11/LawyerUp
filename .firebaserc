@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "tutorial-5151c"
-  }
+  },
+  "targets": {
+    "tutorial-5151c": {
+      "hosting": {
+        "main-site": [
+          "lawyerup-frontend"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

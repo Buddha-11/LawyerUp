@@ -9,62 +9,41 @@ const stats = [
 
 function MissionSection() {
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
-      className="bg-white text-black flex items-center justify-center py-20 px-6 mt-30"
-    >
-      <div className="max-w-5xl w-full text-center">
-        {/* Heading */}
-        <motion.h2
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-          }}
-          className="text-xl font-semibold text-[#008080] uppercase tracking-wide"
+    <div className="bg-white py-16 md:py-24 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.2 }}
         >
-          Our Mission
-        </motion.h2>
-
-        <motion.h3
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.3 } },
-          }}
-          className="text-5xl font-semibold mt-2"
-        >
-          Bringing Simplicity <br /> to Every Legal Matter
-        </motion.h3>
-
-        <motion.p
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.5 } },
-          }}
-          className="text-gray-500 text-lg mt-4"
-        >
-          We’ve helped individuals, freelancers, and businesses of all sizes navigate complex legal matters with ease.
-        </motion.p>
+          <p className="text-teal-600 font-semibold text-xs uppercase tracking-widest mb-3">Our Mission</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-snug">
+            Bringing Simplicity<br />to Every Legal Matter
+          </h2>
+          <p className="text-gray-500 text-base md:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
+            We've helped individuals, freelancers, and businesses of all sizes navigate complex legal matters with ease.
+          </p>
+        </motion.div>
 
         {/* Stats */}
-        <div className="flex flex-col md:flex-row justify-center gap-12 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mt-12">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.value}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.7 + index * 0.3 } },
-              }}
-              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 + index * 0.15 }}
+              viewport={{ once: false, amount: 0.2 }}
+              className="bg-gray-50 rounded-2xl p-6 border border-gray-100"
             >
-              <h4 className="text-5xl font-bold text-black">{stat.value}</h4>
-              <p className="text-gray-500 text-lg">{stat.label}</p>
+              <h3 className="text-4xl md:text-5xl font-bold text-teal-600">{stat.value}</h3>
+              <p className="text-gray-500 text-sm mt-2">{stat.label}</p>
             </motion.div>
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

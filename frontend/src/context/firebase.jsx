@@ -7,7 +7,8 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
     GoogleAuthProvider, 
-    signInWithPopup ,
+    signInWithPopup,
+    signInAnonymously,
     onAuthStateChanged,
     signOut,
 } from "firebase/auth";
@@ -105,6 +106,19 @@ export const FirebaseProvider = ({ children }) => {
         }
       };
 
+    const signInAsGuest = async () => {
+        try {
+            const userCredential = await signInAnonymously(firebaseAuth);
+            // Guest users don't need a persisted token but we save it for
+            // consistency so all existing backend calls work unchanged.
+            saveToken(userCredential.user);
+            return userCredential;
+        } catch (error) {
+            console.error("Guest sign-in error:", error);
+            throw error;
+        }
+    };
+
     // Upload profile image to Firestore Storage and return download URL
     const uploadProfileImage = async (userId, file) => {
         if (!file) return null;
@@ -121,7 +135,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage , currentUser , signOutUser,loading}}>
+        <FirebaseContext.Provider value={{ signupEmail, signInWithGoogle, signinEmail, uploadProfileImage, currentUser, signOutUser, signInAsGuest, loading}}>
             {children}
         </FirebaseContext.Provider>
     );
