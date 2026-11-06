@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { GoogleMap, LoadScript, Marker, Circle } from "@react-google-maps/api";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import MultiSelect from "./ui/multiselect";
-import LawyerCard from "./LawyerCard";
+import LawyerCard from "./lawyerCard";
 import Navbar from "./Navbar";
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_MAP_API_KEY;
 
