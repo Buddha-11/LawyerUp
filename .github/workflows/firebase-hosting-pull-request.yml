@@ -10,7 +10,7 @@ permissions:
 jobs:
   build_and_preview:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
       VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
@@ -20,8 +20,8 @@ jobs:
       VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
       VITE_MAP_API_KEY: ${{ secrets.VITE_MAP_API_KEY }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
