@@ -1,0 +1,12 @@
+**/.env
+**/.env.*
+**/*venv*/
+**/__pycache__/
+**/*.pyc
+.git/
+Data/
+research/
+tests/
+*.egg-info/
+*serviceAccount*.json
+credentials.json

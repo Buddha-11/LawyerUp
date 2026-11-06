@@ -1,153 +1,98 @@
-from flask import Flask, render_template, request, jsonify
-from src.helper import download_hugging_face_embeddings
-from langchain_pinecone import PineconeVectorStore
-from langchain_groq import ChatGroq
-from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationalRetrievalChain
-from langchain_core.prompts import PromptTemplate
-from dotenv import load_dotenv
-from flask_cors import CORS
+"""HTTP API for LawBot. Conversation history belongs to each request."""
+
+import logging
 import os
+from html import escape
 
-import re
+from dotenv import load_dotenv
+from flask import Flask, jsonify, render_template, request
+from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 
-def format_response(text):
-    # Remove ** from bold text
-    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+from src.chat_service import build_chain
 
-    # Convert numbered points into separate lines
-    text = re.sub(r"(\d+\.)", r"<br>\1", text)  
-
-    # Bold headings
-    text = re.sub(r"(\d+\.\s)(.*?):", r"\1<b>\2</b>:", text)  
-
-    # Ensure newlines are converted to <br> tags
-    text = text.replace("\n", "<br>")
-
-    return text.strip()
+MAX_MESSAGE_LENGTH = 8000
+MAX_HISTORY_MESSAGES = 24
 
 
-
-# Load environment variables
-load_dotenv()
-
-# Retrieve API keys
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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")
-
-# Ensure API keys are set
-if not PINECONE_API_KEY:
-    raise ValueError("Missing PINECONE_API_KEY. Please set it in your environment variables.")
-
-os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
-
-# Initialize Flask app
-app = Flask(__name__)
-CORS(app)
-# Load embeddings
-embeddings = download_hugging_face_embeddings()
-index_name = "lawbot2"
-
-# Connect to the existing Pinecone index
-docsearch = PineconeVectorStore.from_existing_index(
-    index_name=index_name,
-    embedding=embeddings
-)
-
-retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k": 3})
-
-# Initialize LLM model
-llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama-3.1-8b-instant")
-
-# Custom prompt template with memory support
-system_prompt = system_prompt = (
-    "You're LawBot, a friendly AI helping people understand Indian legal cases in simple, modern English. "
-    "Speak clearly, be helpful, and sound like you're chatting with a friend—not a courtroom judge. "
-    "Use examples when needed. Avoid legal jargon unless asked. Keep it chill, but informative."
-   
-    
-)
-
-# system_prompt = system_prompt = (
-#     "You're LawBot, a friendly AI that helps people understand Indian legal cases in simple, modern English. "
-#     "Speak clearly, be helpful, and sound like you're chatting with a friend—not a courtroom judge. "
-#     "Use real-life examples when needed. Avoid legal jargon unless asked. Keep it chill but informative. "
-
-#     "\n\nWhen there are steps involved, follow this format:\n"
-#     "Step 1: Give the heading like this (no bold or symbols)\n"
-#     "• Use bullets with a plain dot symbol (like this)\n"
-#     "• Keep the text left-aligned and well spaced\n"
-#     "• Do not use any Markdown formatting — no **, __, *, #, or HTML tags like <br>\n"
-
-#     "\nKeep everything as plain text. The goal is to make the message easy to read without any styling symbols. "
-#     "Structure your answers cleanly using headings and bullet points in plain English."
-# )
+def validate_input(data):
+    if not isinstance(data, dict):
+        raise ValueError("Send a JSON object containing a message.")
+    message = data.get("msg")
+    if not isinstance(message, str) or not message.strip():
+        raise ValueError("Enter a message before sending.")
+    if len(message) > MAX_MESSAGE_LENGTH:
+        raise ValueError("Keep your message under 8,000 characters.")
+    history = data.get("history", [])
+    if not isinstance(history, list) or len(history) > MAX_HISTORY_MESSAGES:
+        raise ValueError("Send at most 24 previous messages.")
+    pairs = []
+    pending_question = None
+    for item in history:
+        if not isinstance(item, dict):
+            raise ValueError("Invalid conversation history.")
+        sender, text = item.get("sender"), item.get("text")
+        if sender not in ("user", "bot") or not isinstance(text, str):
+            raise ValueError("Invalid conversation history.")
+        if len(text) > MAX_MESSAGE_LENGTH:
+            raise ValueError("A previous message is too long.")
+        if sender == "user":
+            pending_question = text
+        elif pending_question is not None:
+            pairs.append((pending_question, text))
+            pending_question = None
+    return message.strip(), pairs
 
 
+def create_app(chain=None):
+    load_dotenv()
+    app = Flask(__name__)
+    app.config.update(MAX_CONTENT_LENGTH=128 * 1024, DEBUG=False)
+    CORS(app)
+    # Initialize once per worker, but never store user history in the chain.
+    if chain is None:
+        chain = build_chain()
 
-template = f"""{system_prompt}
+    @app.get("/health")
+    def health():
+        return jsonify(status="ok", revision=os.getenv("K_REVISION", "local"))
 
-**Chat History**:
-{{chat_history}}
+    @app.get("/chat")
+    def index():
+        return render_template("chat.html")
 
-**Context**:
-{{context}}
+    @app.post("/chat/get")
+    def chat():
+        try:
+            message, history = validate_input(request.get_json(silent=True))
+        except ValueError as error:
+            return jsonify(error=str(error)), 400
+        try:
+            result = chain.invoke({"question": message, "chat_history": history})
+            answer = result.get("answer")
+            if not isinstance(answer, str) or not answer.strip():
+                raise ValueError("The model returned an empty answer.")
+            # Keep the existing HTML contract safe for older deployed clients.
+            return jsonify(response=escape(answer.strip()).replace("\n", "<br>"))
+        except Exception as error:
+            # Never expose provider errors, credentials, or a debugger to clients.
+            app.logger.exception("Chat generation failed (%s)", type(error).__name__)
+            if getattr(error, "status_code", None) == 429:
+                return jsonify(error="The assistant is busy. Please try again shortly."), 503
+            return jsonify(error="The assistant is temporarily unavailable. Please try again."), 502
 
-**Question**: {{question}}
+    @app.get("/chat_history")
+    def chat_history():
+        # Legacy compatibility: history is stored by the frontend in Firestore.
+        return jsonify(history=[])
 
-**Answer**:"""
+    @app.errorhandler(HTTPException)
+    def http_error(error):
+        return jsonify(error=error.description), error.code
 
-prompt = PromptTemplate.from_template(template)
-
-# Initialize conversation memory
-memory = ConversationBufferMemory(
-    memory_key="chat_history",
-    return_messages=True,
-    input_key="question",
-    output_key="answer"
-)
-
-# Create conversational retrieval chain with memory
-rag_chain = ConversationalRetrievalChain.from_llm(
-    llm=llm,
-    retriever=retriever,
-    memory=memory,
-    combine_docs_chain_kwargs={"prompt": prompt},
-    return_source_documents=True
-)
-
-# Routes
-@app.route("/chat")
-def index():
-    return render_template('chat.html')
-
-@app.route("/chat/get", methods=["POST"])
-def chat():
-    data = request.json
-    msg = data.get("msg", "").strip()
-
-    if not msg:
-        return jsonify({"error": "No input received."})
-
-    # Get response from the model
-    response = rag_chain({"question": msg})
-    bot_answer = response.get("answer", "Sorry, I couldn't generate a response.")
-
-    # Format response
-    # formatted_response = bot_answer.replace(". ", ".<br>")
-    # formatted_response = format_response(bot_answer)
-    formatted_response = bot_answer.replace("\n", "<br>")
+    return app
 
 
-
-    return jsonify({"response": formatted_response})
-
-@app.route("/chat_history", methods=["GET"])
-def chat_history():
-    # Retrieve the conversation history
-    chat_history = memory.load_memory_variables({})["chat_history"]
-    return jsonify({"history": chat_history})
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5002))
-    app.run(host="0.0.0.0", port=port, debug=True)
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    create_app().run(host="0.0.0.0", port=int(os.getenv("PORT", "5002")), debug=False)

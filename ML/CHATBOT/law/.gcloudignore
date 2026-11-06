@@ -1,0 +1,14 @@
+*
+!Dockerfile
+!requirements.txt
+!app.py
+!src/
+!src/**
+!templates/
+!templates/**
+!static/
+!static/**
+!.dockerignore
+!.gcloudignore
+**/__pycache__/
+**/*.pyc

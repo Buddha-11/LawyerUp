@@ -1,21 +1,25 @@
-# Use Python slim image
 FROM python:3.10-slim
 
-# Set working directory
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    HF_HOME=/opt/huggingface \
+    TOKENIZERS_PARALLELISM=false \
+    OMP_NUM_THREADS=1
 WORKDIR /app
 
-# Copy everything before installing requirements
-COPY . .
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir --no-deps torch==2.3.1+cpu --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip check
 
-# Install dependencies
-RUN pip install --upgrade pip \
- && pip install -r requirements.txt
+COPY app.py ./
+COPY src ./src
+COPY templates ./templates
+COPY static ./static
 
-# Pre-download Hugging Face models so Cloud Run doesn't time out on cold starts
 RUN python -c "from src.helper import download_hugging_face_embeddings; download_hugging_face_embeddings()"
 
-# Expose port
+ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 EXPOSE 8080
-
-# Start the app
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "exec gunicorn --bind 0.0.0.0:${PORT:-8080} --workers 1 --threads 4 --timeout 180 --access-logfile - --error-logfile - 'app:create_app()'"]
