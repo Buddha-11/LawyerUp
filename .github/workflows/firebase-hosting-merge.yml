@@ -6,21 +6,30 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+      VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
+      VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+      VITE_STORAGE_BUCKET: ${{ secrets.VITE_STORAGE_BUCKET }}
+      VITE_MSG_SEND_ID: ${{ secrets.VITE_MSG_SEND_ID }}
+      VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
+      VITE_MAP_API_KEY: ${{ secrets.VITE_MAP_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'  # Update to Node.js version 20.x
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies and build project
+        working-directory: frontend
         run: |
-          cd frontend
-          rm -rf node_modules
-          rm -f package-lock.json
-          npm install
+          npm ci
+          npm run test:chat
           npm run build
 
       - name: Deploy to Firebase Hosting

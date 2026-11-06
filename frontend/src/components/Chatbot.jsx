@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { firebaseAuth, db } from "../context/firebase";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { chatHistory, chatText } from "./chatProtocol";
 
 import Navbar from "./Navbar";
 import { Plus, Trash2, Send, MessageSquare, Menu, X } from "lucide-react";
@@ -15,35 +16,54 @@ const Chatbot = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const chatEndRef = useRef(null);
   const [userUID, setUserUID] = useState(null);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
+  const [storageError, setStorageError] = useState("");
+  const sendingRef = useRef(false);
 
   useEffect(() => {
+    let disposed = false;
     const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
-      if (user) {
-        setUserUID(user.uid);
+      setUserUID(null);
+      setHistoryLoaded(false);
+      setStorageError("");
+      setChats([]);
+      setActiveChatId(null);
+      if (!user) return;
+      try {
         const docRef = doc(db, "chatbots", user.uid);
         const docSnap = await getDoc(docRef);
+        if (disposed || firebaseAuth.currentUser?.uid !== user.uid) return;
         const savedChats = docSnap.exists() ? docSnap.data().chats || [] : [];
         setChats(savedChats);
-        if (savedChats.length > 0) {
-          setActiveChatId(savedChats[0].id);
+        setActiveChatId(savedChats[0]?.id ?? null);
+        // Enable writes only after hydration, so saved chats cannot be erased.
+        setUserUID(user.uid);
+        setHistoryLoaded(true);
+      } catch (error) {
+        if (!disposed && firebaseAuth.currentUser?.uid === user.uid) {
+          console.error("Unable to load chats", error);
+          setStorageError("Saved chats could not be loaded. New messages will stay in this session.");
         }
       }
     });
-    return () => unsubscribe();
+    return () => { disposed = true; unsubscribe(); };
   }, []);
 
   useEffect(() => {
-    if (userUID) {
+    if (userUID && historyLoaded) {
       const userRef = doc(db, "chatbots", userUID);
-      getDoc(userRef).then((docSnap) => {
-        if (docSnap.exists()) {
-          updateDoc(userRef, { chats });
-        } else {
-          setDoc(userRef, { chats }, { merge: true });
-        }
-      });
+      const timer = setTimeout(() => {
+        if (firebaseAuth.currentUser?.uid !== userUID) return;
+        setDoc(userRef, { chats }, { merge: true }).then(() => {
+          setStorageError("");
+        }).catch((error) => {
+          console.error("Unable to save chats", error);
+          setStorageError("Messages could not be saved. Keep this page open and check your connection.");
+        });
+      }, 400);
+      return () => clearTimeout(timer);
     }
-  }, [chats, userUID]);
+  }, [chats, userUID, historyLoaded]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -70,8 +90,11 @@ const Chatbot = () => {
   };
 
   const sendMessage = async () => {
-    if (!userInput.trim() || !activeChat) return;
+    if (!userInput.trim() || !activeChat || sendingRef.current) return;
+    sendingRef.current = true;
     setLoading(true);
+    const requestChatId = activeChatId;
+    const requestUserUID = firebaseAuth.currentUser?.uid;
 
     const userMsg = { sender: "user", text: userInput };
     setChats((prevChats) =>
@@ -96,31 +119,44 @@ const Chatbot = () => {
     setUserInput("");
 
     try {
+      const CHATBOT_URL = (import.meta.env.VITE_CHATBOT_URL || "https://lawyerup-chatbot-1030063559705.asia-south1.run.app").replace(/\/$/, "");
       const response = await axios.post(
-        "https://lawyerup-chatbot-1030063559705.asia-south1.run.app/chat/get",
-        { msg: inputForAPI },
-        { headers: { "Content-Type": "application/json" } }
+        `${CHATBOT_URL}/chat/get`,
+        { msg: inputForAPI, history: chatHistory(activeChat.messages) },
+        { headers: { "Content-Type": "application/json" }, timeout: 150000 }
       );
-      const botMsg = { sender: "bot", text: response.data.response };
+      if (typeof response.data.response !== "string" || !response.data.response.trim()) {
+        throw new Error("The assistant returned an empty response.");
+      }
+      if (firebaseAuth.currentUser?.uid !== requestUserUID) return;
+      const botMsg = { sender: "bot", text: chatText(response.data.response) };
       setChats((prevChats) =>
         prevChats.map((chat) =>
-          chat.id === activeChatId
+          chat.id === requestChatId
             ? { ...chat, messages: [...chat.messages, botMsg] }
             : chat
         )
       );
     } catch (err) {
       console.error(err);
-      const errorMsg = { sender: "bot", text: "Oops! Something went wrong. Please try again." };
+      if (firebaseAuth.currentUser?.uid !== requestUserUID) return;
+      const errorMsg = {
+        sender: "bot", isError: true,
+        text: typeof err.response?.data?.error === "string"
+          ? err.response.data.error
+          : "The assistant could not be reached. Please try again.",
+      };
       setChats((prevChats) =>
         prevChats.map((chat) =>
-          chat.id === activeChatId
+          chat.id === requestChatId
             ? { ...chat, messages: [...chat.messages, errorMsg] }
             : chat
         )
       );
+    } finally {
+      sendingRef.current = false;
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleKeyPress = (e) => {
@@ -133,6 +169,7 @@ const Chatbot = () => {
   return (
     <div className="flex flex-col h-screen bg-[#F0F8F8]">
       <Navbar />
+      {storageError && <p role="status" className="bg-amber-50 px-4 py-2 text-sm text-amber-900">{storageError}</p>}
       <div className="flex flex-1 overflow-hidden">
         {/* Mobile sidebar overlay */}
         {sidebarOpen && (
@@ -281,8 +318,7 @@ const Chatbot = () => {
                         <div
                           className="text-sm leading-relaxed"
                           style={{ whiteSpace: "pre-line" }}
-                          dangerouslySetInnerHTML={{ __html: msg.text }}
-                        />
+                        >{chatText(msg.text)}</div>
                       ) : (
                         <p className="text-sm leading-relaxed">{msg.text}</p>
                       )}
@@ -320,6 +356,7 @@ const Chatbot = () => {
                   onKeyDown={handleKeyPress}
                   placeholder="Ask a legal question..."
                   rows={1}
+                  maxLength={8000}
                   className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none text-sm text-gray-800 placeholder-gray-400 transition-all"
                   style={{ maxHeight: "120px" }}
                 />

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/check-production-config.mjs",
     "build": "vite build",
+    "test:chat": "node --test tests/chatProtocol.test.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
